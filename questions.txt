@@ -36,20 +36,16 @@ B. Sửa các lỗi tìm thấy.
 D. Bảo đảm phần mềm hoàn toàn sạch lỗi
 8.
 Kiểm thử tĩnh là:
-*A. Là kiểm thử không cần đến máy tính để chạy chương trình, nó chỉ rà soát mã lệnh,
-kiểm tra và duyệt qua các yêu cầu phần mềm.
-B. Là kiểm thử dựa trên đầu vào và đầu ra của chương trình mà không quan tâm tới mã
-lệnh bên trong.
-C. Là kiểm thử dựa vào thuật toán, cấu trúc dữ liệu và mã lệnh bên trong của chương
-trình.
+*A. Là kiểm thử không cần đến máy tính để chạy chương trình, nó chỉ rà soát mã lệnh, kiểm tra và duyệt qua các yêu cầu phần mềm.
+B. Là kiểm thử dựa trên đầu vào và đầu ra của chương trình mà không quan tâm tới mã lệnh bên trong.
+C. Là kiểm thử dựa vào thuật toán, cấu trúc dữ liệu và mã lệnh bên trong của chương trình.
 D. Là kiểm thử có chạy chương trình với số liệu mẫu ít nhất 1 lần
 9.
 Kiểm thử động là:
 A. Là kiểm thử có chạy chương trình để kiểm tra khả năng xử lý dữ liệu lỗi.
 B. Là kiểm thử có chạy chương trình nhiều lần với nhiều giá trị đầu vào khác nhau.
 C. Là kiểm thử có chạy chương trình với các giá trị đầu vào ít nhất 1 lần.
-*D. Là kiểm thử liên quan đến chạy chương trình với các giá trị đầu vào và kiểm tra
-đầu ra có được như mong đợi với các Test case cụ thể không.
+*D. Là kiểm thử liên quan đến chạy chương trình với các giá trị đầu vào và kiểm tra đầu ra có được như mong đợi với các Test case cụ thể không.
 10.
 QA là viết tắt của từ:
 A. Quality Assure.
@@ -64,35 +60,27 @@ C. Quantity Control.
 D. Quality Computer
 12.
 Black box testing là:
-*A. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra không quan tâm tới mã lệnh của
-chương trình.
-B. Là phương pháp kiểm thử dựa vào thuật toán, cấu trúc dữ liệu và mã lệnh bên trong
-của chương trình.
-C. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra và mã lệnh bên trong chương
-trình.
+*A. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra không quan tâm tới mã lệnh của chương trình.
+B. Là phương pháp kiểm thử dựa vào thuật toán, cấu trúc dữ liệu và mã lệnh bên trong của chương trình.
+C. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra và mã lệnh bên trong chương trình.
 D. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra ứng với các vùng giá trị
 13.
 White box testing là:
-A. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra không quan tâm tới mã lệnh của
-chương trình.
-*B. Là phương pháp kiểm thử dựa vào thuật toán, cấu trúc dữ liệu và mã lệnh của
-chương trình.
+A. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra không quan tâm tới mã lệnh của chương trình.
+*B. Là phương pháp kiểm thử dựa vào thuật toán, cấu trúc dữ liệu và mã lệnh của chương trình.
 C. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra và mã lệnh của chương trình.
 D. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra ứng với các giá trị biên.
 14.
 Grey box testing là:
-A. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra không quan tâm tới mã lệnh của
-chương trình.
-B. Là phương pháp kiểm thử dựa vào thuật toán, cấu trúc dữ liệu và mã lệnh của chương
-trình.
+A. Là phương pháp kiểm thử dựa trên đầu vào, đầu ra không quan tâm tới mã lệnh của chương trình.
+B. Là phương pháp kiểm thử dựa vào thuật toán, cấu trúc dữ liệu và mã lệnh của chương trình.
 *C. Là phương pháp kết hợp giữa Black box testing và White box testing.
 D. Là phương pháp kiểm thử thủ công dựa trên khả năng đoán lỗi của Tester.
 15.
 Functional testing là:
 A. Kiểm thử các hàm của chương trình có thực hiện đúng không?
 B. Kiểm thử các hàm của chương trình có bị lỗi không?
-*C. Kiểm thử các chức năng cơ bản, quy trình nghiệp vụ có đáp ứng yêu cầu của người
-sử dụng không.
+*C. Kiểm thử các chức năng cơ bản, quy trình nghiệp vụ có đáp ứng yêu cầu của người sử dụng không.
 D. Kiểm thử để chấp nhận sản phẩm.
 16.
 Unit testing là:
@@ -117,8 +105,7 @@ Beta test là:
 A. Kiểm thử trước khi xuất ra thị trường với phiên bản thứ 2, 3.
 B. Kiểm thử sau khi phát hiện các lỗi và đã sửa lỗi.
 C. Kiểm thử tích hợp bởi một nhóm kiểm thử độc lập.
-*D. Kiểm thử bởi người sử dụng tiềm năng trong môi trường thực tế, và mọi phản hồi
-sẽ gửi trả về nhà phát triển phần mềm.
+*D. Kiểm thử bởi người sử dụng tiềm năng trong môi trường thực tế, và mọi phản hồi sẽ gửi trả về nhà phát triển phần mềm.
 20.
 Reliability testing là:
 A. Kiểm thử hiệu quả.
@@ -171,8 +158,8 @@ D. Kiểm thử an ninh, bảo mật
 Performance testing:
 A. Kiểm thử sức chịu đựng.
 B. Kiểm thử quá tải.
-C. Kiểm thử khả năng sử dụng.
-*D. Kiểm thử hiệu suất.
+*C. Kiểm thử khả năng sử dụng.
+D. Kiểm thử hiệu suất.
 29.
 Security testing là:
 *A. Kiểm thử an ninh, bảo mật.
@@ -212,10 +199,8 @@ D. Grey box testing
 35.
 Automated testing là:
 A. Kiểm thử thủ công bằng cách đoán lỗi.
-*B. Sử dụng phần mềm đặc biệt nhằm tự động thực hiện các Test case và so sánh kết
-quả thực tế với kết quả dự đoán.
-C. Kiểm thử tập trung vào các chức năng quan trọng của hệ thống và không quan tâm
-đến kiểm tra chi tiết.
+*B. Sử dụng phần mềm đặc biệt nhằm tự động thực hiện các Test case và so sánh kết quả thực tế với kết quả dự đoán.
+C. Kiểm thử tập trung vào các chức năng quan trọng của hệ thống và không quan tâm đến kiểm tra chi tiết.
 D. Kiểm thử tuân thủ các tiêu chuẩn quốc tế.
 36.
 Kiểm thử hộp kính (Glass box testing) còn được là:
@@ -227,16 +212,14 @@ C. Grey box testing.
 Integration testing là:
 *A. Là Unit testing.
 B. Là Volume testing.
-C. Là kiểm thử tích hợp, nó kết hợp các thành phần của phần mềm và kiểm thử như một
-ứng dụng đã hoàn thành.
+C. Là kiểm thử tích hợp, nó kết hợp các thành phần của phần mềm và kiểm thử như một ứng dụng đã hoàn thành.
 D. Là Kiểm thử toàn bộ hệ thống.
 38.
 System testing là:
 A. Kiểm thử phần cứng và phần mềm của hệ thống.
 B. Kiểm thử tích hợp lần cuối trước khi phát hành.
 C. Kiểm thử sau khi có 1 thay đổi được cập nhật.
-*D. Kiểm tra các thiết kế và toàn bộ hệ thống (sau khi đã kiểm thử tích hợp) có thỏa
-mãn yêu cầu đặt ra hay không?
+*D. Kiểm tra các thiết kế và toàn bộ hệ thống (sau khi đã kiểm thử tích hợp) có thỏa mãn yêu cầu đặt ra hay không?
 39.
 Chọn phát biểu đúng?
 A. Mô hình kiểm thử phần mềm độc lập với mô hình phát triển phần mềm.
@@ -290,11 +273,9 @@ Beta testing là:
 *A. Một hình thức mở rộng của kiểm thử mức chấp nhận của người dùng.
 B. Kiểm thử hiệu suất phần mềm.
 C. Kiểm thử xem giao diện có tiện dụng và dễ hiểu với người dùng không.
-D. Kiểm thử sự phá hủy, bằng cách cố gắng làm hỏng phần mềm hoặc một hệ thống
-con.
+D. Kiểm thử sự phá hủy, bằng cách cố gắng làm hỏng phần mềm hoặc một hệ thống con.
 48.
-Để kiểm tra việc phát triển 1 phần mềm có phù hợp với yêu cầu của khách hàng hay
-không, đó là các quá trình nào?
+Để kiểm tra việc phát triển 1 phần mềm có phù hợp với yêu cầu của khách hàng hay không, đó là các quá trình nào?
 A. Verification, Validation.
 B. Validation, Verification.
 *C. Quality Assurance, Verification.
@@ -312,10 +293,7 @@ B. Dự án phần mềm.
 C. Độ phức tạp của code.
 D. Chất lượng bảo trì
 51.
-Một công ty gần đây đã mua một ứng dụng thương mại để tự động hóa quy trình thanh
-toán hóa đơn của họ. Bây giờ họ dự định chạy một bài kiểm thử chấp nhận được với
-đóng gói trước khi đưa nó vào sản xuất. Điều nào sau đây là lý do có nhiều khả năng
-nhất để kiểm thử?
+Một công ty gần đây đã mua một ứng dụng thương mại để tự động hóa quy trình thanh toán hóa đơn của họ. Bây giờ họ dự định chạy một bài kiểm thử chấp nhận được với đóng gói trước khi đưa nó vào sản xuất. Điều nào sau đây là lý do có nhiều khả năng nhất để kiểm thử?
 *A. Để tạo sự tự tin trong phần mềm
 B. Để phát hiện lỗi trong phần mềm
 C. Để thu thập bằng chứng cho kiện tụng
@@ -333,44 +311,31 @@ B. Những hậu quả tiêu cực SẼ xảy ra
 *C. Những hậu quả CÓ THỂ xảy ra
 D. Những hậu quả tiêu cực với đối tượng kiểm thử
 54.
-Đảm bảo rằng Bảng thiết kế kiểm thử (test plan) bắt đầu trong giai đoạn xác định yêu
-cầu (Requirement) là rất quan trọng để cho phép các đối tượng được kiểm thử nào sau
-đây?
+Đảm bảo rằng Bảng thiết kế kiểm thử (test plan) bắt đầu trong giai đoạn xác định yêu cầu (Requirement) là rất quan trọng để cho phép các đối tượng được kiểm thử nào sau đây?
 *A. Ngăn ngừa lỗi trong hệ thống
 B. Tìm kiếm lỗi thông qua việc kiểm thử động
 C. Tăng sự đảm bảo cho hệ thống
 D. Hoàn thành dự án đúng giờ
 55.
-Một nhóm kiểm thử luôn tìm thấy từ 90% đến 95% các lỗi có trong hệ thống khi được
-kiểm thử. Trong khi đó, người quản lý việc kiểm thử biết rằng đây là tỷ lệ phát hiện lỗi
-tốt cho nhóm kiểm thử và ngành của cô ấy, quản lý cấp cao và giám đốc điều hành vẫn
-thất vọng về nhóm kiểm thử của cô ta, nói rằng nhóm đã bỏ sót quá nhiều lỗi. Cho rằng
-người dùng họ cảm thấy hài lòng với hệ thống và các lỗi đã xảy ra thường có tác động
-thấp. Nguyên tắc kiểm thử nào sau đây có nhiều khả năng giúp người quản lý đội kiểm
-thử giải thích cho những người quản lý và giám đốc điều hành lý do tại sao một số lỗi
-có thể bị bỏ sót.
+Một nhóm kiểm thử luôn tìm thấy từ 90% đến 95% các lỗi có trong hệ thống khi được kiểm thử. Trong khi đó, người quản lý việc kiểm thử biết rằng đây là tỷ lệ phát hiện lỗi tốt cho nhóm kiểm thử và ngành của cô ấy, quản lý cấp cao và giám đốc điều hành vẫn thất vọng về nhóm kiểm thử của cô ta, nói rằng nhóm đã bỏ sót quá nhiều lỗi. Cho rằng người dùng họ cảm thấy hài lòng với hệ thống và các lỗi đã xảy ra thường có tác động thấp. Nguyên tắc kiểm thử nào sau đây có nhiều khả năng giúp người quản lý đội kiểm thử giải thích cho những người quản lý và giám đốc điều hành lý do tại sao một số lỗi có thể bị bỏ sót.
 *A. Kiểm thử toàn diện là ko khả thi
 B. Kiểm thử sự tập trung của các lỗi
 C. Nghịch lý của thuốc trừ sâu
 D. Sự sai lầm về việc không có lỗi
 56.
-Điều nào sau đây là quan trọng nhất để thúc đẩy và duy trì mối quan hệ tốt đẹp giữa
-người thử thử và nhà phát triển (coder)?
+Điều nào sau đây là quan trọng nhất để thúc đẩy và duy trì mối quan hệ tốt đẹp giữa người thử thử và nhà phát triển (coder)?
 A. Thấu hiểu được những giá trị gì mà người kiểm thử mang lại
 *B. Giải thích kết quả kiểm thử một cách trung lập
 C. Xác định và các để giải quyết lỗi cho những khách hàng tiềm năng
 D. Quảng bá phần mềm có chất lượng tốt hơn ngay khi có thể.
 57.
-Câu nào dưới đây là đánh giá tốt nhất những nguyên tắt kiểm thử áp dụng trong suốt
-vòng đời của kiểm thử?
+Câu nào dưới đây là đánh giá tốt nhất những nguyên tắt kiểm thử áp dụng trong suốt vòng đời của kiểm thử?
 A. Nguyên tắt kiểm thử chỉ ảnh hưởng trong lúc chuẩn bị kiểm thử
 B. Nguyên tắt kiểm thử chỉ ảnh hưởng đến hoạt động thực thi kiểm thử (test execution)
-C. Nguyên tắt kiểm thử ảnh hưởng đến việc kiểm thử sớm cũng như là giai đoạn đánh
-giá (review).
+C. Nguyên tắt kiểm thử ảnh hưởng đến việc kiểm thử sớm cũng như là giai đoạn đánh giá (review).
 *D. Nguyên tắt kiểm thử ảnh hướng đến các hoạt động theo suốt vòng đời kiểm thử
 58.
-Tùy chọn nào mô tả tốt nhất các đối tượng cho các cấp độ kiểm thử với mô hình vòng
-đời (life – cycle)?
+Tùy chọn nào mô tả tốt nhất các đối tượng cho các cấp độ kiểm thử với mô hình vòng đời (life – cycle)?
 A. Các mục tiêu phải là chung cho bất cứ cấp độ kiểm thử nào
 B. Các mục tiêu phải cùng mức độ kiểm thử
 C. các mục tiêu của mức độ kiểm thử không cần xác định trước
@@ -391,65 +356,50 @@ D. Hồi quy
 Câu nào dưới đây là kiểm thử chức năng?
 A. Đo thời gian phản hồi trên hệ thống đặt phòng trực tuyến
 B. Kiểm tra ảnh hưởng của lưu lượng truy cập lớn trong hệ thống trung tâm cuộc gọi
-*C. Kiểm tra thông tin màn hình đặt phòng trực tuyến và nội dung cơ sở dữ liệu so với
-thông tin trên thư gửi khách hàng.
+*C. Kiểm tra thông tin màn hình đặt phòng trực tuyến và nội dung cơ sở dữ liệu so với thông tin trên thư gửi khách hàng.
 D. Kiểm tra như thế nào để hệ thống dễ dàng để sử dụng
 62.
 Kiểm thử hồi quy là:
 A. Chỉ chạy 1 lần
 B. Sẽ luôn được tự động hóa
-*C. Sẽ kiểm tra các khu vực không thay đổi của phần mềm để xem liệu chúng có bị ảnh
-hưởng hay không.
-D. Sẽ kiểm tra các khu vực đã thay đổi của phần mềm để xem chúng có bị ảnh hưởng
-không.
+*C. Sẽ kiểm tra các khu vực không thay đổi của phần mềm để xem liệu chúng có bị ảnh hưởng hay không.
+D. Sẽ kiểm tra các khu vực đã thay đổi của phần mềm để xem chúng có bị ảnh hưởng không.
 63.
 Kiểm thử phi chức năng bao gồm:
 A. Kiểm thử để xem hệ thống hoạt động không chính xác ở đâu.
-*B. Kiểm thử các thuộc tính chất lượng của hệ thống bao gồm độ tin cậy và tính hữu
-dụng
+*B. Kiểm thử các thuộc tính chất lượng của hệ thống bao gồm độ tin cậy và tính hữu dụng
 C. Đạt được sự chấp thuận của người dùng đối với hệ thống.
-D. Kiểm thử một tính năng hệ thống chỉ sử dụng phần mềm cần thiết cho chức năng
-đó
+D. Kiểm thử một tính năng hệ thống chỉ sử dụng phần mềm cần thiết cho chức năng đó
 64.
 Kiểm thử beta là:
 *A. Được thực hiện bởi khách hàng tại trang web của chính họ.
 B. Được thực hiện bởi khách hàng tại trang web của nhà phát triển phần mềm
 C. Thực hiện bởi một nhóm kiểm thử độc lập
-D. Hữu ích để kiểm thử phần mềm được phát triển cho một khách hàng hoặc người
-dùng cụ thể
+D. Hữu ích để kiểm thử phần mềm được phát triển cho một khách hàng hoặc người dùng cụ thể
 65.
-Tại sao cả kỹ thuật kiểm thử dựa trên đặc điểm kỹ thuật và dựa trên cấu trúc đều hữu
-ích?
+Tại sao cả kỹ thuật kiểm thử dựa trên đặc điểm kỹ thuật và dựa trên cấu trúc đều hữu ích?
 *A. Họ tìm thấy các loại lỗi khác nhau.
 B. Sử dụng nhiều kỹ thuật hơn luôn tốt hơn.
 C. Cả hai đều tìm thấy các loại lỗi giống nhau.
 D. Bởi vì các thông số kỹ thuật có xu hướng không có cấu tr
 66.
-Điều nào sau đây sẽ là một ví dụ về kiểm thử bảng quyết định cho một ứng dụng tài
-chính được áp dụng ở cấp độ kiểm thử hệ thống?
-A. Một bảng chứa các quy tắc cho sự kết hợp của các đầu vào cho hai trường trên màn
-hình.
+Điều nào sau đây sẽ là một ví dụ về kiểm thử bảng quyết định cho một ứng dụng tài chính được áp dụng ở cấp độ kiểm thử hệ thống?
+A. Một bảng chứa các quy tắc cho sự kết hợp của các đầu vào cho hai trường trên màn hình.
 B. Một bảng chứa các quy tắc cho các giao diện giữa các thành phần.
 *C. Một bảng chứa các quy tắc cho các ứng dụng thế chấp.
 D. Một bảng chứa các quy tắc cho cờ vua.
 67.
 Tại sao việc đoán lỗi và kiểm thử thăm dò lại được thực hiện tốt?
-*A. Họ có thể tìm thấy các lỗi bị bỏ sót bằng các kỹ thuật dựa trên đặc điểm kỹ thuật
-và dựa trên cấu trúc.
-B. Chúng không yêu cầu bất kỳ khóa đào tạo nào để có hiệu quả như các kỹ thuật
-chính thức.
+*A. Họ có thể tìm thấy các lỗi bị bỏ sót bằng các kỹ thuật dựa trên đặc điểm kỹ thuật và dựa trên cấu trúc.
+B. Chúng không yêu cầu bất kỳ khóa đào tạo nào để có hiệu quả như các kỹ thuật chính thức.
 C. Chúng có thể được sử dụng hiệu quả nhất khi có thông số kỹ thuật tốt.
 D. Họ sẽ đảm bảo rằng tất cả code hoặc hệ thống đều được kiểm thử.
 68.
 Kỹ thuật dựa trên kinh nghiệm khác với kỹ thuật dựa trên đặc tả như thế nào?
-A. Chúng phụ thuộc vào sự hiểu biết của người kiểm thử về cách hệ thống được cấu
-trúc hơn là vào một hồ sơ tài liệu về những gì hệ thống phải làm.
-B. Họ phụ thuộc vào việc có những người kiểm thử lớn tuổi hơn là những người kiểm
-thử trẻ hơn.
-C. Chúng phụ thuộc vào một hồ sơ được ghi lại bằng văn bản về những gì hệ thống
-phải làm hơn là vào quan điểm cá nhân của một cá nhân.
-*D. Chúng phụ thuộc vào quan điểm cá nhân của một cá nhân hơn là dựa trên hồ sơ
-tài liệu về những gì hệ thống phải làm.
+A. Chúng phụ thuộc vào sự hiểu biết của người kiểm thử về cách hệ thống được cấu trúc hơn là vào một hồ sơ tài liệu về những gì hệ thống phải làm.
+B. Họ phụ thuộc vào việc có những người kiểm thử lớn tuổi hơn là những người kiểm thử trẻ hơn.
+C. Chúng phụ thuộc vào một hồ sơ được ghi lại bằng văn bản về những gì hệ thống phải làm hơn là vào quan điểm cá nhân của một cá nhân.
+*D. Chúng phụ thuộc vào quan điểm cá nhân của một cá nhân hơn là dựa trên hồ sơ tài liệu về những gì hệ thống phải làm.
 69.
 Một bộ kiểm thử toàn diện sẽ bao gồm:
 *A. Tất cả sự kết hợp của các giá trị đầu vào và các điều kiện tiên quyết.
@@ -457,26 +407,21 @@ B. Tất cả sự kết hợp của các giá trị đầu vào và giá trị 
 C. Tất cả các cặp giá trị đầu vào và điều kiện tiên quyết.
 D. Tất cả các trạng thái và chuyển đổi trạng thái.
 70.
-Bạn đang làm người kiểm thử cho một dự án phát triển hệ thống điểm bán hàng cho các
-cửa hàng tạp hóa và các điểm bán lẻ tương tự khác. Điều nào sau đây là rủi ro sản phẩm
-đối với một dự án như vậy?
+Bạn đang làm người kiểm thử cho một dự án phát triển hệ thống điểm bán hàng cho các cửa hàng tạp hóa và các điểm bán lẻ tương tự khác. Điều nào sau đây là rủi ro sản phẩm đối với một dự án như vậy?
 A. Sự xuất hiện của một sản phẩm cạnh tranh đáng tin cậy hơn trên thị trường.
-B. Phân phối bản phát hành kiểm thử chưa hoàn chỉnh cho chu kỳ đầu tiên của kiểm thử
-hệ thống.
+B. Phân phối bản phát hành kiểm thử chưa hoàn chỉnh cho chu kỳ đầu tiên của kiểm thử hệ thống.
 C. Một số lượng quá cao các bản sửa lỗi không thành công trong quá trình kiểm thử lại.
 *D. Không chấp nhận thẻ tín dụng được phép.
 71.
 Rủi ro tiềm ẩn trong việc sử dụng các công cụ để hỗ trợ kiểm thử là gì?
 A. Kỳ vọng không thực tế, kỳ vọng công cụ sẽ làm quá nhiều.
-*B. Không đủ phụ thuộc vào công cụ, tức là vẫn làm kiểm thử thủ công khi một công
-cụ thực thi kiểm thử đã được mua.
+*B. Không đủ phụ thuộc vào công cụ, tức là vẫn làm kiểm thử thủ công khi một công cụ thực thi kiểm thử đã được mua.
 C. Công cụ có thể tìm thấy các lỗi không có ở đó.
 D. Công cụ sẽ lặp lại chính xác những gì nó đã làm lần trước.
 72.
 Câu nào về kiểm thử là đúng?
 *A. Kiểm thử được bắt đầu sớm nhất có thể trong vòng đời của nó.
-B. Kiểm thử được bắt đầu sau khi code được viết vậy nên chúng tôi có một hệ thống để
-hoạt động.
+B. Kiểm thử được bắt đầu sau khi code được viết vậy nên chúng tôi có một hệ thống để hoạt động.
 C. Kiểm thử được thực hiện một cách kinh tế nhất tại cuối của vòng đời.
 D. Kiểm thử chỉ có thể được thực hiện bởi một nhóm kiểm thử độc lập
 73.
@@ -499,8 +444,7 @@ C. Đảm bảo chất lượng phần mềm
 *D. Tất cả các ý
 76.
 Test case là?
-*A. Tập hợp các đầu vào (input), điều kiện thực thi và kết quả mong đợi được phát triển
-cho một mục thử nghiệm cụ thể.
+*A. Tập hợp các đầu vào (input), điều kiện thực thi và kết quả mong đợi được phát triển cho một mục thử nghiệm cụ thể.
 B. Tập các lệnh
 C. Một đoạn mã lệnh
 D. Tất cả các ý
@@ -512,8 +456,7 @@ C. Có khả năng bảo trì
 *D. Tất cả các ý
 78.
 Test Report là?
-*A. Tài liệu mô tả chi tiết về lỗi, phần mềm đang kiểm thử, trạng thái, mức độ nghiêm
-trọng, phiên bản, ai sẽ là người sửa lỗi, ....
+*A. Tài liệu mô tả chi tiết về lỗi, phần mềm đang kiểm thử, trạng thái, mức độ nghiêm trọng, phiên bản, ai sẽ là người sửa lỗi, ....
 B. Tài liệu mô tả các chương trình phần mềm, phần cứng
 C. A và B đúng
 D. A và B sai
@@ -549,8 +492,7 @@ C. Sửa chữa lỗi và được thực hiện bởi developers
 D. Tất cả các ý
 84.
 Review là?
-*A. Việc đánh giá các yếu tố của phần mềm hoặc tình trạng của dự án từ kết quả đã
-được lập kế hoạch nhằm đưa ra các cải tiến.
+*A. Việc đánh giá các yếu tố của phần mềm hoặc tình trạng của dự án từ kết quả đã được lập kế hoạch nhằm đưa ra các cải tiến.
 B. Tiết kiệm chi phí
 C. Có khả năng bảo trì
 D. Tất cả các ý
@@ -558,8 +500,7 @@ D. Tất cả các ý
 Các loại Review?
 *A. Education; Prepare; Peer; State.
 B. Tài liệu mô tả các chương trình phần mềm
-C. Tiến trình nhằm chỉ ra toàn hệ thống đã phát triển xong phù hợp với tài liệu mô tả
-yêu cầu.
+C. Tiến trình nhằm chỉ ra toàn hệ thống đã phát triển xong phù hợp với tài liệu mô tả yêu cầu.
 D. Tất cả các ý
 86.
 Phương pháp nào được sử dụng để kiểm tra core code?
@@ -586,8 +527,7 @@ B. Review có thể chia sẻ kiến thức
 C. Review có thể đào tạo các thành viên trong team
 *D. Hạn chế số lượng Testcase cần phát sinh
 90.
-Nếu điều kiện đầu vào xác định một phạm vi được chỉ định bởi 2 giá trị a và b, những
-trường hợp kiểm thử sẽ được thiết kế tại các giá trị biên a và b là?
+Nếu điều kiện đầu vào xác định một phạm vi được chỉ định bởi 2 giá trị a và b, những trường hợp kiểm thử sẽ được thiết kế tại các giá trị biên a và b là?
 *A. a+, a-, b-, b+.
 B. +a, a-,b-, b+.
 C. a+, -a, b-, b+.
@@ -648,12 +588,9 @@ C. Lỗi về cấu trúc dữ liệu hay thao tác lên dữ liệu bên ngoài
 *D. Mỗi lệnh được thực thi ít nhất 1 lần
 100.
 Bao phủ quyết định là?
-A. Mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp
-TRUE hoặc FALSE.
-B. Mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp
-TRUE.
-*C. Mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp
-TRUE lẫn FALSE.
+A. Mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp TRUE hoặc FALSE.
+B. Mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp TRUE.
+*C. Mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp TRUE lẫn FALSE.
 D. Tất cả các ý
 101.
 Kiểm thử cấu hình là?
@@ -666,8 +603,7 @@ Kiểm thử tương thích là?
 A. Thời gian kéo dài
 B. Khó chỉnh sửa
 C. Đòi hỏi Requirement phải chuẩn
-*D. Kiểm thử phần mềm có tương thích với các phần mềm khác trên cùng một máy
-hoặc tương tác qua môi trường mạng, ...
+*D. Kiểm thử phần mềm có tương thích với các phần mềm khác trên cùng một máy hoặc tương tác qua môi trường mạng, ...
 103.
 Sự cần thiết của kiểm thử tương thích là vì?
 *A. Nếu các phần mềm tương tác sai dẫn đến hoạt động sai
@@ -679,8 +615,7 @@ Sự cần thiết của kiểm thử cấu hình là vì?
 A. Mỗi lệnh được thực thi liên tục
 B. Giao diện không phù hợp, lỗi về giao tiếp.
 C. Lỗi về cấu trúc dữ liệu hay thao tác lên dữ liệu bên ngoài.
-*D. Một phần mềm có thể chạy tốt với cấu hình phần cứng này nhưng chạy không tốt
-hoặc thậm chí không chạy trên cấu hình phần cứng khác.
+*D. Một phần mềm có thể chạy tốt với cấu hình phần cứng này nhưng chạy không tốt hoặc thậm chí không chạy trên cấu hình phần cứng khác.
 105.
 Xác định các loại phần cứng cần dựa vào?
 A. Phần cứng nào cần cho phần mềm
@@ -703,8 +638,7 @@ D. Không có đáp án nào đúng.
 Trong kiểm thử hộp trắng, nội dung nào sau đây là không đúng?
 A. Đường thi hành là một kịch bản thi hành của một đơn vị chương trình.
 *B. Mỗi đơn vị chương trình chỉ có duy nhất một đường thi hành
-C. Mục tiêu của kiểm thử dòng điều khiển là để đảm bảo mọi đường thi hành của đơn
-vị chương trình đều chạy đúng.
+C. Mục tiêu của kiểm thử dòng điều khiển là để đảm bảo mọi đường thi hành của đơn vị chương trình đều chạy đúng.
 D. Tất cả các nội dung trên đều đúng.
 110.
 Trong kiểm thử hộp trắng, nội dung nào sau đây là không đúng?
@@ -714,20 +648,16 @@ C. Nút bắt đầu, Nút kết thúc, Nút quyết định, Nút kết nối, 
 D. Tất cả các đáp án trên đều sai.
 111.
 Các nội dung sau đây nội dung nào đúng?
-A. Kiểm thử thỏa mãn phủ cấp 1 là kiểm thử sao cho mỗi lệnh được thực thi ít nhất 1
-lần.
-B. Kiểm thử thỏa mãn phủ cấp 2 là kiểm thử sao cho mỗi điểm quyết định luận lý đều
-được thực hiện ít nhất 1 lần cho trường hợp TRUE lẫn FALSE.
-C. Kiểm thử thỏa mãn phủ cấp 3 là kiểm thử sao cho mỗi điều kiện luận lý con
-(subcondition) của từng điểm quyết định đều được thực hiện ít nhất 1 lần cho trường
-hợp TRUE lẫn FALSE
+A. Kiểm thử thỏa mãn phủ cấp 1 là kiểm thử sao cho mỗi lệnh được thực thi ít nhất 1 lần.
+B. Kiểm thử thỏa mãn phủ cấp 2 là kiểm thử sao cho mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp TRUE lẫn FALSE.
+C. Kiểm thử thỏa mãn phủ cấp 3 là kiểm thử sao cho mỗi điều kiện luận lý con (subcondition) của từng điểm quyết định đều được thực hiện ít nhất 1 lần cho trường hợp TRUE lẫn FALSE
 *D. Tất cả các ý
 112.
 Câu nào sau đây là đúng?
 *A. Độ đo bao phủ càng lớn thì độ tin cậy của bộ kiểm thử càng cao.
 B. Độ đo bao phủ càng nhỏ thì độ tin cậy của bộ kiểm thử càng cao
 C. Độ đo bao phủ càng lớn thì độ tin cậy của bộ kiểm thử càng thấp
-D. Độ đo bao phủ không ảnh hưởng đến độ tin cậy của bộ kiểm thử
+D. Độ đo bao phủ không ảnh hưởng
 113.
 Trong các nội dung sau, nội dung nào không phải là kỹ thuật kiểm thử hộp đen?
 *A. Kỹ thuật kiểm thử dòng điều khiển.
@@ -735,48 +665,25 @@ B. Kỹ thuật phân chia lớp tương đương.
 C. Kỹ thuật phân tích giá trị biên.
 D. Tất cả các nội dung trên.
 114.
-Cho đoạn code sau đây, hãy chọn đáp án đúng nhất:
-float foo(int a, int b, int c, int d)
-{
-float e;
-if (a==0) return 0;
-int x = 0;
-if ((a==b) || ((c==d) ) x = 1;
-e = 1/x;
-return e;
-}
-Chúng ta cần bao nhiêu testcase để đảm bảo phủ cấp 1.
+Cho đoạn code sau đây: float foo(int a, int b, int c, int d) { float e; if (a==0) return 0; int x = 0; if ((a==b) || ((c==d) ) x = 1; e = 1/x; return e; } - Hãy chọn đáp án đúng nhất: Chúng ta cần bao nhiêu testcase để đảm bảo phủ cấp 1.
 A. 1
 *B. 2
 C. 3
 D. 4
 115.
-Cho đoạn code sau đây, hãy chọn đáp án đúng nhất:
-float foo(int a, int b, int c, int d)
-{
-float e;
-if (a==0) return 0;
-int x = 0;
-if ((a==b) || (c==d)) x = 1;
-e = 1/x;
-return e;
-}
-Chúng ta cần bao nhiêu testcase để đảm bảo phủ cấp 2.
+Cho đoạn code sau đây: float foo(int a, int b, int c, int d) { float e; if (a==0) return 0; int x = 0; if ((a==b) || (c==d)) x = 1; e = 1/x; return e; } - Hãy chọn đáp án đúng nhất: Chúng ta cần bao nhiêu testcase để đảm bảo phủ cấp 2.
 A. 1
 B. 2
 *C. 3
 D. 4
 116.
 Trong kỹ thuật phân chia lớp tương đương, phát biểu nào sau đây là đúng:
-A. Kỹ thuật phân chia lớp tương đương Phân chia các giá trị của dữ liệu nhập thành các
-nhóm dữ liệu, mỗi nhóm dữ liệu là một lớp tương đương.
+A. Kỹ thuật phân chia lớp tương đương Phân chia các giá trị của dữ liệu nhập thành các nhóm dữ liệu, mỗi nhóm dữ liệu là một lớp tương đương.
 B. Chọn một test-case cho mỗi lớp tương đương.
 C. Mỗi testcase là đại diện cho một lớp tương đương.
 *D. Tất cả các ý
 117.
-Giải sử, nhập giá trị mật khẩu có thể chứa bất kỳ ký tự nào, với điều kiện chiều dài mật
-khẩu ít nhất là 6 ký tự và nhiều nhất là 14 ký tự. Chúng ta cần chọn bao nhiêu bộ testcase
-cho bài toán trên dựa theo kỹ thuật phân lớp tương đương.
+Giải sử, nhập giá trị mật khẩu có thể chứa bất kỳ ký tự nào, với điều kiện chiều dài mật khẩu ít nhất là 6 ký tự và nhiều nhất là 14 ký tự. Chúng ta cần chọn bao nhiêu bộ testcase cho bài toán trên dựa theo kỹ thuật phân lớp tương đương.
 *A. 3.
 B. 1
 C. 2
@@ -788,15 +695,13 @@ B. Chọn testcase là giá trị phía trên biên.
 C. Chọn testcase là giá trị nằm phía dưới biên.
 *D. Tất cả các ý
 119.
-Một đầu vào nhận giá trị năm sinh trong đoạn [1000, 2000]. Các giá trị biên để kiểm
-thử cho đầu vào này là?
+Một đầu vào nhận giá trị năm sinh trong đoạn [1000, 2000]. Các giá trị biên để kiểm thử cho đầu vào này là?
 A. 1000, 1001, 1090, 1999
 *B. 1000, 2000
 C. 0, 1900, 1990, 2000
 D. 999, 1000, 2000, 2001, 2002
 120.
-Kiểm thử hộp trắng được áp dụng chủ yếu vào giai đoạn nào của kiểm thử phần
-mềm?
+Kiểm thử hộp trắng được áp dụng chủ yếu vào giai đoạn nào của kiểm thử phần mềm?
 A. Kiểm thử chấp nhận
 *B. Kiểm thử đơn vị
 C. Kiểm thử tích hợp
@@ -814,8 +719,7 @@ B. Phân tích luồng dữ liệu
 *C. Đoán lỗi
 D. Chạy từng bước.
 123.
-Một hộp thoại trong chương trình chỉ cho phép nhận các giá trị ký tự và chữ số. Giá trị
-nào sau đây thuộc lớp tương đương hợp lệ?
+Một hộp thoại trong chương trình chỉ cho phép nhận các giá trị ký tự và chữ số. Giá trị nào sau đây thuộc lớp tương đương hợp lệ?
 A. BOOK
 B. Book-
 *C. It4You
@@ -833,8 +737,7 @@ B. Kiểm tra cú pháp.
 *C. Kiểm thử sức chịu tải.
 D. Phân vùng tương đương,
 126.
-Một lý do khiến các nhà phát triển phần mềm gặp khó khăn trong việc kiểm thử công
-việc của chính họ là?
+Một lý do khiến các nhà phát triển phần mềm gặp khó khăn trong việc kiểm thử công việc của chính họ là?
 A. Chưa qua đào tạo.
 B. Thiếu tài liệu kỹ thuật.
 *C. Thiếu khách quan.
@@ -846,22 +749,13 @@ B. Kiểm thử chức năng được sử dụng nhiều hơn kiểm thử cấ
 *C. Người dùng cuối nên tham gia vào các thử nghiệm hệ thống.
 D. Các bài kiểm tra hệ thống thường được thực hiện bởi các nhóm độc lập.
 128.
-Cho đoạn mã giả sau, số ca kiểm thử tối thiểu cần có để phủ tất cả các cung?
-Int kiemTra(int k)
-{ If(k <= 1) return -1;
-For(int i = 2; i < k; i++)
-If(k%i==0)
-Return -1;
-Return 1;
-}
+Cho đoạn mã giả sau: Int kiemTra(int k) { If(k <= 1) return -1; For(int i = 2; i < k; i++) If(k%i==0) Return -1; Return 1; } - Số ca kiểm thử tối thiểu cần có để phủ tất cả các cung?
 A. Có 2 ca kiểm thử
 *B. Có 3 ca kiểm thử
 C. Có 1 ca kiểm thử
 D. Có 4 ca kiểm thử
 129.
-Số đơn đặt hàng trên hệ thống kiểm soát hàng tồn kho có thể nằm trong khoảng từ 10000
-đến 99999. Đầu vào nào sau đây có thể là kết quả của việc thiết kế các thử nghiệm chỉ
-cho các lớp tương đương hợp lệ và các giá trị biên hợp lệ?
+Số đơn đặt hàng trên hệ thống kiểm soát hàng tồn kho có thể nằm trong khoảng từ 10000 đến 99999. Đầu vào nào sau đây có thể là kết quả của việc thiết kế các thử nghiệm chỉ cho các lớp tương đương hợp lệ và các giá trị biên hợp lệ?
 A. 1000, 5000, 99999
 *B. 10000, 50000, 99999.
 C. 9999, 50000, 100000.
@@ -891,16 +785,13 @@ B. Xác thực.
 C. Xác minh.
 D. Phân tích hiệu suất.
 134.
-Gỡ lỗi là một quá trình gồm hai bước bắt đầu khi bạn tìm thấy lỗi do một trường hợp
-kiểm thử thành công. Bước 1 là xác định bản chất và vị trí chính xác của lỗi nghi ngờ
-trong chương trình. Bước 2 là?
+Gỡ lỗi là một quá trình gồm hai bước bắt đầu khi bạn tìm thấy lỗi do một trường hợp kiểm thử thành công. Bước 1 là xác định bản chất và vị trí chính xác của lỗi nghi ngờ trong chương trình. Bước 2 là?
 A. Xem lỗi.
 B. Định vị lỗi.
 *C. Sửa lỗi.
 D. Gửi lỗi.
 135.
-Mô hình vòng đời phát triển phần mềm nào sau đây yêu cầu các hoạt động kiểm thử bắt
-đầu cùng lúc với các hoạt động phát triển.
+Mô hình vòng đời phát triển phần mềm nào sau đây yêu cầu các hoạt động kiểm thử bắt đầu cùng lúc với các hoạt động phát triển.
 A. Water falls model
 B. Spiral Model
 *C. V-model
@@ -912,15 +803,13 @@ B. Rất khó để lặp lại test
 *C. Rất khó khăn cho việc xác định là test đó pass hay fail
 D. Không thể tự động hóa dữ liệu đầu vào
 137.
-Việc kiểm thử lại một đoạn chương trình đơn hay một thành phần nào đó sau khi có
-một thay đổi được thực hiện thì gọi là?
+Việc kiểm thử lại một đoạn chương trình đơn hay một thành phần nào đó sau khi có một thay đổi được thực hiện thì gọi là?
 *A. Full Regression Testing (kiểm thử hồi qui toàn bộ)
 B. Unit Regression (kiểm thử hồi qui đơn vị).
 C. Regional Regression (kiểm thử hồi qui bản gốc).
 D. Retesting (kiểm thử lại).
 138.
-Kỹ thuật kiểm thử nào sau đây được sử dụng để tìm ra các chức năng bị lỗi của ứng
-dụng?
+Kỹ thuật kiểm thử nào sau đây được sử dụng để tìm ra các chức năng bị lỗi của ứng dụng?
 A. White Box Testing
 B. Grey Box Testing
 *C. Black Box Testing
@@ -932,8 +821,7 @@ A. Những module mức thấp không bao giờ cần kiểm thử
 C. Không có những stub cần phải viết
 D. Không có mục nào
 140.
-Quy định của một phần mềm bán bảo hiểm như sau: ”Tuổi từ 18 trở lên có thể tự đăng
-ký mua bảo hiểm…”. Những giá trị nào là dùng để kiểm tra giá trị biên ?
+Quy định của một phần mềm bán bảo hiểm như sau: ”Tuổi từ 18 trở lên có thể tự đăng ký mua bảo hiểm…”. Những giá trị nào là dùng để kiểm tra giá trị biên ?
 *A. 17, 18, 19.
 B. 16,17,18.
 C. 18, 19, 20.
@@ -945,9 +833,7 @@ A. Kiểm thử các chức năng bên trong của hệ thống
 C. Kiểm thử hệ thống trên các khu vực khác nhau.
 D. Cả 3 câu trên đều chưa chính xác
 142.
-Một textbox nhập liệu năm sinh (kiểu nguyên) chỉ cho phép nhập liệu các giá trị: [1900,
-2004]. Sử dụng phương phân tích giá trị biên thì cần các giá trị hợp lệ nào để kiểm thử
-cho textbox năm sinh?
+Một textbox nhập liệu năm sinh (kiểu nguyên) chỉ cho phép nhập liệu các giá trị: [1900, 2004]. Sử dụng phương phân tích giá trị biên thì cần các giá trị hợp lệ nào để kiểm thử cho textbox năm sinh?
 A. 0, 1900, 2004, 2005
 B. 1900, 2004
 *C. 1899, 1900, 2004, 2005
@@ -959,18 +845,13 @@ B. 10
 C. 15
 *D. 20
 144.
-Một nhà bán buôn bán hộp mực máy in. Số lượng đặt hàng tối thiểu là 5. Có giảm giá
-20% cho các đơn hàng từ 100 hộp mực máy in trở lên. Bạn đã được yêu cầu chuẩn bị
-các testcase bằng cách sử dụng các giá trị khác nhau cho số lượng hộp mực máy in được
-đặt hàng. Nhóm nào sau đây chứa ba đầu vào sẽ được tạo bằng kỹ thuật Phân tích giá
-trị biên?
+Một nhà bán buôn bán hộp mực máy in. Số lượng đặt hàng tối thiểu là 5. Có giảm giá 20% cho các đơn hàng từ 100 hộp mực máy in trở lên. Bạn đã được yêu cầu chuẩn bị các testcase bằng cách sử dụng các giá trị khác nhau cho số lượng hộp mực máy in được đặt hàng. Nhóm nào sau đây chứa ba đầu vào sẽ được tạo bằng kỹ thuật Phân tích giá trị biên?
 A. 5, 6, 20
 B. 4, 5, 80
 *C. 4, 5, 99
 D. 1, 20, 100
 145.
-Một phần mềm tuyển lao động có độ tuổi [18, 50], cho biết những giá trị nào sau đây
-đủ để kiểm tra cả lớp tương đương hợp lệ và những lớp tương đương không hợp lệ?
+Một phần mềm tuyển lao động có độ tuổi [18, 50], cho biết những giá trị nào sau đây đủ để kiểm tra cả lớp tương đương hợp lệ và những lớp tương đương không hợp lệ?
 *A. {1, 19, 55}
 B. {1, 10, 15}
 C. {17,18,19}
@@ -988,8 +869,7 @@ B. Selenium Web Driver
 C. Selenium Grid
 *D. Tất cả các ý
 148.
-Optimization, Defect Prevention, and Quality Control thuộc mức mấy trong mô hình
-CMM?
+Optimization, Defect Prevention, and Quality Control thuộc mức mấy trong mô hình CMM?
 A. CMM Level 2
 B. CMM Level 3
 *C. CMM Level 4
@@ -1007,16 +887,13 @@ B. Kiểm thử hệ thống => Kiểm thử đơn vị => Kiểm thử tích h�
 *C. Kiểm thử đơn vị =>Kiểm thử tích hợp =>Kiểm thử hệ thống
 D. Kiểm thử đơn vị =>Kiểm thử hệ thống =>Kiểm thử tích hợp
 151.
-Cho đoạn code sau đây, testcase nào thỏa thiêu chí bao phủ câu lệnh?
-Int liability (int age, char sex, boolean married) { Premium=500; if ((age<25) &&
-(sex==male) && (married==false)) { Premium += 1500;…}}
+Cho đoạn code sau đây: Int liability (int age, char sex, boolean married) { Premium=500; if ((age<25) && (sex==male) && (married==false)) { Premium += 1500;…}} - testcase nào thỏa thiêu chí bao phủ câu lệnh?
 *A. (20, male, false) và (24, male, false)
 B. (25, male, false) và (24, female, false)
 C. (20, male, false) và (24, male, true)
 D. (25, male,false) và (24, male, true)
 152.
-Một phần mềm tuyển lao động có độ tuổi trong khoảng [18, 45], cho biết những giá trị
-nào sau đây là cùng lớp tương đương?
+Một phần mềm tuyển lao động có độ tuổi trong khoảng [18, 45], cho biết những giá trị nào sau đây là cùng lớp tương đương?
 *A. {1, 19, 50}
 B. {1, 10, 15}
 C. {17,18,19}
@@ -1040,15 +917,13 @@ B. CMM Level 3
 C. CMM Level 4
 *D. CMM Level 2
 156.
-Optimization, Defect Prevention, and Quality Control thuộc mức mấy trong mô hình
-CMM?
+Optimization, Defect Prevention, and Quality Control thuộc mức mấy trong mô hình CMM?
 A. CMM Level 2
 B. CMM Level 3
 *C. CMM Level 4
 D. CMM Level5
 157.
-Kiểm thử phần mềm được thực hiện mà không cần lập kế hoạch, hay lập tài liệu thì
-được gọi là
+Kiểm thử phần mềm được thực hiện mà không cần lập kế hoạch, hay lập tài liệu thì được gọi là
 *A. adHoc Testing
 B. Unit Testing
 C. Regression testing
@@ -1084,8 +959,7 @@ B. Integration Testing
 C. System Testing and Acceptance Testing.
 *D. Tất cả các cấp độ trên
 163.
-Việc kiểm thử lại một đoạn chương trình đơn hay một thành phần nào đó sau khi có
-một thay đổi được thực hiện thì gọi là
+Việc kiểm thử lại một đoạn chương trình đơn hay một thành phần nào đó sau khi có một thay đổi được thực hiện thì gọi là
 A. Full Regression Testing (kiểm thử hồi qui toàn bộ)
 B. Unit Regression (kiểm thử hồi qui đơn vị).
 C. Regional Regression (kiểm thử hồi qui bản gốc).
@@ -1102,20 +976,20 @@ A. Unit Testing
 B. Black box testing
 *C. White box Testing
 D. Regression testing.
-166. Các tiêu chuẩn đánh giá chất lượng phần mềm?
+166.
+Các tiêu chuẩn đánh giá chất lượng phần mềm?
 A. ISO 9001
 B. ISO/IEC 12207
 C. IEEE 829
 *D. Tất cả các ý
 167.
 Mô hình chất lượng ISO-9126 trên thực tế được mô tả là?
-*A. Một phương pháp phân loại và chia nhỏ những thuộc tính chất lượng, nhằm tạo nên
-những đại lượng đo đếm được dùng để kiểm định chất lượng của sản phẩm phần mềm.
+*A. Một phương pháp phân loại và chia nhỏ những thuộc tính chất lượng, nhằm tạo nên những đại lượng đo đếm được dùng để kiểm định chất lượng của sản phẩm phần mềm.
 B. Quy trình hoạt động ở các cấp công ty và ở cấp dự án.
-C. Các hoạt động được thực hiện trong dự án xem chúng có tuân thủ các quy trình đã
-được định ra.
+C. Các hoạt động được thực hiện trong dự án xem chúng có tuân thủ các quy trình đã được định ra.
 D. Tất cả các ý
-168. Các mô hình tiêu chuẩn của chất lượng phần mềm?
+168.
+Các mô hình tiêu chuẩn của chất lượng phần mềm?
 A. ISO
 B. CMM, CMMi
 C. TMM
