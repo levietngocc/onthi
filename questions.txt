@@ -171,8 +171,8 @@ D. Kiểm thử an ninh, bảo mật
 Performance testing:
 A. Kiểm thử sức chịu đựng.
 B. Kiểm thử quá tải.
-*C. Kiểm thử khả năng sử dụng.
-D. Kiểm thử hiệu suất.
+C. Kiểm thử khả năng sử dụng.
+*D. Kiểm thử hiệu suất.
 29.
 Security testing là:
 *A. Kiểm thử an ninh, bảo mật.
