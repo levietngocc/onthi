@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Học Thuộc Lòng </title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f3f4f6;
+      color: #1f2937;
+      margin: 0;
+      padding-bottom: 60px;
+    }
+
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      border-bottom: 2px solid #10b981;
+      padding: 15px 20px;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-btn {
+      text-decoration: none;
+      color: #374151;
+      font-weight: 600;
+      background: #e5e7eb;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: #d1d5db; }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* Khung câu hỏi */
+    .question-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+    }
+
+    .question-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .q-number {
+      background-color: #374151;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      height: fit-content;
+      white-space: nowrap;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.5;
+      color: #111;
+    }
+
+    /* Danh sách đáp án */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .option-item {
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid transparent; /* Viền trong suốt để canh lề đều */
+      background-color: #fff;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    /* Style cho đáp án ĐÚNG (Hiện luôn) */
+    .option-item.is-correct {
+      background-color: #d1fae5; /* Nền xanh lá nhạt */
+      border: 1px solid #10b981; /* Viền xanh */
+      color: #065f46; /* Chữ xanh đậm */
+      font-weight: 700; /* In đậm */
+    }
+
+    /* Style cho đáp án thường */
+    .option-item.is-normal {
+      color: #4b5563;
+      border: 1px solid #f3f4f6; /* Viền mờ cho dễ nhìn dòng */
+    }
+
+    /* Nút cuộn lên đầu trang */
+    #scrollTopBtn {
+      position: fixed; bottom: 30px; right: 30px;
+      background: #10b981; color: white;
+      width: 50px; height: 50px; border-radius: 50%;
+      border: none; font-size: 24px; cursor: pointer; display: none;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sticky-header">
+    <a href="index.html" class="back-btn">⬅ Quay lại Menu</a>
+    <h3 style="margin:0; color: #10b981;">HỌC THUỘC LÒNG</h3>
+    <div style="font-size:14px; font-weight:bold" id="total-count">...</div>
+  </div>
+
+  <div class="container">
+    <div id="quiz">Đang tải dữ liệu...</div>
+  </div>
+
+  <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">⬆</button>
+
+  <script>
+    const quizDiv = document.getElementById("quiz");
+    
+    // 🔧 10 câu override đáp án (Giữ nguyên logic sửa sai)
+    const answerOverrides = {
+      3: "B", 4: "A", 32: "B", 37: "C", 48: "A",
+      122: "D", 137: "D", 148: "D", 156: "D", 158: "B"
+    };
+
+    fetch("questions.txt")
+      .then(res => res.text())
+      .then(text => {
+        let questions = parseQuestions(text);
+        
+        // Sửa đáp án sai trước khi hiển thị
+        questions.forEach(q => {
+          if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
+        });
+
+        renderStudyMode(questions);
+      })
+      .catch(err => quizDiv.innerHTML = "Lỗi: Không tìm thấy file questions.txt");
+
+    function parseQuestions(text) {
+      const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
+      return blocks.map(block => {
+        const lines = block.split("\n").map(l => l.trim());
+        const id = parseInt(lines[0]);
+        const textQ = lines[1];
+        const options = {};
+        let correct = "";
+        
+        lines.slice(2).forEach(line => {
+          const match = line.match(/^(\*?)([A-D])\.\s*(.+)$/);
+          if (!match) {
+             const [, star, key, value] = line.match(/^(\*?)([A-D])\.\s*(.+)$/) || [];
+             if(key) options[key] = value; 
+             if(star) correct = key;
+             return;
+          }
+          const [, star, key, value] = match;
+          options[key] = value;
+          if (star) correct = key;
+        });
+        return { id, text: textQ, options, correct };
+      });
+    }
+
+    function renderStudyMode(questions) {
+      quizDiv.innerHTML = "";
+      document.getElementById("total-count").innerText = `${questions.length} Câu`;
+
+      questions.forEach(q => {
+        const qCard = document.createElement("div");
+        qCard.className = "question-card";
+
+        let html = `
+          <div class="question-header">
+            <div class="q-number">Câu ${q.id}</div>
+            <div class="question-text">${q.text}</div>
+          </div>
+          <div class="options-list">
+        `;
+
+        // Duyệt qua từng đáp án
+        for (const key in q.options) {
+          // Kiểm tra nếu đây là đáp án đúng -> Thêm class 'is-correct'
+          const isRight = (key === q.correct);
+          const itemClass = isRight ? "is-correct" : "is-normal";
+          
+          // Chỉ hiển thị Text, bỏ thẻ <input>
+          html += `
+            <div class="option-item ${itemClass}">
+              <b>${key}.</b> ${q.options[key]}
+            </div>
+          `;
+        }
+
+        html += `</div>`;
+        qCard.innerHTML = html;
+        quizDiv.appendChild(qCard);
+      });
+    }
+
+    // Scroll button
+    window.onscroll = function() {
+      const btn = document.getElementById("scrollTopBtn");
+      if (document.documentElement.scrollTop > 300) btn.style.display = "block";
+      else btn.style.display = "none";
+    };
+  </script>
+</body>
+</html>
