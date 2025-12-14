@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Câu Trả Lời Ngắn (Tự Luận)</title>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --bg-color: #f3f4f6;
+      --card-bg: #ffffff;
+      --text-color: #1f2937;
+      --answer-bg: #ecfdf5;
+      --answer-text: #065f46;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    /* Header cố định */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      padding: 15px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 15px; }
+
+    .back-btn {
+      text-decoration: none;
+      background: #e5e7eb;
+      color: #333;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .toggle-all-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+      padding-bottom: 60px;
+    }
+
+    /* Card câu hỏi */
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border: 1px solid #e5e7eb;
+      cursor: pointer; /* Bấm vào card cũng hiện đáp án */
+      transition: transform 0.1s;
+    }
+
+    .card:active { transform: scale(0.99); }
+
+    .question-row {
+      display: flex;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 1.1em;
+      color: #111;
+      margin-bottom: 10px;
+    }
+
+    .q-id {
+      background: #374151;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      height: fit-content;
+      font-size: 0.85em;
+      flex-shrink: 0;
+    }
+
+    /* Phần đáp án */
+    .answer-container {
+      display: none; /* Mặc định ẩn */
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px dashed #cbd5e1;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .answer-container.show {
+      display: block;
+    }
+
+    .answer-content {
+      background-color: var(--answer-bg);
+      color: var(--answer-text);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #10b981;
+      font-size: 1.05em;
+    }
+
+    .hint-text {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    /* Search bar */
+    #searchInput {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sticky-header">
+    <div class="header-left">
+      <a href="index.html" class="back-btn">⬅ Menu</a>
+      <h3 style="margin:0; color: var(--primary-color);">CÂU HỎI NGẮN</h3>
+    </div>
+    <button class="toggle-all-btn" onclick="toggleAll()">👁️ Hiện tất cả đáp án</button>
+  </div>
+
+  <div class="container">
+    <input type="text" id="searchInput" placeholder="Tìm kiếm nội dung..." onkeyup="filterQuestions()">
+    <div style="margin-bottom: 10px; font-size: 14px; color: #666;" id="count-display"></div>
+    <div id="quiz-container"></div>
+  </div>
+
+<script>
+// DỮ LIỆU CỦA BẠN (Đã xử lý sạch sẽ)
+const rawData = `
+205. Khi nào thì có thể dừng việc kiểm thử?
+* Khi đáp ứng được mục tiêu chất lượng được thiết lập ngay từ khi bắt đầu dự án.
+206. Mục đích của kiểm thử phần mềm là?
+* Tìm lỗi phần mềm, tìm lỗi sớm nhất có thể,…
+207. Việc kiểm thử có thể bắt đầu vào thời điểm nào?
+* Càng sớm càng tốt, ngay khi các yêu cầu phần mềm đã được phê duyệt.
+208. Hoạt động Verification là gì?
+* Kiểm tra xem sản phẩm có đúng với yêu cầu phần mềm không? Việc phát triển phàn mềm có đúng quy trình không?
+209. Hoạt động Validation là gì?
+* Kiểm tra xem sản phẩm có đáp ứng với mong đợi của khách hàng không?
+210. Tester cần có các tố chất nào?
+* Điểm tĩnh, chăm chỉ, giỏi về phân tích, phán đoán tốt,…
+211. Tại sao ngoài việc áp dụng các kỹ thuật kiểm thử thì vẫn cần kỹ thuật đoán lỗi trong kiểm thử phần mềm?
+* Nhằm tránh các lỗi bị bỏ sót bằng các kỹ thuật thông thường, đôi khi kinh nghiệm và trực giác cũng giúp tìm ra những lỗi quan trọng.
+212. Phân biệt Kiểm thử phần mềm và Debug ?
+* Kiểm thử là tìm lỗi phần mềm và báo cáo không được tự sửa, debug tập trung vào phát hiện và sửa lỗi phần mềm.
+213. Có thể kiểm thử hoàn toàn một sản phẩm phần mềm không? Giải thích tại sao?
+* Khó có thể kiểm thử hoàn toàn một sản phẩm phần mềm theo kiểu vét cạn vì không đủ nguồn lực về thời gian, chi phí,…
+214. Tại sao phải thực hiện việc kiểm thử càng sớm càng tốt?
+* Để phát hiện lỗi sớm dẫn đến tiết kiệm các chi phí…
+215. So sánh việc kiểm thử trong các mô hình thác nước và mô hình chữ V?
+* Trong mô hình thác nước: kiểm thử chủ yếu sau khi code, còn mô hình chữ V quá trình kiểm thử rất sớm, xuyên suốt quá trình phát triển.
+216. Nêu một số chức danh liên quan đến nghề làm phần mềm?
+* Test leader, Tester, Test analyst, Automation Tester,…
+217. KTPM có phải là nghề ? Kể tên một số công ty chuyên về KTPM tại Việt Nam?
+* xem như một nghề, có nhiều công ty chuyên kiểm thử độc lập, tại VN: TMA, Logigear, FPT software,
+218. Mô hình phát triển phần mềm nào mà yêu cầu các hoạt động kiểm thử bắt đầu cùng lúc với các hoạt động phát triển.
+* V-model
+219. Kỹ thuật Review phần mềm nào mà yêu cầu các quy tắt nghiêm ngặt và thực hiện đủ cả 7 bước thực hiện?
+* Inspection
+220. Phát biểu nào phù hợp nhất hoạt động ad hoc review?
+* Không cần quy trình hoặc kế hoạch nào.
+221. Trong cuộc họp review, thì người được gọi là Moderator có nhiệm vụ gì?
+* A. Điều hành cuộc họp.
+222. Kể tên các loại kỹ thuật review?
+* Peer review, technical review, inspection, team review, adhoc review,…
+223. Nên áp dụng kỹ thuật đoán lỗi như thế nào là tốt nhất?
+* Sau khi các kỹ thuật chính thức được áp dụng, người có kinh nghiệm trong hoạt động kiểm thử.
+224. Một input nhận giá trị năm sinh trong khoảng [2000, 2010]. Các giá trị biên để kiểm thử cho input field này là?
+* 1999, 2000, 2001, 2009,2010,2011
+225. Kể tên các kỹ thuật dùng trong Black box testing?
+* Equivalence partitioning, Boundary value analysis, bảng quyết định và đoán lỗi.
+226. Test field lấy năm sinh từ [1994- 2006]. Chọn 3 test case cho 3 lớp tương đương?
+* Giá trị <1994, giá trị trong khoảng [1994- 2006] và giá trị >2006
+227. Cách kiểm thử theo kỹ thuật Boundary value analysis là gì?
+* Kiểm tra các giá trị biên, cận trên, cận dưới các giá trị biên.
+228. Kể tên ít nhất 05 loại kiểm thử phi chức năng ?
+* Peformance testing, Security, Usability testing, Cấu hình, tương thích,…
+229. Nêu các bước để kiểm thử Equivalence partitioning?
+* Lập bảng tương đương (gồm hợp lệ và không hợp lệ)->suy dẫn các test case dựa trên các lớp tương đương hợp lệ và không hợp lệ.
+230. Nêu ưu điểm chính của việc sử dụng kỹ thuật Equivalence partitioning?
+* Giúp giảm thiểu số test case so với việc vét cạn mà không ảnh hưởng nhiều đến chất lượng kiểm thử.
+235. Đồ thị dòng điều khiển của một chương trình là một đồ thị có hướng G-, trong đó N và E là gì ?
+* N là tập các đỉnh, E là tập các cạnh
+236. Kiểm thử hộp trắng được áp dụng chủ yếu vào giai đoạn nào của kiểm thử phần mềm?
+* Unit testing
+237. Kể tên những kỹ thuật White box testing?
+* Basic Path Testing(đường dẫn cơ bản), Kiểm thử vòng lặp (Loop Testing), Kiểm thử rẽ nhánh (Branch Testing)
+238. Thời điểm nào có thể tiến hành White box Testing?
+* Sau giai đoạn code.
+239. Phân biệt Kỹ thuật kiểm thử Black box Testing và White box Testing?
+* White box Testing cho phép kiểm tra cấu trúc của chương trình, Black box Testing dựa vào đầu vào và đầu ra mà không quan tâm đến cấu trúc.
+241. Kiểm thử rẽ nhánh là?
+* Thực hiện nhánh đúng và sai của điều kiện kết hợp mỗi nhánh ít nhât 1 lần
+242. Thực hiện White box testing theo tiêu chí bao phủ câu lệnh là?
+* Mỗi lệnh được thực thi ít nhất 1 lần.
+243. Thực hiện White box testing theo tiêu chí bao phủ quyết định là?
+* Mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp TRUE lẫn FALSE.
+244. Compatibility testing là gì?
+* Là kiểm tra phần mềm được kiểm thử có tương thích với các phần mềm khác trên cùng máy tính, trên cùng hệ thống, thậm chí việc chia sẻ dữ liệu giữa các phiên bản khác nhau của cùng phần mềm.
+245. Configuration testing là gì?
+* A. Kiểm tra phần mềm chạy được trên các máy tính khác nhau, với các cấu hình phần cứng khác nhau hay không.
+246. Khi nào có thể thực hiện Kiểm thử tương thích?
+* Sau khi kiểm thử chức năng trong giai đoạn System testing
+247. Tại sao cần kiểm thử tương thích?
+* Nếu các phần mềm có thể tác động nhau trong cùng máy hoặc hệ thống dẫn đến hoạt động sai, lỗi
+248. Sự cần thiết của Configuration testing?
+* Một phần mềm có thể chạy tốt với cấu hình phần cứng này nhưng chạy không tốt hoặc thậm chí không chạy trên cấu hình phần cứng khác nên cần kiểm tra đầy đủ trước khi phát hành.
+249. Khi Configuration testing mà ta không đủ các loại phần cứng cần thiết để kiểm tra thì làm sao?
+* Có thể mượn, thuê, mua thêm nhưng cũng có thể dùng phần mềm giả lập phần cứng tương ứng.
+250. Ưu điểm chính của phương pháp Integration testing từ trên xuống dưới (Top-down) là gì?
+* C. Kiểm thử ngay chức năng điều khiển hệ thống
+251. Integration testing bottom-up có những thuận lợi chính?
+* Không cần viết stub mà chỉ cần drive để gọi module cần kiểm tra
+252. Những nội dung cần có trong mỗi test case là gì?
+* Test ID, điều kiện thực hiện, mô tả test case, test data, kết quả mong đợi, kết quả thực tế,…
+253. Định nghĩa về Test case là?
+* Còn gọi là ca kiểm thử, là tập hợp các đầu vào (input), điều kiện thực hiện và kết quả mong đợi được phát triển cho một mục kiểm tra cụ thể.
+254. Nếu một kết quả mong đợi không được xác định cụ thể thì?
+* C. Rất khó khăn cho việc xác định là test đó pass hay fail
+`;
+
+  function parseData(text) {
+    const lines = text.trim().split('\n');
+    const questions = [];
+    let currentQ = null;
+
+    lines.forEach(line => {
+      line = line.trim();
+      if (!line) return;
+      const questionMatch = line.match(/^(\d+)[.\s]\s*(.+)/);
+      const answerMatch = line.startsWith('*');
+
+      if (questionMatch) {
+        if (currentQ) questions.push(currentQ);
+        currentQ = {
+          id: questionMatch[1],
+          text: questionMatch[2],
+          answer: ""
+        };
+      } else if (answerMatch && currentQ) {
+        currentQ.answer = line.replace(/^\*\s*/, '');
+      } else if (currentQ) {
+        if (currentQ.answer) currentQ.answer += " " + line;
+        else currentQ.text += " " + line;
+      }
+    });
+    if (currentQ) questions.push(currentQ);
+    return questions;
+  }
+
+  const questions = parseData(rawData);
+  const container = document.getElementById('quiz-container');
+  document.getElementById('count-display').innerText = `Tổng số câu: ${questions.length}`;
+
+  function renderQuestions(list) {
+    container.innerHTML = "";
+    list.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      // Thêm sự kiện click để hiện đáp án
+      card.onclick = function() { toggleAnswer(this); };
+      
+      card.innerHTML = `
+        <div class="question-row">
+          <span class="q-id">Câu ${q.id}</span>
+          <span>${q.text}</span>
+        </div>
+        <div class="hint-text">(Chạm để xem đáp án)</div>
+        
+        <div class="answer-container">
+          <div class="answer-content">
+            <b>Trả lời:</b> ${q.answer}
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function toggleAnswer(cardElement) {
+    const answerContainer = cardElement.querySelector('.answer-container');
+    const hint = cardElement.querySelector('.hint-text');
+    
+    if (answerContainer.classList.contains('show')) {
+      answerContainer.classList.remove('show');
+      hint.innerText = "(Chạm để xem đáp án)";
+    } else {
+      answerContainer.classList.add('show');
+      hint.innerText = "(Chạm để ẩn)";
+    }
+  }
+
+  // Chức năng hiện/ẩn tất cả
+  let isAllShown = false;
+  window.toggleAll = function() {
+    const allAnswers = document.querySelectorAll('.answer-container');
+    const allHints = document.querySelectorAll('.hint-text');
+    const btn = document.querySelector('.toggle-all-btn');
+    
+    isAllShown = !isAllShown;
+
+    allAnswers.forEach(el => {
+      if(isAllShown) el.classList.add('show');
+      else el.classList.remove('show');
+    });
+
+    allHints.forEach(el => {
+      el.innerText = isAllShown ? "(Chạm để ẩn)" : "(Chạm để xem đáp án)";
+    });
+
+    btn.innerText = isAllShown ? "🙈 Ẩn tất cả" : "👁️ Hiện tất cả đáp án";
+  };
+
+  // Tìm kiếm
+  window.filterQuestions = function() {
+    const term = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = questions.filter(q => 
+      q.text.toLowerCase().includes(term) || 
+      q.id.toString().includes(term)
+    );
+    renderQuestions(filtered);
+    // Nếu đang tìm kiếm thì tự động mở đáp án luôn cho tiện
+    if(term.length > 0) {
+        document.querySelectorAll('.answer-container').forEach(el => el.classList.add('show'));
+    }
+  };
+
+  // Chạy lần đầu
+  renderQuestions(questions);
+
+</script>
+</body>
+</html>
