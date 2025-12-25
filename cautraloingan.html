@@ -165,96 +165,102 @@
 <script>
 // DỮ LIỆU CỦA BẠN (Đã xử lý sạch sẽ)
 const rawData = `
-205. Khi nào thì có thể dừng việc kiểm thử?
-* Khi đáp ứng được mục tiêu chất lượng được thiết lập ngay từ khi bắt đầu dự án.
-206. Mục đích của kiểm thử phần mềm là?
-* Tìm lỗi phần mềm, tìm lỗi sớm nhất có thể,…
-207. Việc kiểm thử có thể bắt đầu vào thời điểm nào?
-* Càng sớm càng tốt, ngay khi các yêu cầu phần mềm đã được phê duyệt.
-208. Hoạt động Verification là gì?
-* Kiểm tra xem sản phẩm có đúng với yêu cầu phần mềm không? Việc phát triển phàn mềm có đúng quy trình không?
-209. Hoạt động Validation là gì?
-* Kiểm tra xem sản phẩm có đáp ứng với mong đợi của khách hàng không?
-210. Tester cần có các tố chất nào?
-* Điểm tĩnh, chăm chỉ, giỏi về phân tích, phán đoán tốt,…
-211. Tại sao ngoài việc áp dụng các kỹ thuật kiểm thử thì vẫn cần kỹ thuật đoán lỗi trong kiểm thử phần mềm?
-* Nhằm tránh các lỗi bị bỏ sót bằng các kỹ thuật thông thường, đôi khi kinh nghiệm và trực giác cũng giúp tìm ra những lỗi quan trọng.
-212. Phân biệt Kiểm thử phần mềm và Debug ?
-* Kiểm thử là tìm lỗi phần mềm và báo cáo không được tự sửa, debug tập trung vào phát hiện và sửa lỗi phần mềm.
-213. Có thể kiểm thử hoàn toàn một sản phẩm phần mềm không? Giải thích tại sao?
-* Khó có thể kiểm thử hoàn toàn một sản phẩm phần mềm theo kiểu vét cạn vì không đủ nguồn lực về thời gian, chi phí,…
-214. Tại sao phải thực hiện việc kiểm thử càng sớm càng tốt?
-* Để phát hiện lỗi sớm dẫn đến tiết kiệm các chi phí…
-215. So sánh việc kiểm thử trong các mô hình thác nước và mô hình chữ V?
-* Trong mô hình thác nước: kiểm thử chủ yếu sau khi code, còn mô hình chữ V quá trình kiểm thử rất sớm, xuyên suốt quá trình phát triển.
-216. Nêu một số chức danh liên quan đến nghề làm phần mềm?
-* Test leader, Tester, Test analyst, Automation Tester,…
-217. KTPM có phải là nghề ? Kể tên một số công ty chuyên về KTPM tại Việt Nam?
-* xem như một nghề, có nhiều công ty chuyên kiểm thử độc lập, tại VN: TMA, Logigear, FPT software,
-218. Mô hình phát triển phần mềm nào mà yêu cầu các hoạt động kiểm thử bắt đầu cùng lúc với các hoạt động phát triển.
-* V-model
-219. Kỹ thuật Review phần mềm nào mà yêu cầu các quy tắt nghiêm ngặt và thực hiện đủ cả 7 bước thực hiện?
-* Inspection
-220. Phát biểu nào phù hợp nhất hoạt động ad hoc review?
-* Không cần quy trình hoặc kế hoạch nào.
-221. Trong cuộc họp review, thì người được gọi là Moderator có nhiệm vụ gì?
-* A. Điều hành cuộc họp.
-222. Kể tên các loại kỹ thuật review?
-* Peer review, technical review, inspection, team review, adhoc review,…
-223. Nên áp dụng kỹ thuật đoán lỗi như thế nào là tốt nhất?
-* Sau khi các kỹ thuật chính thức được áp dụng, người có kinh nghiệm trong hoạt động kiểm thử.
-224. Một input nhận giá trị năm sinh trong khoảng [2000, 2010]. Các giá trị biên để kiểm thử cho input field này là?
-* 1999, 2000, 2001, 2009,2010,2011
-225. Kể tên các kỹ thuật dùng trong Black box testing?
-* Equivalence partitioning, Boundary value analysis, bảng quyết định và đoán lỗi.
-226. Test field lấy năm sinh từ [1994- 2006]. Chọn 3 test case cho 3 lớp tương đương?
-* Giá trị <1994, giá trị trong khoảng [1994- 2006] và giá trị >2006
-227. Cách kiểm thử theo kỹ thuật Boundary value analysis là gì?
-* Kiểm tra các giá trị biên, cận trên, cận dưới các giá trị biên.
-228. Kể tên ít nhất 05 loại kiểm thử phi chức năng ?
-* Peformance testing, Security, Usability testing, Cấu hình, tương thích,…
-229. Nêu các bước để kiểm thử Equivalence partitioning?
-* Lập bảng tương đương (gồm hợp lệ và không hợp lệ)->suy dẫn các test case dựa trên các lớp tương đương hợp lệ và không hợp lệ.
-230. Nêu ưu điểm chính của việc sử dụng kỹ thuật Equivalence partitioning?
-* Giúp giảm thiểu số test case so với việc vét cạn mà không ảnh hưởng nhiều đến chất lượng kiểm thử.
-235. Đồ thị dòng điều khiển của một chương trình là một đồ thị có hướng G-, trong đó N và E là gì ?
-* N là tập các đỉnh, E là tập các cạnh
-236. Kiểm thử hộp trắng được áp dụng chủ yếu vào giai đoạn nào của kiểm thử phần mềm?
-* Unit testing
-237. Kể tên những kỹ thuật White box testing?
-* Basic Path Testing(đường dẫn cơ bản), Kiểm thử vòng lặp (Loop Testing), Kiểm thử rẽ nhánh (Branch Testing)
-238. Thời điểm nào có thể tiến hành White box Testing?
-* Sau giai đoạn code.
-239. Phân biệt Kỹ thuật kiểm thử Black box Testing và White box Testing?
-* White box Testing cho phép kiểm tra cấu trúc của chương trình, Black box Testing dựa vào đầu vào và đầu ra mà không quan tâm đến cấu trúc.
-241. Kiểm thử rẽ nhánh là?
-* Thực hiện nhánh đúng và sai của điều kiện kết hợp mỗi nhánh ít nhât 1 lần
-242. Thực hiện White box testing theo tiêu chí bao phủ câu lệnh là?
-* Mỗi lệnh được thực thi ít nhất 1 lần.
-243. Thực hiện White box testing theo tiêu chí bao phủ quyết định là?
-* Mỗi điểm quyết định luận lý đều được thực hiện ít nhất 1 lần cho trường hợp TRUE lẫn FALSE.
-244. Compatibility testing là gì?
-* Là kiểm tra phần mềm được kiểm thử có tương thích với các phần mềm khác trên cùng máy tính, trên cùng hệ thống, thậm chí việc chia sẻ dữ liệu giữa các phiên bản khác nhau của cùng phần mềm.
-245. Configuration testing là gì?
-* A. Kiểm tra phần mềm chạy được trên các máy tính khác nhau, với các cấu hình phần cứng khác nhau hay không.
-246. Khi nào có thể thực hiện Kiểm thử tương thích?
-* Sau khi kiểm thử chức năng trong giai đoạn System testing
-247. Tại sao cần kiểm thử tương thích?
-* Nếu các phần mềm có thể tác động nhau trong cùng máy hoặc hệ thống dẫn đến hoạt động sai, lỗi
-248. Sự cần thiết của Configuration testing?
-* Một phần mềm có thể chạy tốt với cấu hình phần cứng này nhưng chạy không tốt hoặc thậm chí không chạy trên cấu hình phần cứng khác nên cần kiểm tra đầy đủ trước khi phát hành.
-249. Khi Configuration testing mà ta không đủ các loại phần cứng cần thiết để kiểm tra thì làm sao?
-* Có thể mượn, thuê, mua thêm nhưng cũng có thể dùng phần mềm giả lập phần cứng tương ứng.
-250. Ưu điểm chính của phương pháp Integration testing từ trên xuống dưới (Top-down) là gì?
-* C. Kiểm thử ngay chức năng điều khiển hệ thống
-251. Integration testing bottom-up có những thuận lợi chính?
-* Không cần viết stub mà chỉ cần drive để gọi module cần kiểm tra
-252. Những nội dung cần có trong mỗi test case là gì?
-* Test ID, điều kiện thực hiện, mô tả test case, test data, kết quả mong đợi, kết quả thực tế,…
-253. Định nghĩa về Test case là?
-* Còn gọi là ca kiểm thử, là tập hợp các đầu vào (input), điều kiện thực hiện và kết quả mong đợi được phát triển cho một mục kiểm tra cụ thể.
-254. Nếu một kết quả mong đợi không được xác định cụ thể thì?
-* C. Rất khó khăn cho việc xác định là test đó pass hay fail
+46. Ngày 3-9-1945, trong phiên họp đầu tiên của Hội đồng Chính phủ, Hồ Chí Minh đề nghị nhiệm vụ đầu tiên về xây dựng văn hoá của nước Việt Nam độc lập là những nhiệm vụ nào?
+* Chống nạn mù chữ và giáo dục lại tinh thần nhân dân.
+
+47. Ngày 25-11-1945, BCH TW Đảng ra chỉ thị về “Kháng chiến, kiến quốc” đã nêu bốn nhiệm vụ chủ yếu và cấp bách, gồm những nhiệm vụ nào?
+* Củng cố chính quyền cách mạng; chống thực dân Pháp xâm lược; bài trừ nội phản; cải thiện đời sống nhân dân.
+
+48. Thời gian, địa điểm Đại hội đại biểu toàn quốc lần thứ II của Đảng?
+* Từ ngày 11 đến 19-2-1951, tại xã Vinh Quang (nay là Kim Bình), huyện Chiêm Hóa, tỉnh Tuyên Quang.
+
+49. Thế nào là kháng chiến toàn dân?
+* Là đem toàn bộ sức dân, tài dân, lực dân; động viên toàn dân tham gia kháng chiến.
+
+50. Hội nghị Geneve (Giơnevơ, Thụy Sỹ) năm 1954 kết thúc thắng lợi có ý nghĩa gì đối với cách mạng Việt Nam?
+* Mở ra trang sử mới cho dân tộc Việt Nam và mở đường cho cuộc đấu tranh giành độc lập, thống nhất của ba nước Đông Dương.
+
+51. Sáng ngày 8-5-1954, Hội nghị Giơnevơ bàn về vấn đề Đông Dương, phái đoàn Việt Nam do ai làm trưởng đoàn?
+* Phạm Văn Đồng.
+
+52. Tháng 9-1960, Đại hội đại biểu toàn quốc lần thứ III của Đảng xác định đường lối chung của cách mạng Việt Nam là gì?
+* Đẩy mạnh cách mạng xã hội chủ nghĩa ở miền Bắc; tiến hành cách mạng dân tộc dân chủ nhân dân ở miền Nam; thực hiện thống nhất đất nước.
+
+53. Tháng 9-1960, Đại hội III của Đảng đã nêu triển vọng của cuộc kháng chiến chống Mỹ cứu nước như thế nào?
+* Ta nhất định thắng, Mỹ nhất định thua; giải phóng miền Nam, thống nhất đất nước.
+
+54. Ngày 15-2-1961, các lực lượng vũ trang ở miền Nam được thống nhất với tên gọi là gì?
+* Quân giải phóng miền Nam Việt Nam.
+
+55. Cuộc Tổng tiến công và nổi dậy mùa Xuân năm 1975 bắt đầu và kết thúc vào thời gian nào?
+* Từ ngày 10-3 đến ngày 30-4-1975.
+
+56. Cương lĩnh chính trị đầu tiên xác định nhiệm vụ chủ yếu trước mắt của cách mạng Việt Nam là gì?
+* Đánh đổ đế quốc Pháp và phong kiến, làm cho nước Nam hoàn toàn độc lập.
+
+57. Cương lĩnh chính trị đầu tiên xác định lực lượng cách mạng gồm những giai cấp nào, giai cấp nào lãnh đạo?
+* Công nhân và nông dân là lực lượng cơ bản; giai cấp công nhân lãnh đạo.
+
+58. Nêu quy luật ra đời của Đảng Cộng sản Việt Nam.
+* Kết hợp chủ nghĩa Mác – Lênin, phong trào công nhân và phong trào yêu nước.
+
+59. Nêu vai trò lãnh đạo của Đảng Cộng sản Đông Dương trong Luận cương Chính trị tháng 10-1930.
+* Đảng là lực lượng lãnh đạo cách mạng, quyết định thắng lợi.
+
+60. Trong chuyển hướng chỉ đạo chiến lược của Đảng (1939-1945), nhiệm vụ trung tâm là gì?
+* Xúc tiến chuẩn bị khởi nghĩa vũ trang.
+
+61. Ngày 3-9-1945, trong phiên họp đầu tiên của Hội đồng Chính phủ, Hồ Chí Minh đề nghị nhiệm vụ đầu tiên về xây dựng văn hoá là gì?
+* Chống nạn mù chữ và giáo dục lại tinh thần nhân dân.
+
+62. Chỉ thị “Kháng chiến, kiến quốc” (25-11-1945) nêu những nhiệm vụ nào?
+* Củng cố chính quyền cách mạng; chống thực dân Pháp xâm lược; bài trừ nội phản; cải thiện đời sống nhân dân.
+
+63. Thời gian, địa điểm Đại hội đại biểu toàn quốc lần thứ II của Đảng?
+* Từ ngày 11 đến 19-2-1951, tại xã Vinh Quang (Kim Bình), Chiêm Hóa, Tuyên Quang.
+
+64. Thế nào là kháng chiến toàn dân?
+* Huy động toàn bộ sức dân, tài dân, lực dân tham gia kháng chiến.
+
+65. Ý nghĩa thắng lợi của Hội nghị Giơnevơ năm 1954 đối với cách mạng Việt Nam?
+* Mở ra trang sử mới và tạo cơ sở cho đấu tranh thống nhất đất nước.
+
+66. Nêu quy luật ra đời của Đảng Cộng sản Việt Nam.
+* Kết hợp chủ nghĩa Mác – Lênin với phong trào công nhân và phong trào yêu nước.
+
+67. Vai trò lãnh đạo của Đảng Cộng sản Đông Dương trong Luận cương 10-1930?
+* Lãnh đạo, tổ chức và chỉ đạo cách mạng.
+
+68. Nhiệm vụ trung tâm trong chuyển hướng chiến lược của Đảng (1939-1945) là gì?
+* Xúc tiến chuẩn bị khởi nghĩa vũ trang.
+
+69. Ý nghĩa của chủ trương chuyển hướng chiến lược của Đảng giai đoạn 1939-1945?
+* Dẫn đường cho nhân dân giành độc lập dân tộc.
+
+70. Nguyên tắc xây dựng nền văn hóa mới Việt Nam trong Đề cương Văn hóa 1943?
+* Dân tộc hóa, khoa học hóa, đại chúng hóa.
+
+71. Ngày 3-9-1945, Hồ Chí Minh đề nghị nhiệm vụ đầu tiên về văn hóa là gì?
+* Chống nạn mù chữ và giáo dục lại tinh thần nhân dân.
+
+72. Chỉ thị “Kháng chiến, kiến quốc” nêu bốn nhiệm vụ gì?
+* Củng cố chính quyền; chống Pháp; bài trừ nội phản; cải thiện đời sống nhân dân.
+
+73. Thời gian, địa điểm Đại hội đại biểu toàn quốc lần thứ II của Đảng?
+* Từ ngày 11 đến 19-2-1951, tại Kim Bình, Chiêm Hóa, Tuyên Quang.
+
+74. Thế nào là kháng chiến toàn dân?
+* Toàn dân tham gia kháng chiến bằng mọi lực lượng.
+
+75. Ý nghĩa thắng lợi Hội nghị Giơnevơ 1954?
+* Mở ra thời kỳ mới cho cách mạng Việt Nam và Đông Dương.
+
+76. Giải phóng miền Nam, thống nhất đất nước vào ngày tháng năm nào?
+* 30-4-1975.
+
+77. Kháng chiến chống thực dân Pháp 9 năm kết thúc vào ngày tháng năm nào?
+* 7-5-1954.
+
 `;
 
   function parseData(text) {
