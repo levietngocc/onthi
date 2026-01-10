@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ôn Thi Flashcard</title>
+    <title> Flashcard</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -27,25 +27,34 @@
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* --- 3D FLIP CARD CSS --- */
-        .perspective-1000 {
+        /* --- 3D FLIP ENGINE (SUPER SMOOTH) --- */
+        .flip-container {
             perspective: 1000px;
         }
         
-        .transform-style-3d {
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
             transform-style: preserve-3d;
+            will-change: transform; 
         }
         
-        .backface-hidden {
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+            border-radius: 1rem;
+            -webkit-font-smoothing: antialiased;
+            transform: translateZ(0);
         }
         
-        .rotate-y-180 {
+        .flip-card-back {
             transform: rotateY(180deg);
         }
 
-        /* Class để lật thẻ */
         .is-flipped {
             transform: rotateY(180deg);
         }
@@ -71,8 +80,7 @@
         </div>
 
         <div class="border-t border-gray-100 dark:border-slate-800 bg-white dark:bg-dark-bg">
-            <div class="max-w-3xl mx-auto px-4 py-2 overflow-x-auto no-scrollbar flex gap-2" id="setList">
-                </div>
+            <div class="max-w-3xl mx-auto px-4 py-2 overflow-x-auto no-scrollbar flex gap-2" id="setList"></div>
         </div>
         
         <div class="w-full h-1 bg-gray-100 dark:bg-slate-800">
@@ -96,50 +104,45 @@
                 </span>
             </div>
 
-            <div class="flex-grow perspective-1000 relative group cursor-pointer" onclick="toggleFlip()">
-                <div id="card-inner" class="relative w-full h-full transition-all duration-500 transform-style-3d shadow-xl rounded-2xl">
+            <div class="flex-grow flip-container group cursor-pointer" onclick="toggleFlip()">
+                <div id="card-inner" class="flip-card-inner shadow-xl dark:shadow-none rounded-2xl">
                     
-                    <div class="absolute inset-0 backface-hidden bg-white dark:bg-dark-card rounded-2xl p-8 flex flex-col justify-center items-center text-center border border-gray-200 dark:border-dark-border">
-                        <div class="mb-6">
-                            <span class="inline-block px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-gray-300 text-xs font-bold">
+                    <div class="flip-card-front bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border flex flex-col justify-center items-center text-center p-6 sm:p-8">
+                        <div class="mb-auto"></div>
+                        <div class="mb-4">
+                            <span class="inline-block px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-gray-300 text-xs font-bold shadow-sm">
                                 Câu hỏi <span id="fc-id-front">...</span>
                             </span>
                         </div>
-                        <h3 id="fc-question" class="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 leading-relaxed">
+                        <h3 id="fc-question" class="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 leading-relaxed select-none">
                             ...
                         </h3>
-                        <div class="mt-8 text-gray-400 text-sm animate-pulse">
+                        <div class="mt-8 text-gray-400 text-sm animate-pulse mb-auto">
                             (Chạm để xem đáp án)
                         </div>
                     </div>
 
-                    <div class="absolute inset-0 backface-hidden rotate-y-180 bg-indigo-600 dark:bg-indigo-900 rounded-2xl p-8 flex flex-col justify-center items-center text-center border border-indigo-500">
-                        <div class="mb-6">
-                            <span class="inline-block px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold">
-                                Đáp án đúng
+                    <div class="flip-card-back bg-indigo-600 dark:bg-indigo-900 border border-indigo-500 flex flex-col p-6 sm:p-8 overflow-y-auto">
+                        
+                        <div class="text-center mb-4 flex-shrink-0">
+                            <span class="inline-block px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold backdrop-blur-md">
+                                Đáp án chi tiết
                             </span>
                         </div>
-                        <div class="w-16 h-16 rounded-full bg-white text-indigo-600 flex items-center justify-center text-2xl font-bold mb-4 shadow-lg">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <h3 id="fc-answer" class="text-xl md:text-2xl font-bold text-white leading-relaxed">
-                            ...
-                        </h3>
-                    </div>
+                        
+                        <div id="fc-options-list" class="flex-grow flex flex-col justify-center gap-3 text-left">
+                            </div>
 
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-8 flex items-center justify-between gap-4 px-4">
-                <button onclick="event.stopPropagation(); prevCard()" class="w-14 h-14 rounded-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-lg text-gray-600 dark:text-gray-300 hover:scale-110 active:scale-95 transition-all text-xl flex items-center justify-center">
+            <div class="mt-8 flex items-center justify-between gap-4 px-4 z-10">
+                <button onclick="event.stopPropagation(); prevCard()" class="w-14 h-14 rounded-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 active:scale-95 transition-all text-xl flex items-center justify-center">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
-
-                <div class="text-xs font-medium text-gray-400">
-                    Vuốt hoặc bấm nút để chuyển
-                </div>
-                
-                <button onclick="event.stopPropagation(); nextCard()" class="w-14 h-14 rounded-full bg-primary text-white shadow-lg shadow-indigo-500/40 hover:scale-110 active:scale-95 transition-all text-xl flex items-center justify-center">
+                <div class="text-xs font-medium text-gray-400 select-none">Điều hướng</div>
+                <button onclick="event.stopPropagation(); nextCard()" class="w-14 h-14 rounded-full bg-primary text-white shadow-lg shadow-indigo-500/40 hover:bg-indigo-600 active:scale-95 transition-all text-xl flex items-center justify-center">
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
@@ -147,17 +150,14 @@
     </main>
 
     <script>
-        // --- CONFIG ---
-        const QUESTIONS_PER_SET = 25; // Chia 25 câu 1 bộ
+        const QUESTIONS_PER_SET = 25;
         const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
 
-        // --- STATE ---
         let allQuestions = [];
         let currentSetIndex = 0;
         let totalSets = 0;
-        let currentFcIndex = 0; // Vị trí trong set hiện tại
+        let currentFcIndex = 0;
 
-        // --- INIT ---
         initApp();
 
         function initApp() {
@@ -170,16 +170,13 @@
                 .then(res => res.text())
                 .then(text => {
                     allQuestions = parseQuestions(text);
-                    // Override đáp án
                     allQuestions.forEach(q => { if (overrides[q.id]) q.correct = overrides[q.id]; });
-                    
                     totalSets = Math.ceil(allQuestions.length / QUESTIONS_PER_SET);
                     renderSetSelector();
                     loadSet(0);
-                    
                     document.getElementById('loading').classList.add('hidden');
                 })
-                .catch(err => alert("Lỗi: Không tìm thấy questions.txt"));
+                .catch(err => alert("Lỗi tải file questions.txt"));
         }
 
         function parseQuestions(text) {
@@ -201,14 +198,10 @@
             });
         }
 
-        // --- LOGIC ---
         function renderSetSelector() {
             const list = document.getElementById('setList');
             list.innerHTML = "";
             for(let i = 0; i < totalSets; i++) {
-                const start = i * QUESTIONS_PER_SET + 1;
-                const end = Math.min((i + 1) * QUESTIONS_PER_SET, allQuestions.length);
-                
                 const btn = document.createElement('button');
                 btn.className = `flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-bold border transition-all whitespace-nowrap mr-2 ${i === 0 ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-slate-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-slate-700'}`;
                 btn.innerHTML = `Bộ ${i + 1}`;
@@ -221,17 +214,13 @@
         function loadSet(index) {
             currentSetIndex = index;
             currentFcIndex = 0;
-            
-            // Highlight nút set
             for(let i=0; i<totalSets; i++) {
                 const btn = document.getElementById(`btn-set-${i}`);
                 if(i === index) btn.className = "flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-bold border transition-all whitespace-nowrap mr-2 bg-indigo-600 text-white border-indigo-600 shadow-md";
                 else btn.className = "flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-bold border transition-all whitespace-nowrap mr-2 bg-white dark:bg-slate-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-slate-700";
             }
-            
-            // Reset trạng thái lật
             document.getElementById('card-inner').classList.remove('is-flipped');
-            renderCard();
+            setTimeout(() => renderCard(), 50);
         }
 
         function getCurrentSetQuestions() {
@@ -243,24 +232,46 @@
             const setQs = getCurrentSetQuestions();
             const q = setQs[currentFcIndex];
             
-            // Update info
+            // Front Info
             document.getElementById('fc-counter').innerText = `Câu ${currentFcIndex + 1}/${setQs.length}`;
             document.getElementById('fc-id-front').innerText = q.id;
-            
-            // Update Text Front
             document.getElementById('fc-question').innerText = q.text;
 
-            // Update Text Back (Correct Answer Only)
-            // Tìm nội dung của đáp án đúng (ví dụ "A" -> "Nội dung A")
-            const correctContent = q.options[q.correct] || "Không có dữ liệu đáp án";
-            document.getElementById('fc-answer').innerHTML = `<span class="text-yellow-300 text-3xl block mb-2">${q.correct}</span> ${correctContent}`;
+            // --- RENDER BACK FACE (FULL OPTIONS) ---
+            const listContainer = document.getElementById('fc-options-list');
+            listContainer.innerHTML = "";
 
-            // Update progress bar
+            for(const key in q.options) {
+                const isCorrect = (key === q.correct);
+                const div = document.createElement('div');
+                
+                // Style cho đáp án ĐÚNG và SAI
+                let itemClass = "";
+                let iconHtml = "";
+
+                if (isCorrect) {
+                    // Đúng: Nền trắng (hoặc sáng), chữ đậm, có icon check
+                    itemClass = "bg-white/20 border border-white/40 text-white font-bold shadow-sm backdrop-blur-sm";
+                    iconHtml = `<i class="fa-solid fa-circle-check text-yellow-300 text-lg ml-2 flex-shrink-0"></i>`;
+                } else {
+                    // Sai: Mờ hơn, nền tối hơn chút
+                    itemClass = "bg-indigo-800/30 border border-indigo-700/50 text-indigo-100/70 font-normal";
+                }
+
+                div.className = `relative p-3 rounded-xl flex items-start text-sm transition-all ${itemClass}`;
+                div.innerHTML = `
+                    <div class="w-6 flex-shrink-0 font-bold">${key}.</div>
+                    <div class="flex-grow leading-relaxed">${q.options[key]}</div>
+                    ${iconHtml}
+                `;
+                listContainer.appendChild(div);
+            }
+
+            // Progress Bar
             const pct = ((currentFcIndex + 1) / setQs.length) * 100;
             document.getElementById('progressBar').style.width = `${pct}%`;
         }
 
-        // --- INTERACTIONS ---
         function toggleFlip() {
             document.getElementById('card-inner').classList.toggle('is-flipped');
         }
@@ -268,17 +279,16 @@
         function nextCard() {
             const setQs = getCurrentSetQuestions();
             if(currentFcIndex < setQs.length - 1) {
-                // Lật lại mặt trước trước khi chuyển câu
                 document.getElementById('card-inner').classList.remove('is-flipped');
                 setTimeout(() => {
                     currentFcIndex++;
                     renderCard();
-                }, 200); // Đợi 200ms cho mượt
+                }, 200);
             } else {
                 if(currentSetIndex < totalSets - 1) {
                     if(confirm("Hết bộ này rồi. Qua bộ tiếp theo nha?")) loadSet(currentSetIndex + 1);
                 } else {
-                    alert("Chúc mừng! Bạn đã học hết tất cả các câu hỏi.");
+                    alert("Chúc mừng! Đã hoàn thành.");
                 }
             }
         }
@@ -298,7 +308,6 @@
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         }
 
-        // Hỗ trợ phím mũi tên
         document.addEventListener('keydown', (e) => {
             if(e.key === "ArrowRight") nextCard();
             if(e.key === "ArrowLeft") prevCard();
