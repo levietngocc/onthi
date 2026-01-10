@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ôn Thi Final</title>
+    <title>Ôn Thi Final Pro</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -28,24 +28,34 @@
 
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        .blur-mode .correct-bg { background-color: transparent !important; border-color: inherit !important; }
+        .blur-mode .correct-mark { display: none !important; }
+        .blur-mode .correct-circle { background-color: #f3f4f6 !important; color: #6b7280 !important; }
+        .dark .blur-mode .correct-circle { background-color: #334155 !important; color: #94a3b8 !important; }
     </style>
 </head>
 <body class="bg-gray-100 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
 
     <header class="fixed top-0 w-full z-50 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
-        <div class="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+        <div class="max-w-screen-xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
             
-            <div>
-                <h1 class="text-lg font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tight">ÔN THI</h1>
-                <span id="totalCount" class="text-[11px] text-gray-500 font-medium">Đang tải...</span>
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-slate-700 transition-all border border-gray-200 dark:border-slate-700" title="Về trang chủ">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+
+                <div class="flex flex-col">
+                    <h1 class="text-lg font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tight leading-tight">ÔN THI</h1>
+                    <span id="totalCount" class="text-[11px] text-gray-500 font-medium leading-none">Đang tải...</span>
+                </div>
             </div>
 
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-3">
                 <div class="flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg p-1 border border-gray-200 dark:border-slate-700">
                     <button onclick="adjustZoom(-1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <span class="w-10 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">100%</span>
+                    <span class="w-12 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">100%</span>
                     <button onclick="adjustZoom(1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -59,48 +69,47 @@
         </div>
         
         <div class="bg-white dark:bg-dark-bg border-b border-gray-100 dark:border-gray-800 px-4 py-3">
-            <div class="max-w-2xl mx-auto flex gap-3">
-                <input type="number" id="jumpInput" placeholder="Đến câu số..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
-                <button onclick="jumpToQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all">Đi</button>
+            <div class="max-w-5xl mx-auto flex gap-3">
+                <input type="number" id="jumpInput" placeholder="Nhập số câu cần đến..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
+                <button onclick="jumpToQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all whitespace-nowrap">
+                    Đi tới
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-2xl mx-auto px-4 pt-40" id="quizList">
+    <main class="max-w-5xl mx-auto px-4 pt-44" id="quizList">
         <div class="flex flex-col items-center justify-center py-20 space-y-4 text-gray-400">
             <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500"></i>
             <span class="text-sm font-medium">Đang tải dữ liệu...</span>
         </div>
     </main>
 
-    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-8 right-6 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-8 right-8 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
     <script>
-        // --- 1. ZOOM LOGIC ---
+        // --- ZOOM ---
         const root = document.documentElement;
         const zoomDisplay = document.getElementById('zoomDisplay');
         let currentSize = 16; 
-
-        if(localStorage.getItem('app_fontsize_v2')) {
-            currentSize = parseInt(localStorage.getItem('app_fontsize_v2'));
+        if(localStorage.getItem('app_fontsize_v3')) {
+            currentSize = parseInt(localStorage.getItem('app_fontsize_v3'));
             applyZoom();
         }
-
         function adjustZoom(delta) {
             currentSize += delta;
             if(currentSize < 5) currentSize = 5;
             applyZoom();
         }
-
         function applyZoom() {
             root.style.fontSize = currentSize + 'px';
-            localStorage.setItem('app_fontsize_v2', currentSize);
+            localStorage.setItem('app_fontsize_v3', currentSize);
             zoomDisplay.innerText = Math.round((currentSize/16)*100) + '%';
         }
 
-        // --- 2. THEME LOGIC ---
+        // --- THEME ---
         function toggleTheme() {
             root.classList.toggle('dark');
             localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
@@ -109,7 +118,7 @@
             root.classList.add('dark');
         }
 
-        // --- 3. DATA & RENDER ---
+        // --- DATA ---
         const quizList = document.getElementById("quizList");
         const totalCount = document.getElementById("totalCount");
         const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
@@ -130,7 +139,6 @@
                 const textQ = lines[1];
                 const options = {};
                 let correct = "";
-                
                 lines.slice(2).forEach(line => {
                     const match = line.match(/^(\*?)([A-D])\.\s*(.+)$/);
                     if (!match) return;
@@ -163,34 +171,24 @@
                             ${q.text}
                         </h3>
                     </div>
-                    <div class="flex flex-col gap-3">
-                `;
+                    <div class="grid grid-cols-1 gap-3">
+                `; // Dùng Grid để dễ tùy biến sau này
 
                 for (const key in q.options) {
                     const isRight = (key === q.correct);
-                    
-                    // --- STYLE LOGIC ---
-                    // Container:
-                    let containerClass = "relative flex items-center p-3 rounded-xl border-2 transition-all duration-200 ";
-                    
-                    // Circle Badge:
+                    let containerClass = "relative flex items-center p-3 rounded-xl border-2 transition-all duration-200 cursor-default ";
                     let circleClass = "w-9 h-9 flex items-center justify-center rounded-full text-sm font-bold mr-4 flex-shrink-0 transition-colors ";
-                    
-                    // Text:
                     let textClass = "text-sm text-gray-700 dark:text-gray-300 flex-grow font-medium leading-relaxed";
 
                     if (isRight) {
-                        // KHI ĐÚNG: Highlight Xanh
                         containerClass += " bg-emerald-50 dark:bg-emerald-900/10 border-emerald-500 dark:border-emerald-600";
                         circleClass += " bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-none";
                         textClass += " text-emerald-800 dark:text-emerald-300";
                     } else {
-                        // KHI THƯỜNG: Xám
                         containerClass += " border-transparent bg-gray-50 dark:bg-slate-800 border-gray-100 dark:border-slate-700";
                         circleClass += " bg-white dark:bg-slate-700 text-gray-500 dark:text-slate-400 border border-gray-200 dark:border-slate-600";
                     }
 
-                    // Icon Checkmark
                     const checkIcon = isRight ? `<div class="ml-3 text-emerald-500 dark:text-emerald-400 text-lg"><i class="fa-solid fa-circle-check"></i></div>` : ``;
 
                     html += `
@@ -201,25 +199,20 @@
                         </div>
                     `;
                 }
-
                 html += `</div>`;
                 card.innerHTML = html;
                 quizList.appendChild(card);
             });
         }
 
-        // --- 4. NAVIGATION ---
         function jumpToQuestion() {
             const val = document.getElementById('jumpInput').value;
             const el = document.getElementById(`q-${val}`);
             if(el) {
-                const headerOffset = 180; 
+                const headerOffset = 200; 
                 const elementPosition = el.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                
-                // Highlight
                 el.classList.add('ring-2', 'ring-indigo-500', 'ring-offset-4');
                 setTimeout(() => el.classList.remove('ring-2', 'ring-indigo-500', 'ring-offset-4'), 1500);
             } else {
