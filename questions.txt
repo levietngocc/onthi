@@ -366,15 +366,15 @@ C. Áp đặt tư tưởng
 53.
 Nhiệm vụ cơ bản trong đấu tranh phòng, chống lợi dụng vấn đề dân tộc, tôn giáo là gì?
 A. Tăng cường quản lý hành chính đối với các hoạt động tôn giáo
-B. Đẩy mạnh phát triển kinh tế ở vùng dân tộc, tôn giáo
-*C. Đấu tranh làm thất bại mọi âm mưu, thủ đoạn lợi dụng vấn đề dân tộc, tôn giáo
+*B. Đẩy mạnh phát triển kinh tế ở vùng dân tộc, tôn giáo
+C. Đấu tranh làm thất bại mọi âm mưu, thủ đoạn lợi dụng vấn đề dân tộc, tôn giáo
 D. Mở rộng quan hệ hợp tác quốc tế
 
 54.
 An ninh phi truyền thống nhằm bảo đảm điều gì?
-A. Sự ổn định chính trị
+*A. Sự ổn định chính trị
 B. Sự phát triển kinh tế
-*C. Sự tồn tại và phát triển của quốc gia, dân tộc
+C. Sự tồn tại và phát triển của quốc gia, dân tộc
 D. Trật tự an toàn xã hội
 
 55.
@@ -443,16 +443,16 @@ D. Ngày nước sạch
 64.
 An ninh lương thực thuộc loại an ninh nào?
 A. An ninh truyền thống
-*B. An ninh phi truyền thống
-C. An ninh quốc phòng
+B. An ninh phi truyền thống
+*C. An ninh quốc phòng
 D. An ninh chính trị
 
 65.
 Nội dung của an ninh phi truyền thống bao gồm?
-A. An ninh môi trường
+*A. An ninh môi trường
 B. An ninh lương thực
 C. An ninh con người
-*D. Tất cả các nội dung trên
+D. Tất cả các nội dung trên
 
 66.
 Nguyên nhân chủ yếu gây suy thoái môi trường là gì?
@@ -465,8 +465,8 @@ D. Do thiên tai
 Nguyên nhân chính gây ra nước biển dâng là gì?
 A. Ô nhiễm môi trường
 B. Phá rừng
-C. Khai thác khoáng sản
-*D. Biến đổi khí hậu
+*C. Khai thác khoáng sản
+D. Biến đổi khí hậu
 
 68.
 Nguyên nhân gây mất an ninh môi trường là gì?
@@ -491,10 +491,10 @@ C. Môi trường sinh thái
 
 71.
 Phòng, chống an ninh phi truyền thống là trách nhiệm của ai?
-A. Nhà nước
+*A. Nhà nước
 B. Lực lượng vũ trang
 C. Các tổ chức xã hội
-*D. Tất cả các nội dung trên
+D. Tất cả các nội dung trên
 
 72.
 Chủ thể tham gia bảo đảm an ninh phi truyền thống là ai?
@@ -506,8 +506,8 @@ D. Quân đội
 73.
 Nguyên tắc phòng, chống an ninh phi truyền thống là gì?
 A. Dựa vào lực lượng vũ trang
-B. Dựa vào Nhà nước
-*C. Phát huy sức mạnh tổng hợp của hệ thống chính trị và toàn xã hội
+*B. Dựa vào Nhà nước
+C. Phát huy sức mạnh tổng hợp của hệ thống chính trị và toàn xã hội
 D. Dựa vào cá nhân
 
 74.
@@ -603,10 +603,10 @@ D. Nhóm các hành vi khác
 
 87.
 Hành vi xả thải chưa qua xử lý ra môi trường thuộc nhóm nào?
-*A. Nhóm các hành vi gây ô nhiễm môi trường
+A. Nhóm các hành vi gây ô nhiễm môi trường
 B. Nhóm các hành vi hủy hoại tài nguyên
 C. Nhóm các hành vi vi phạm hành chính
-D. Nhóm các hành vi khác
+*D. Nhóm các hành vi khác
 
 88.
 Dấu hiệu nhận biết hành vi vi phạm pháp luật về bảo vệ môi trường là gì?
@@ -659,10 +659,10 @@ C. Quản lý
 
 95.
 Biện pháp phòng, chống vi phạm pháp luật về bảo vệ môi trường là gì?
-A. Tuyên truyền
+*A. Tuyên truyền
 B. Giáo dục
 C. Quản lý
-*D. Biện pháp phòng, chống vi phạm pháp luật về bảo vệ môi trường
+D. Biện pháp phòng, chống vi phạm pháp luật về bảo vệ môi trường
 
 96.
 Biện pháp nào thuộc phòng, chống vi phạm pháp luật về bảo vệ môi trường?
@@ -675,8 +675,8 @@ D. Nguyên tắc phòng, chống
 Biện pháp quan trọng trong phòng, chống vi phạm pháp luật về bảo vệ môi trường là gì?
 A. Tăng cường xử phạt
 B. Siết chặt quản lý
-*C. Biện pháp phòng, chống vi phạm pháp luật về bảo vệ môi trường
-D. Giáo dục ý thức
+C. Biện pháp phòng, chống vi phạm pháp luật về bảo vệ môi trường
+*D. Giáo dục ý thức
 
 98.
 Biện pháp cần thiết trong phòng, chống vi phạm pháp luật về bảo vệ môi trường là gì?
@@ -687,9 +687,9 @@ D. Xử lý hình sự
 
 99.
 Luật Trật tự, an toàn giao thông đường bộ được Quốc hội thông qua với nội dung nào?
-*A. Luật số 33/2024/QH15, gồm 9 chương, 89 điều, thông qua ngày 27/6/2024
+A. Luật số 33/2024/QH15, gồm 9 chương, 89 điều, thông qua ngày 27/6/2024
 B. Luật số 23/2023/QH15
-C. Luật số 45/2022/QH14
+*C. Luật số 45/2022/QH14
 D. Luật số 12/2021/QH14
 
 100.
@@ -701,10 +701,10 @@ D. Ngày 01 tháng 7 năm 2025
 
 101.
 Phòng, chống vi phạm pháp luật về trật tự an toàn giao thông đường bộ là gì?
-*A. Hoạt động phòng, chống vi phạm pháp luật về trật tự ATGT đường bộ
+A. Hoạt động phòng, chống vi phạm pháp luật về trật tự ATGT đường bộ
 B. Hoạt động tuyên truyền pháp luật
 C. Hoạt động quản lý hành chính
-D. Hoạt động kiểm tra, xử phạt
+*D. Hoạt động kiểm tra, xử phạt
 
 102.
 Chủ thể lãnh đạo cao nhất công tác phòng, chống vi phạm pháp luật về trật tự ATGT là ai?
@@ -744,9 +744,9 @@ D. Thanh tra
 107.
 Cơ quan nào thực hành quyền công tố trong xử lý vi phạm pháp luật về ATGT?
 A. Công an
-*B. Viện kiểm sát
+B. Viện kiểm sát
 C. Tòa án
-D. Thanh tra giao thông
+*D. Thanh tra giao thông
 
 108.
 Cơ quan nào thực hiện xét xử các vụ án vi phạm pháp luật về ATGT?
@@ -771,9 +771,9 @@ D. Cá nhân nước ngoài
 
 111.
 Chủ thể trực tiếp tham gia giao thông và chấp hành pháp luật về ATGT là ai?
-*A. Các công dân
+A. Các công dân
 B. Cán bộ công chức
-C. Lực lượng công an
+*C. Lực lượng công an
 D. Quân đội
 
 112.
@@ -841,8 +841,8 @@ D. Do phương tiện
 
 121.
 Người từ bao nhiêu tuổi trở lên phải chịu trách nhiệm hình sự?
-*A. Từ 16 tuổi trở lên
-B. Từ 15 tuổi trở lên
+A. Từ 16 tuổi trở lên
+*B. Từ 15 tuổi trở lên
 C. Từ 18 tuổi trở lên
 D. Từ 14 tuổi trở lên
 
@@ -883,16 +883,16 @@ C. Tội đe dọa
 
 127.
 Tội xâm phạm danh dự, nhân phẩm không thuộc nhóm nào?
-A. Nhóm tội xâm phạm quyền con người
+*A. Nhóm tội xâm phạm quyền con người
 B. Nhóm tội xâm phạm quyền tự do
 C. Nhóm tội xâm phạm dân chủ
-*D. Nhóm tội khác
+D. Nhóm tội khác
 
 128.
 Chủ thể nào tổ chức tiến hành các hoạt động phòng ngừa tội phạm?
 A. Tòa án
-B. Công an
-*C. Tổ chức tiến hành các hoạt động phòng ngừa tội phạm
+*B. Công an
+C. Tổ chức tiến hành các hoạt động phòng ngừa tội phạm
 D. Viện kiểm sát
 
 129.
@@ -1023,10 +1023,10 @@ C. 7 hành vi
 
 147.
 Spam nghĩa là gì?
-*A. Tin rác
+A. Tin rác
 B. Tin giả
 C. Tin mật
-D. Tin nội bộ
+*D. Tin nội bộ
 
 148.
 Các hình thức tấn công mạng phổ biến là gì?
@@ -1107,9 +1107,9 @@ D. Biện pháp tổ chức
 
 159.
 Hành vi thu thập trái phép mật khẩu được gọi là gì?
-*D. Dò mật khẩu
+D. Dò mật khẩu
 A. Lừa đảo
-B. Giả mạo
+*B. Giả mạo
 C. Phát tán mã độc
 
 160.
