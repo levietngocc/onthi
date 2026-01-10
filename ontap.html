@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ôn Thi App Final</title>
+    <title>Ôn Thi Final UI</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -18,7 +18,7 @@
                 fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
                 extend: {
                     colors: {
-                        primary: '#6366f1',
+                        primary: '#4f46e5', /* Indigo 600 */
                         dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' }
                     }
                 }
@@ -27,27 +27,29 @@
     </script>
 
     <style>
-        /* CSS để ẩn thanh cuộn nhưng vẫn cuộn được (cho gọn) */
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Hiệu ứng ẩn đáp án khi thi thử */
+        /* Logic ẩn đáp án khi thi thử */
         .blur-mode .correct-bg { background-color: transparent !important; border-color: inherit !important; }
         .blur-mode .correct-mark { display: none !important; }
-        .blur-mode .correct-text { color: inherit !important; font-weight: normal !important; }
-        .dark .blur-mode .correct-bg { border-color: #334155 !important; }
+        .blur-mode .correct-circle { 
+            background-color: #f3f4f6 !important; /* gray-100 */
+            color: #6b7280 !important; /* gray-500 */
+        }
+        .dark .blur-mode .correct-circle {
+            background-color: #334155 !important; /* slate-700 */
+            color: #94a3b8 !important; /* slate-400 */
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
+<body class="bg-gray-100 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
 
-    <header class="fixed top-0 w-full z-50 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+    <header class="fixed top-0 w-full z-50 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
         <div class="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
             
-            <div class="flex flex-col">
-                <h1 class="text-lg font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent uppercase tracking-wider">
-                    ÔN THI
-                </h1>
-                <span id="totalCount" class="text-[10px] text-gray-500 dark:text-gray-400 font-semibold">... câu hỏi</span>
+            <div>
+                <h1 class="text-lg font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tight">ÔN THI</h1>
+                <span id="totalCount" class="text-[11px] text-gray-500 font-medium">Đang tải...</span>
             </div>
 
             <div class="flex items-center gap-2">
@@ -55,7 +57,7 @@
                     <button onclick="adjustZoom(-1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <span class="w-8 text-center text-[10px] font-bold text-gray-500 dark:text-gray-400" id="zoomDisplay">100%</span>
+                    <span class="w-10 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">100%</span>
                     <button onclick="adjustZoom(1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -68,55 +70,52 @@
             </div>
         </div>
         
-        <div class="bg-white dark:bg-dark-bg border-b border-gray-100 dark:border-gray-800 px-4 py-2">
-            <div class="max-w-2xl mx-auto flex gap-2">
-                <input type="number" id="jumpInput" placeholder="Nhập số câu..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-primary dark:text-white">
-                <button onclick="jumpToQuestion()" class="bg-primary text-white px-4 py-1.5 rounded-md text-sm font-semibold whitespace-nowrap">Đi tới</button>
-                <button id="modeBtn" onclick="toggleMode()" class="bg-indigo-100 dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 px-3 py-1.5 rounded-md text-sm font-semibold whitespace-nowrap">
-                    <i class="fa-solid fa-eye"></i>
+        <div class="bg-white dark:bg-dark-bg border-b border-gray-100 dark:border-gray-800 px-4 py-3">
+            <div class="max-w-2xl mx-auto flex gap-3">
+                <input type="number" id="jumpInput" placeholder="Đến câu số..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
+                <button onclick="jumpToQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all">Đi</button>
+                <button id="modeBtn" onclick="toggleMode()" class="bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 px-4 py-2 rounded-lg text-sm font-bold border border-indigo-100 dark:border-slate-600 transition-all">
+                    <i class="fa-solid fa-eye mr-1"></i> Xem
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-2xl mx-auto px-4 pt-36" id="quizList">
-        <div class="text-center py-10 text-gray-400 italic">Đang tải dữ liệu...</div>
+    <main class="max-w-2xl mx-auto px-4 pt-40" id="quizList">
+        <div class="flex flex-col items-center justify-center py-20 space-y-4 text-gray-400">
+            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500"></i>
+            <span class="text-sm font-medium">Đang tải dữ liệu...</span>
+        </div>
     </main>
 
-    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-xl flex items-center justify-center z-40 hover:translate-y-[-2px] transition-all">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-8 right-6 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
     <script>
-        // --- 1. ZOOM LOGIC (UNLIMITED) ---
+        // --- 1. ZOOM LOGIC (0 to Unlimited) ---
         const root = document.documentElement;
         const zoomDisplay = document.getElementById('zoomDisplay');
-        // Mặc định 16px
         let currentSize = 16; 
 
-        if(localStorage.getItem('app_fontsize')) {
-            currentSize = parseInt(localStorage.getItem('app_fontsize'));
+        if(localStorage.getItem('app_fontsize_v2')) {
+            currentSize = parseInt(localStorage.getItem('app_fontsize_v2'));
             applyZoom();
         }
 
         function adjustZoom(delta) {
             currentSize += delta;
-            // GIỚI HẠN: Cho phép xuống tới 5px (gần như 0 theo yêu cầu)
-            if(currentSize < 5) currentSize = 5; 
-            // Max thì cứ để thoải mái
-            if(currentSize > 40) currentSize = 40;
-            
+            if(currentSize < 5) currentSize = 5; // Min limit 5px
             applyZoom();
         }
 
         function applyZoom() {
             root.style.fontSize = currentSize + 'px';
-            localStorage.setItem('app_fontsize', currentSize);
-            // Hiển thị % tượng trưng
+            localStorage.setItem('app_fontsize_v2', currentSize);
             zoomDisplay.innerText = Math.round((currentSize/16)*100) + '%';
         }
 
-        // --- 2. THEME ---
+        // --- 2. THEME LOGIC ---
         function toggleTheme() {
             root.classList.toggle('dark');
             localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
@@ -137,7 +136,7 @@
                 const questions = parseQuestions(text);
                 render(questions);
             })
-            .catch(err => quizList.innerHTML = "<p class='text-center text-red-500'>Lỗi tải file questions.txt</p>");
+            .catch(err => quizList.innerHTML = `<div class='bg-red-50 text-red-500 p-4 rounded-xl text-center border border-red-200'><b>Lỗi:</b> Không tìm thấy file questions.txt</div>`);
 
         function parseQuestions(text) {
             const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
@@ -162,51 +161,63 @@
 
         function render(questions) {
             quizList.innerHTML = "";
-            totalCount.innerText = `${questions.length} CÂU`;
+            totalCount.innerText = `${questions.length} CÂU HỎI`;
 
             questions.forEach(q => {
                 const card = document.createElement("div");
-                // Layout Card
                 card.id = `q-${q.id}`;
-                card.className = "group bg-white dark:bg-dark-card p-5 rounded-xl border border-gray-200 dark:border-dark-border shadow-sm mb-4 scroll-mt-40";
+                // Card Style: Shadow đẹp, bo góc
+                card.className = "group bg-white dark:bg-dark-card p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm mb-6 scroll-mt-48 transition-all hover:shadow-md";
 
                 let html = `
-                    <div class="flex gap-3 mb-3">
-                        <span class="flex-shrink-0 bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded text-xs font-bold h-fit">
-                            #${q.id}
-                        </span>
-                        <h3 class="text-base font-semibold leading-relaxed text-gray-900 dark:text-gray-100">
+                    <div class="flex flex-col gap-3 mb-5">
+                        <div class="inline-flex">
+                            <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm shadow-indigo-200 dark:shadow-none">
+                                Câu ${q.id}
+                            </span>
+                        </div>
+                        <h3 class="text-base font-bold leading-relaxed text-gray-800 dark:text-gray-100">
                             ${q.text}
                         </h3>
                     </div>
-                    <div class="flex flex-col gap-2.5">
+                    <div class="flex flex-col gap-3">
                 `;
 
                 for (const key in q.options) {
                     const isRight = (key === q.correct);
                     
-                    // Style cơ bản
-                    let containerClass = "relative flex items-start p-3 rounded-lg border border-transparent bg-gray-50 dark:bg-slate-800/50 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700/80 transition-all";
-                    let labelClass = "font-bold text-gray-400 dark:text-slate-500 w-6 flex-shrink-0 pt-[2px]"; // Cố định chiều rộng chữ A,B,C,D
-                    let textClass = "text-sm text-gray-600 dark:text-slate-300 flex-grow leading-relaxed"; // flex-grow để đẩy icon ra
+                    // --- STYLE LOGIC ---
+                    // Container: Mặc định xám nhạt, viền ẩn
+                    let containerClass = "relative flex items-center p-3 rounded-xl border-2 cursor-pointer transition-all duration-200 group/opt ";
                     
-                    // Style Đúng (Ẩn hiện bằng JS class toggle)
+                    // Vòng tròn A, B, C: Mặc định xám
+                    let circleClass = "correct-circle w-9 h-9 flex items-center justify-center rounded-full text-sm font-bold mr-4 flex-shrink-0 transition-colors ";
+                    
+                    // Text
+                    let textClass = "text-sm text-gray-700 dark:text-gray-300 flex-grow font-medium leading-relaxed";
+
                     if (isRight) {
-                        containerClass += " correct-bg bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 dark:border-emerald-700";
-                        labelClass = " correct-text text-emerald-600 dark:text-emerald-400";
-                        textClass += " correct-text text-emerald-800 dark:text-emerald-300 font-medium";
+                        // KHI ĐÚNG:
+                        // Container: Nền xanh nhạt, Viền xanh
+                        containerClass += " correct-bg bg-emerald-50 dark:bg-emerald-900/10 border-emerald-500 dark:border-emerald-600";
+                        // Circle: Nền xanh đậm, chữ trắng
+                        circleClass += " bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-none";
+                        // Text: Màu xanh đậm
+                        textClass += " correct-text text-emerald-800 dark:text-emerald-300";
                     } else {
-                        containerClass += " border-gray-100 dark:border-slate-700";
+                        // KHI THƯỜNG:
+                        containerClass += " border-transparent bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-750 hover:border-gray-200 dark:hover:border-slate-600";
+                        circleClass += " bg-white dark:bg-slate-700 text-gray-500 dark:text-slate-400 border border-gray-200 dark:border-slate-600 group-hover/opt:border-gray-300";
                     }
 
-                    // ICON TICK: Dùng flex-shrink-0 để không bị bóp méo, ml-2 để cách chữ ra
-                    const tickIcon = isRight ? `<div class="correct-mark flex-shrink-0 text-emerald-500 dark:text-emerald-400 ml-2 pt-[2px]"><i class="fa-solid fa-check"></i></div>` : ``;
+                    // Icon Checkmark (Dùng absolute right nhưng đảm bảo padding-right cho text)
+                    const checkIcon = isRight ? `<div class="correct-mark ml-3 text-emerald-500 dark:text-emerald-400 text-lg"><i class="fa-solid fa-circle-check"></i></div>` : ``;
 
                     html += `
                         <div class="${containerClass}" onclick="reveal(this)">
-                            <div class="${labelClass}">${key}</div>
+                            <div class="${circleClass}">${key}</div>
                             <div class="${textClass}">${q.options[key]}</div>
-                            ${tickIcon}
+                            ${checkIcon}
                         </div>
                     `;
                 }
@@ -226,28 +237,30 @@
             
             if(isStudyMode) {
                 main.classList.remove('blur-mode');
-                btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
-                btn.className = "bg-indigo-100 dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 px-3 py-1.5 rounded-md text-sm font-semibold";
+                btn.innerHTML = '<i class="fa-solid fa-eye mr-1"></i> Xem';
+                btn.className = "bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 px-4 py-2 rounded-lg text-sm font-bold border border-indigo-100 dark:border-slate-600 transition-all";
             } else {
                 main.classList.add('blur-mode');
-                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
-                btn.className = "bg-amber-100 dark:bg-slate-700 text-amber-700 dark:text-amber-300 px-3 py-1.5 rounded-md text-sm font-semibold";
+                btn.innerHTML = '<i class="fa-solid fa-eye-slash mr-1"></i> Thi';
+                btn.className = "bg-amber-50 dark:bg-slate-700 text-amber-600 dark:text-amber-400 px-4 py-2 rounded-lg text-sm font-bold border border-amber-100 dark:border-slate-600 transition-all";
             }
         }
 
         function reveal(el) {
-            // Khi đang ở chế độ ẩn đáp án, bấm vào thì hiện
+            // Click để hiện đáp án khi đang thi thử
             if (!isStudyMode && el.classList.contains('correct-bg')) {
-                // Force style hiển thị
-                el.style.setProperty('background-color', 'rgba(16, 185, 129, 0.1)', 'important');
-                el.style.setProperty('border-color', '#10b981', 'important');
-                const label = el.querySelector('div:first-child');
-                const text = el.querySelector('div:nth-child(2)');
-                if(label) label.style.color = '#059669';
-                if(text) {
-                    text.style.color = '#065f46';
-                    text.style.fontWeight = '600';
+                // Force styles via inline css
+                el.style.backgroundColor = '#ecfdf5'; // emerald-50
+                el.style.borderColor = '#10b981';     // emerald-500
+                
+                const circle = el.querySelector('.correct-circle');
+                if(circle) {
+                    circle.style.backgroundColor = '#10b981';
+                    circle.style.color = '#ffffff';
                 }
+                
+                const text = el.querySelector('div:nth-child(2)');
+                if(text) text.style.color = '#065f46'; // emerald-800
             }
         }
 
@@ -255,15 +268,17 @@
             const val = document.getElementById('jumpInput').value;
             const el = document.getElementById(`q-${val}`);
             if(el) {
-                // Tính toán offset để tránh header che mất
-                const headerOffset = 140; 
+                const headerOffset = 180; 
                 const elementPosition = el.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
                 
-                el.classList.add('ring-2', 'ring-primary');
-                setTimeout(() => el.classList.remove('ring-2', 'ring-primary'), 2000);
+                // Hiệu ứng highlight
+                el.classList.add('ring-2', 'ring-indigo-500', 'ring-offset-4');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-indigo-500', 'ring-offset-4'), 1500);
+            } else {
+                alert("Không tìm thấy câu " + val);
             }
         }
     </script>
