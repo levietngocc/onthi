@@ -2,134 +2,232 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Học Thuộc Lòng </title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Học Thuộc Lòng - Pro Version</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f3f4f6;
-      color: #1f2937;
-      margin: 0;
-      padding-bottom: 60px;
+    :root {
+      --primary-color: #059669; /* Green 600 */
+      --primary-light: #d1fae5; /* Green 100 */
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #334155;
+      --text-sub: #64748b;
+      --border-color: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --base-font-size: 16px;
     }
 
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding-bottom: 80px;
+      font-size: var(--base-font-size);
+      transition: font-size 0.2s ease;
+    }
+
+    /* --- HEADER & CONTROLS --- */
     .sticky-header {
       position: sticky;
       top: 0;
-      background: #ffffff;
-      border-bottom: 2px solid #10b981;
-      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 20px;
       z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
     .back-btn {
       text-decoration: none;
-      color: #374151;
+      color: var(--text-main);
+      background: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 8px;
       font-weight: 600;
-      background: #e5e7eb;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 14px;
-      transition: background 0.2s;
+      font-size: 0.9em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
     }
-    .back-btn:hover { background: #d1d5db; }
+    .back-btn:hover { background: #e2e8f0; }
 
+    .zoom-controls {
+      display: flex;
+      gap: 5px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .zoom-btn {
+      background: white;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .zoom-btn:active { transform: scale(0.95); background: #f8fafc; }
+
+    /* --- CONTAINER --- */
     .container {
       max-width: 800px;
-      margin: 30px auto;
-      padding: 0 20px;
+      margin: 25px auto;
+      padding: 0 16px;
     }
 
-    /* Khung câu hỏi */
+    /* --- QUESTION CARD --- */
     .question-card {
-      background: #ffffff;
-      border-radius: 12px;
+      background: var(--card-bg);
+      border-radius: 16px;
       padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-      border: 1px solid #e5e7eb;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dải màu trang trí bên trái thẻ */
+    .question-card::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 6px;
+      background: var(--primary-color);
     }
 
     .question-header {
       display: flex;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .q-number {
-      background-color: #374151;
+      background: var(--primary-color);
       color: white;
       padding: 4px 10px;
       border-radius: 6px;
-      font-weight: bold;
-      font-size: 14px;
+      font-weight: 700;
+      font-size: 0.85em;
       height: fit-content;
+      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
       white-space: nowrap;
     }
 
     .question-text {
-      font-size: 1.1rem;
+      font-size: 1.1em;
       font-weight: 600;
-      line-height: 1.5;
-      color: #111;
+      line-height: 1.6;
+      color: #1e293b;
     }
 
-    /* Danh sách đáp án */
+    /* --- OPTIONS LIST --- */
     .options-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .option-item {
-      padding: 12px 16px;
-      border-radius: 8px;
-      border: 1px solid transparent; /* Viền trong suốt để canh lề đều */
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
       background-color: #fff;
-      font-size: 15px;
-      line-height: 1.4;
+      font-size: 1em;
+      line-height: 1.5;
+      color: var(--text-main);
+      transition: all 0.2s;
     }
 
-    /* Style cho đáp án ĐÚNG (Hiện luôn) */
+    /* Style ĐÁP ÁN ĐÚNG */
     .option-item.is-correct {
-      background-color: #d1fae5; /* Nền xanh lá nhạt */
-      border: 1px solid #10b981; /* Viền xanh */
-      color: #065f46; /* Chữ xanh đậm */
-      font-weight: 700; /* In đậm */
+      background-color: #ecfdf5; /* Xanh rất nhạt */
+      border: 1px solid var(--primary-color);
+      color: #064e3b;
+      font-weight: 600;
+      position: relative;
+      padding-right: 40px; /* Chừa chỗ cho dấu tích */
     }
 
-    /* Style cho đáp án thường */
+    /* Dấu tích ✔ cho đáp án đúng */
+    .option-item.is-correct::after {
+      content: "✔";
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2em;
+      color: var(--primary-color);
+    }
+
+    /* Style ĐÁP ÁN THƯỜNG */
     .option-item.is-normal {
-      color: #4b5563;
-      border: 1px solid #f3f4f6; /* Viền mờ cho dễ nhìn dòng */
+      opacity: 0.85;
     }
 
-    /* Nút cuộn lên đầu trang */
+    /* --- SCROLL BUTTON --- */
     #scrollTopBtn {
-      position: fixed; bottom: 30px; right: 30px;
-      background: #10b981; color: white;
-      width: 50px; height: 50px; border-radius: 50%;
-      border: none; font-size: 24px; cursor: pointer; display: none;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      position: fixed; bottom: 25px; right: 25px;
+      background: var(--primary-color); color: white;
+      width: 48px; height: 48px; border-radius: 50%;
+      border: none; font-size: 22px; cursor: pointer; display: none;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+      z-index: 900;
+      transition: transform 0.2s;
+    }
+    #scrollTopBtn:hover { transform: translateY(-3px); }
+
+    /* Mobile Responsive tweaks */
+    @media (max-width: 600px) {
+      .question-card { padding: 16px; border-radius: 12px; }
+      .q-number { font-size: 0.75em; }
+      .header-left span { display: none; } /* Ẩn chữ 'Quay lại' trên màn hình bé tí */
     }
   </style>
 </head>
 <body>
 
   <div class="sticky-header">
-    <a href="index.html" class="back-btn">⬅ Quay lại Menu</a>
-    <h3 style="margin:0; color: #10b981;">HỌC THUỘC LÒNG</h3>
-    <div style="font-size:14px; font-weight:bold" id="total-count">...</div>
+    <div class="header-left">
+      <a href="index.html" class="back-btn">⬅ <span>Menu</span></a>
+      <div style="font-size: 0.9em; font-weight: 700; color: var(--primary-color);" id="total-count">...</div>
+    </div>
+
+    <div class="zoom-controls">
+      <button class="zoom-btn" onclick="adjustZoom(-1)" title="Thu nhỏ">A-</button>
+      <button class="zoom-btn" onclick="adjustZoom(1)" title="Phóng to">A+</button>
+    </div>
   </div>
 
   <div class="container">
-    <div id="quiz">Đang tải dữ liệu...</div>
+    <div id="quiz">
+      <div style="text-align:center; color: #64748b; margin-top: 50px;">
+        Đang tải dữ liệu...
+      </div>
+    </div>
   </div>
 
   <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">⬆</button>
@@ -137,7 +235,26 @@
   <script>
     const quizDiv = document.getElementById("quiz");
     
-    // 🔧 10 câu override đáp án (Giữ nguyên logic sửa sai)
+    // --- 1. LOGIC ZOOM (Cỡ chữ) ---
+    let currentFontSize = 16; // Mặc định 16px
+    
+    // Kiểm tra xem người dùng có lưu cài đặt cũ không
+    if(localStorage.getItem('quizFontSize')) {
+      currentFontSize = parseInt(localStorage.getItem('quizFontSize'));
+      document.body.style.fontSize = currentFontSize + 'px';
+    }
+
+    function adjustZoom(amount) {
+      currentFontSize += amount;
+      // Giới hạn zoom: Min 12px, Max 26px
+      if (currentFontSize < 12) currentFontSize = 12;
+      if (currentFontSize > 26) currentFontSize = 26;
+      
+      document.body.style.fontSize = currentFontSize + 'px';
+      localStorage.setItem('quizFontSize', currentFontSize); // Lưu lại cho lần sau
+    }
+
+    // --- 2. LOGIC DỮ LIỆU CÂU HỎI ---
     const answerOverrides = {
       3: "B", 4: "A", 32: "B", 37: "C", 48: "A",
       122: "D", 137: "D", 148: "D", 156: "D", 158: "B"
@@ -148,14 +265,18 @@
       .then(text => {
         let questions = parseQuestions(text);
         
-        // Sửa đáp án sai trước khi hiển thị
         questions.forEach(q => {
           if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
         });
 
         renderStudyMode(questions);
       })
-      .catch(err => quizDiv.innerHTML = "Lỗi: Không tìm thấy file questions.txt");
+      .catch(err => {
+        quizDiv.innerHTML = `<div style="text-align:center; padding:20px; color:red;">
+          <b>Lỗi:</b> Không tìm thấy file <code>questions.txt</code>.<br>
+          Hãy đảm bảo file này nằm cùng thư mục với file .html
+        </div>`;
+      });
 
     function parseQuestions(text) {
       const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
@@ -167,13 +288,9 @@
         let correct = "";
         
         lines.slice(2).forEach(line => {
+          // Regex linh hoạt hơn để bắt trường hợp có dấu * hoặc không
           const match = line.match(/^(\*?)([A-D])\.\s*(.+)$/);
-          if (!match) {
-             const [, star, key, value] = line.match(/^(\*?)([A-D])\.\s*(.+)$/) || [];
-             if(key) options[key] = value; 
-             if(star) correct = key;
-             return;
-          }
+          if (!match) return;
           const [, star, key, value] = match;
           options[key] = value;
           if (star) correct = key;
@@ -184,7 +301,7 @@
 
     function renderStudyMode(questions) {
       quizDiv.innerHTML = "";
-      document.getElementById("total-count").innerText = `${questions.length} Câu`;
+      document.getElementById("total-count").innerText = `${questions.length} CÂU`;
 
       questions.forEach(q => {
         const qCard = document.createElement("div");
@@ -192,22 +309,19 @@
 
         let html = `
           <div class="question-header">
-            <div class="q-number">Câu ${q.id}</div>
+            <div class="q-number">#${q.id}</div>
             <div class="question-text">${q.text}</div>
           </div>
           <div class="options-list">
         `;
 
-        // Duyệt qua từng đáp án
         for (const key in q.options) {
-          // Kiểm tra nếu đây là đáp án đúng -> Thêm class 'is-correct'
           const isRight = (key === q.correct);
           const itemClass = isRight ? "is-correct" : "is-normal";
           
-          // Chỉ hiển thị Text, bỏ thẻ <input>
           html += `
             <div class="option-item ${itemClass}">
-              <b>${key}.</b> ${q.options[key]}
+              <b style="margin-right:5px;">${key}.</b> ${q.options[key]}
             </div>
           `;
         }
@@ -218,7 +332,7 @@
       });
     }
 
-    // Scroll button
+    // Scroll button logic
     window.onscroll = function() {
       const btn = document.getElementById("scrollTopBtn");
       if (document.documentElement.scrollTop > 300) btn.style.display = "block";
