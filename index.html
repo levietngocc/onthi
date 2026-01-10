@@ -3,338 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Testing - Ôn tập & Kiểm tra</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <title>Software Testing Portal</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    mono: ['JetBrains Mono', 'monospace'],
+                },
+                extend: {
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        :root {
-            --primary-color: #6366f1;
-            --secondary-color: #a855f7;
-            --text-main: #1e293b;
-            --text-sub: #64748b;
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --card-hover-shadow: 0 20px 40px -5px rgba(99, 102, 241, 0.15);
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Animated Background Mesh - Hiệu ứng nền chuyển động */
-        .bg-mesh {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                        radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-                        radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+        /* CSS cho Background Mesh Gradient động */
+        .bg-animated {
             background: linear-gradient(-45deg, #e0e7ff, #f3e8ff, #dbeafe, #fae8ff);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
         }
-
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        /* Decorative Shapes - Các hình khối mờ ảo phía sau */
-        .shape {
-            position: absolute;
-            filter: blur(80px);
-            opacity: 0.6;
-            z-index: -1;
-            animation: float 8s infinite ease-in-out;
-        }
-        .shape-1 {
-            top: -10%;
-            left: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #818cf8 0%, rgba(129,140,248,0) 70%);
-            animation-delay: 0s;
-        }
-        .shape-2 {
-            bottom: -10%;
-            right: -5%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #f472b6 0%, rgba(244,114,182,0) 70%);
-            animation-delay: -4s;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(20px, -30px); }
-            100% { transform: translate(0, 0); }
-        }
-
-        /* Main Container */
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            padding: 48px 40px;
-            border-radius: 32px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 
-                0 4px 6px -1px rgba(0, 0, 0, 0.05),
-                0 20px 40px -5px rgba(0, 0, 0, 0.05),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-            max-width: 440px;
-            width: 85%;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Header Styles */
-        .badge {
-            background: linear-gradient(135deg, #4f46e5, #9333ea);
-            color: white;
-            font-size: 0.75em;
-            font-weight: 700;
-            padding: 6px 16px;
-            border-radius: 100px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            display: inline-block;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
-        }
-
-        h1 {
-            margin: 0 0 12px 0;
-            font-size: 2.2em;
-            font-weight: 800;
-            background: linear-gradient(to right, #1e1b4b, #4338ca);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
-            line-height: 1.2;
-        }
-
-        p.subtitle {
-            color: var(--text-sub);
-            font-size: 1.05em;
-            margin-bottom: 40px;
-            line-height: 1.6;
-            font-weight: 500;
-        }
-
-        /* Menu Grid */
-        .menu-grid {
-            display: grid;
-            gap: 16px;
-        }
-
-        .menu-card {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: white;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Hiệu ứng lướt sáng khi hover */
-        .menu-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0));
-            transform: translateX(-100%);
-            transition: 0.5s;
-        }
-
-        .menu-card:hover::after {
-            transform: translateX(100%);
-        }
-
-        .menu-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: var(--card-hover-shadow);
-            border-color: transparent;
-        }
-
-        .icon-box {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin-right: 18px;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .menu-card:hover .icon-box {
-            transform: scale(1.1) rotate(-5deg);
-        }
-
-        .text-content {
-            text-align: left;
-            flex: 1;
-        }
-
-        .card-title {
-            display: block;
-            font-size: 1.1em;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 4px;
-        }
-
-        .card-desc {
-            display: block;
-            font-size: 0.85em;
-            color: var(--text-sub);
-            font-weight: 500;
-        }
-
-        /* Specific Card Styles - Màu sắc riêng cho từng thẻ */
         
-        /* 1. Kiểm tra (Red/Orange) */
-        .card-exam .icon-box {
-            background: #fff1f2;
-            color: #e11d48;
-        }
-        
-        /* 2. Ôn tập (Green/Teal) */
-        .card-study .icon-box {
-            background: #ecfdf5;
-            color: #059669;
-        }
-        
-        /* 3. Câu hỏi ngắn (Blue/Indigo) */
-        .card-short .icon-box {
-            background: #eef2ff;
-            color: #4f46e5;
-        }
-        
-        /* Arrow Icon Animation */
-        .arrow-icon {
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.3s ease;
-            color: var(--text-sub);
-        }
-        .menu-card:hover .arrow-icon {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Footer Style */
-        .footer {
-            margin-top: 32px;
-            padding-top: 20px;
-            border-top: 1px dashed #cbd5e1;
-            text-align: center;
-        }
-
-        .created-by {
-            font-size: 0.8em;
-            color: #94a3b8;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-        
-        .author-name {
-            font-family: 'JetBrains Mono', monospace; /* Font code nhìn cho ngầu */
-            color: var(--primary-color);
-            font-weight: 600;
-            background: rgba(99, 102, 241, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 4px;
-        }
-        
-        @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
-                width: 90%;
-            }
-            h1 { font-size: 1.8em; }
+        /* Hiệu ứng kính mờ (Glassmorphism) */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
-<body>
+<body class="bg-animated min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
 
-    <div class="bg-mesh"></div>
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
+    <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob"></div>
+    <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob animation-delay-4000"></div>
 
-    <div class="container">
-        <span class="badge">Quiz Portal</span>
-        <h1>Software Testing</h1>
- 
-
-  <div class="menu-grid">
-       <a href="ontap.html" class="menu-card card-study">
-        <div class="icon-box">
-            <i class="ph ph-book-open-text"></i>
+    <div class="glass relative z-10 w-full max-w-md rounded-3xl p-8 shadow-2xl animate-float">
+        
+        <div class="text-center mb-8">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-bold uppercase tracking-widest shadow-lg shadow-indigo-500/30 mb-4">
+                Quiz Portal
+            </span>
+            <h1 class="text-4xl font-extrabold text-slate-800 tracking-tight leading-tight mb-2">
+                Software <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Testing</span>
+            </h1>
+            <p class="text-slate-500 font-medium text-sm">Hệ thống ôn tập & kiểm tra trắc nghiệm</p>
         </div>
-        <div class="text-content">
-            <span class="card-title">Ôn Tập</span>
-        </div>
-        <i class="ph ph-caret-right arrow-icon"></i>
-    </a>
 
-    <a href="card.html" class="menu-card card-flash">
-        <div class="icon-box">
-            <i class="ph ph-cards"></i>
-        </div>
-        <div class="text-content">
-            <span class="card-title">Flashcard</span>
-        </div>
-        <i class="ph ph-caret-right arrow-icon"></i>
-    </a>
+        <div class="flex flex-col gap-4">
+            
+            <a href="ontap.html" class="group flex items-center p-4 bg-white/60 hover:bg-white border border-white/50 rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10 hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                    <i class="ph-fill ph-book-open-text"></i>
+                </div>
+                <div class="ml-4 flex-1">
+                    <h3 class="text-lg font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">Ôn Tập</h3>
+                    <p class="text-xs text-slate-500 font-medium">Luyện tập theo danh sách</p>
+                </div>
+                <div class="w-8 h-8 rounded-full flex items-center justify-center text-slate-300 group-hover:text-indigo-600 group-hover:bg-indigo-50 transition-all">
+                    <i class="ph-bold ph-caret-right"></i>
+                </div>
+            </a>
 
+            <a href="flashcard.html" class="group flex items-center p-4 bg-white/60 hover:bg-white border border-white/50 rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300">
+                    <i class="ph-fill ph-cards"></i>
+                </div>
+                <div class="ml-4 flex-1">
+                    <h3 class="text-lg font-bold text-slate-700 group-hover:text-amber-600 transition-colors">Flashcard</h3>
+                    <p class="text-xs text-slate-500 font-medium">Học nhanh ghi nhớ lâu</p>
+                </div>
+                <div class="w-8 h-8 rounded-full flex items-center justify-center text-slate-300 group-hover:text-amber-500 group-hover:bg-amber-50 transition-all">
+                    <i class="ph-bold ph-caret-right"></i>
+                </div>
+            </a>
 
-       <a href="kiemtra.html" class="menu-card card-exam">
-        <div class="icon-box">
-            <i class="ph ph-timer"></i>
-        </div>
-        <div class="text-content">
-            <span class="card-title">Kiểm Tra</span>
-        </div>
-        <i class="ph ph-caret-right arrow-icon"></i>
-    </a>
-</div>
+            <a href="kiemtra.html" class="group flex items-center p-4 bg-white/60 hover:bg-white border border-white/50 rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-rose-500/10 hover:-translate-y-1">
+                <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                    <i class="ph-fill ph-timer"></i>
+                </div>
+                <div class="ml-4 flex-1">
+                    <h3 class="text-lg font-bold text-slate-700 group-hover:text-rose-600 transition-colors">Kiểm Tra</h3>
+                    <p class="text-xs text-slate-500 font-medium">Thi thử tính thời gian</p>
+                </div>
+                <div class="w-8 h-8 rounded-full flex items-center justify-center text-slate-300 group-hover:text-rose-500 group-hover:bg-rose-50 transition-all">
+                    <i class="ph-bold ph-caret-right"></i>
+                </div>
+            </a>
 
-        <div class="footer">
-            <div class="created-by">
-                created by <span class="author-name">vietngoc</span>
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-indigo-100 flex flex-col items-center gap-4">
+            
+            <button onclick="copyZalo()" class="group relative flex items-center gap-3 px-5 py-2.5 bg-white/50 hover:bg-white border border-white/60 rounded-full shadow-sm hover:shadow-md transition-all active:scale-95 cursor-pointer">
+                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span class="text-xs font-semibold text-slate-500 group-hover:text-slate-700">
+                    Sai sót liên hệ Zalo: 
+                    <span class="font-mono font-bold text-indigo-600 text-sm ml-1 group-hover:underline decoration-indigo-300 decoration-2 underline-offset-2">0325.591.025</span>
+                </span>
+                <span id="copyTooltip" class="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-800 text-white text-[10px] rounded opacity-0 transition-opacity pointer-events-none">Đã copy!</span>
+            </button>
+
+            <div class="text-[10px] font-medium text-slate-400 flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-opacity cursor-default">
+                <span>crafted with</span>
+                <i class="ph-fill ph-heart text-rose-400 animate-pulse text-xs"></i>
+                <span>by</span>
+                <span class="font-mono text-sm font-bold bg-gradient-to-r from-violet-600 via-fuchsia-500 to-indigo-600 bg-clip-text text-transparent hover:scale-110 transition-transform inline-block">
+                    &lt;vietngoc/&gt;
+                </span>
             </div>
         </div>
+
     </div>
 
+    <script>
+        function copyZalo() {
+            const phone = "0325591025";
+            navigator.clipboard.writeText(phone).then(() => {
+                const tooltip = document.getElementById('copyTooltip');
+                tooltip.classList.remove('opacity-0');
+                tooltip.classList.add('opacity-100');
+                
+                setTimeout(() => {
+                    tooltip.classList.remove('opacity-100');
+                    tooltip.classList.add('opacity-0');
+                }, 1500);
+            });
+        }
+    </script>
 </body>
 </html>
