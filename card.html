@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ôn Thi Master</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' }
+                    },
+                    animation: {
+                        'flip-in': 'flipIn 0.4s ease-out',
+                    },
+                    keyframes: {
+                        flipIn: {
+                            '0%': { opacity: '0', transform: 'rotateX(-10deg) translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'rotateX(0) translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Radio Custom */
+        input[type="radio"]:checked + div { border-color: #4f46e5; background-color: #eef2ff; }
+        .dark input[type="radio"]:checked + div { border-color: #6366f1; background-color: rgba(99, 102, 241, 0.1); }
+        input[type="radio"]:checked + div .radio-dot { border-color: #4f46e5; background-color: #4f46e5; box-shadow: 0 0 0 3px #eef2ff; }
+        .dark input[type="radio"]:checked + div .radio-dot { border-color: #6366f1; background-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+        
+        /* Zoom container */
+        #mainContainer { transition: font-size 0.2s; font-size: 16px; }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 h-screen flex flex-col overflow-hidden">
+
+    <header class="flex-none z-50 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-400 hover:text-primary transition-all">
+                    <i class="fa-solid fa-house text-xs"></i>
+                </a>
+                
+                <div class="flex bg-gray-100 dark:bg-slate-800 p-1 rounded-lg border border-gray-200 dark:border-slate-700">
+                    <button onclick="switchMode('list')" id="btn-list" class="px-3 py-1 rounded-md text-xs font-bold transition-all shadow-sm bg-white dark:bg-slate-600 text-primary dark:text-white">
+                        <i class="fa-solid fa-list-ul mr-1"></i> List
+                    </button>
+                    <button onclick="switchMode('flashcard')" id="btn-flashcard" class="px-3 py-1 rounded-md text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all">
+                        <i class="fa-solid fa-layer-group mr-1"></i> Card
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <div class="hidden sm:flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg p-1 border border-gray-200 dark:border-slate-700">
+                    <button onclick="adjustZoom(-1)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 text-[10px]"><i class="fa-solid fa-minus"></i></button>
+                    <span id="zoomDisplay" class="text-[10px] font-bold w-8 text-center">16</span>
+                    <button onclick="adjustZoom(1)" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 text-[10px]"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <button onclick="toggleTheme()" class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-yellow-400 hover:bg-gray-200 transition-all">
+                    <i class="fa-solid fa-moon dark:hidden text-xs"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline text-xs"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-100 dark:border-slate-800 bg-white dark:bg-dark-bg">
+            <div class="max-w-5xl mx-auto px-4 py-2 overflow-x-auto no-scrollbar flex gap-2" id="setList">
+                </div>
+        </div>
+        
+        <div class="w-full h-1 bg-gray-100 dark:bg-slate-800">
+            <div id="progressBar" class="h-full bg-indigo-500 transition-all duration-500" style="width: 0%"></div>
+        </div>
+    </header>
+
+    <main class="flex-grow overflow-y-auto relative scroll-smooth bg-gray-50 dark:bg-[#0b1120]" id="mainContainer">
+        <div class="max-w-3xl mx-auto px-4 py-6 min-h-full flex flex-col">
+            
+            <div id="loading" class="flex flex-col items-center justify-center py-20 text-gray-400">
+                <i class="fa-solid fa-circle-notch fa-spin text-2xl text-primary mb-2"></i>
+                <span class="text-xs font-bold">Đang tải dữ liệu...</span>
+            </div>
+
+            <div id="listView" class="hidden space-y-5 pb-20"></div>
+
+            <div id="flashcardView" class="hidden flex-grow flex flex-col justify-center pb-10">
+                <div class="relative w-full">
+                    <div class="flex justify-between items-center mb-4 text-sm font-bold text-gray-400 uppercase tracking-wider">
+                        <span id="fc-counter">Câu 1/25</span>
+                        <span class="text-xs bg-indigo-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded">Flashcard</span>
+                    </div>
+
+                    <div id="fc-card" class="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-2xl shadow-xl shadow-indigo-500/5 dark:shadow-none p-6 sm:p-8 min-h-[400px] flex flex-col animate-flip-in relative overflow-hidden transition-all">
+                        
+                        <div class="flex-grow">
+                            <div class="inline-block px-3 py-1 rounded-lg bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-gray-300 text-xs font-bold mb-4">
+                                Câu <span id="fc-id">...</span>
+                            </div>
+                            <h3 id="fc-question" class="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-100 mb-6 leading-relaxed">
+                                ...
+                            </h3>
+                            <div id="fc-options" class="space-y-3"></div>
+                        </div>
+
+                        <div id="fc-result" class="hidden mt-6 p-4 rounded-xl border-l-4 text-sm animate-pulse"></div>
+                    </div>
+
+                    <div class="mt-6 flex gap-3 justify-center">
+                        <button onclick="prevCard()" class="w-12 h-12 rounded-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 transition-transform active:scale-90">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        
+                        <button onclick="checkFlashcard()" id="fc-check-btn" class="flex-1 max-w-[200px] h-12 rounded-full bg-primary hover:bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-500/30 dark:shadow-none transition-transform active:scale-95 flex items-center justify-center gap-2">
+                            <span>Kiểm tra</span> <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </button>
+
+                        <button onclick="nextCard()" class="w-12 h-12 rounded-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-600 dark:text-gray-300 transition-transform active:scale-90">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // --- CONFIG ---
+        const QUESTIONS_PER_SET = 25;
+        const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
+
+        // --- STATE ---
+        let allQuestions = [];
+        let currentSetIndex = 0; // 0 = Set 1 (1-25)
+        let totalSets = 0;
+        let currentMode = 'list'; // 'list' or 'flashcard'
+        let currentFcIndex = 0; // Index relative to the current set (0 to 24)
+
+        // --- DOM ELEMENTS ---
+        const mainContainer = document.getElementById('mainContainer');
+        const setList = document.getElementById('setList');
+        const listView = document.getElementById('listView');
+        const flashcardView = document.getElementById('flashcardView');
+        const progressBar = document.getElementById('progressBar');
+        const zoomDisplay = document.getElementById('zoomDisplay');
+
+        // --- INIT ---
+        initApp();
+
+        function initApp() {
+            loadSettings();
+            fetchData();
+        }
+
+        // --- 1. DATA HANDLING ---
+        function fetchData() {
+            fetch("questions.txt")
+                .then(res => res.text())
+                .then(text => {
+                    allQuestions = parseQuestions(text);
+                    allQuestions.forEach(q => { if (overrides[q.id]) q.correct = overrides[q.id]; });
+                    
+                    // Tính toán số bộ (Sets)
+                    totalSets = Math.ceil(allQuestions.length / QUESTIONS_PER_SET);
+                    
+                    renderSetSelector();
+                    loadSet(0); // Load Set 1 mặc định
+                    updateGlobalProgress();
+                    
+                    document.getElementById('loading').classList.add('hidden');
+                    if(currentMode === 'list') listView.classList.remove('hidden');
+                    else flashcardView.classList.remove('hidden');
+
+                })
+                .catch(err => alert("Lỗi tải file questions.txt"));
+        }
+
+        function parseQuestions(text) {
+            const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
+            return blocks.map(block => {
+                const lines = block.split("\n").map(l => l.trim());
+                const id = parseInt(lines[0]);
+                const textQ = lines[1];
+                const options = {};
+                let correct = "";
+                lines.slice(2).forEach(line => {
+                    const match = line.match(/^(\*?)([A-D])\.\s*(.+)$/);
+                    if (match) {
+                        options[match[2]] = match[3];
+                        if (match[1]) correct = match[2];
+                    }
+                });
+                return { id, text: textQ, options, correct };
+            });
+        }
+
+        // --- 2. SET MANAGEMENT (Phân trang) ---
+        function renderSetSelector() {
+            setList.innerHTML = "";
+            for(let i = 0; i < totalSets; i++) {
+                const start = i * QUESTIONS_PER_SET + 1;
+                const end = Math.min((i + 1) * QUESTIONS_PER_SET, allQuestions.length);
+                
+                const btn = document.createElement('button');
+                btn.className = `flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold border transition-all whitespace-nowrap ${i === 0 ? 'bg-indigo-600 text-white border-indigo-600 shadow-md' : 'bg-white dark:bg-slate-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-slate-700 hover:border-indigo-300'}`;
+                btn.innerHTML = `Bộ ${i + 1} <span class="opacity-70 font-normal ml-1">(${start}-${end})</span>`;
+                btn.onclick = () => loadSet(i);
+                btn.id = `btn-set-${i}`;
+                setList.appendChild(btn);
+            }
+        }
+
+        function loadSet(index) {
+            currentSetIndex = index;
+            currentFcIndex = 0; // Reset flashcard về đầu set
+
+            // Highlight nút Set đang chọn
+            for(let i=0; i<totalSets; i++) {
+                const btn = document.getElementById(`btn-set-${i}`);
+                if(i === index) {
+                    btn.className = "flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold border transition-all whitespace-nowrap bg-indigo-600 text-white border-indigo-600 shadow-md";
+                } else {
+                    btn.className = "flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold border transition-all whitespace-nowrap bg-white dark:bg-slate-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-slate-700 hover:border-indigo-300";
+                }
+            }
+
+            // Scroll nút set ra giữa nếu bị khuất
+            const activeBtn = document.getElementById(`btn-set-${index}`);
+            activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+            const start = index * QUESTIONS_PER_SET;
+            const end = start + QUESTIONS_PER_SET;
+            const questionsInSet = allQuestions.slice(start, end);
+
+            // Render cả 2 view (nhưng chỉ 1 cái hiện)
+            renderListView(questionsInSet);
+            renderFlashcard(questionsInSet[0]); // Render câu đầu tiên của set
+        }
+
+        // --- 3. MODE SWITCHING ---
+        function switchMode(mode) {
+            currentMode = mode;
+            const btnList = document.getElementById('btn-list');
+            const btnFc = document.getElementById('btn-flashcard');
+
+            if(mode === 'list') {
+                listView.classList.remove('hidden');
+                flashcardView.classList.add('hidden');
+                
+                // Style tabs
+                btnList.className = "px-3 py-1 rounded-md text-xs font-bold transition-all shadow-sm bg-white dark:bg-slate-600 text-primary dark:text-white";
+                btnFc.className = "px-3 py-1 rounded-md text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all";
+            } else {
+                listView.classList.add('hidden');
+                flashcardView.classList.remove('hidden');
+                
+                // Style tabs
+                btnFc.className = "px-3 py-1 rounded-md text-xs font-bold transition-all shadow-sm bg-white dark:bg-slate-600 text-primary dark:text-white";
+                btnList.className = "px-3 py-1 rounded-md text-xs font-bold text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all";
+                
+                // Load lại câu hiện tại của flashcard
+                const setQs = getCurrentSetQuestions();
+                renderFlashcard(setQs[currentFcIndex]);
+            }
+        }
+
+        // --- 4. LIST VIEW RENDERER ---
+        function renderListView(questions) {
+            listView.innerHTML = "";
+            questions.forEach(q => {
+                const saved = localStorage.getItem(`q_${q.id}`);
+                const card = document.createElement('div');
+                card.className = "bg-white dark:bg-dark-card p-5 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm";
+                
+                let html = `
+                    <div class="flex gap-3 mb-4">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs border border-indigo-100 dark:border-slate-600">${q.id}</span>
+                        <h3 class="font-semibold text-gray-800 dark:text-gray-100 text-[1.05em] pt-1">${q.text}</h3>
+                    </div>
+                    <div class="space-y-2">
+                `;
+                
+                for(const key in q.options) {
+                    const checked = saved === key ? 'checked' : '';
+                    html += `
+                        <label class="block cursor-pointer group">
+                            <input type="radio" name="list_q_${q.id}" value="${key}" class="hidden" onchange="handleListSelect(${q.id}, '${key}')" ${checked}>
+                            <div class="flex items-center p-[0.7em] rounded-xl border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 bg-white dark:bg-dark-bg/50 transition-all">
+                                <div class="w-[1em] h-[1em] rounded-full border-2 border-gray-300 dark:border-slate-500 mr-3 radio-dot flex-shrink-0"></div>
+                                <div class="text-[0.95em] text-gray-700 dark:text-gray-300 font-medium"><span class="font-bold mr-1">${key}.</span> ${q.options[key]}</div>
+                            </div>
+                        </label>
+                    `;
+                }
+
+                // Result Area
+                html += `<div id="list-res-${q.id}" class="hidden mt-3 p-3 rounded-lg text-sm border-l-4"></div>`;
+                
+                // Check Button
+                html += `
+                    <div class="mt-4 flex gap-2">
+                        <button onclick="checkListAnswer(${q.id}, '${q.correct}')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 shadow-sm">Check</button>
+                    </div>
+                `;
+
+                card.innerHTML = html;
+                listView.appendChild(card);
+            });
+        }
+
+        // --- 5. FLASHCARD VIEW LOGIC ---
+        function getCurrentSetQuestions() {
+            const start = currentSetIndex * QUESTIONS_PER_SET;
+            return allQuestions.slice(start, start + QUESTIONS_PER_SET);
+        }
+
+        function renderFlashcard(q) {
+            if(!q) return;
+            const saved = localStorage.getItem(`q_${q.id}`);
+            
+            document.getElementById('fc-id').innerText = q.id;
+            document.getElementById('fc-question').innerText = q.text;
+            document.getElementById('fc-counter').innerText = `Câu ${currentFcIndex + 1}/${getCurrentSetQuestions().length}`;
+            
+            // Render Options
+            const optsContainer = document.getElementById('fc-options');
+            optsContainer.innerHTML = "";
+            for(const key in q.options) {
+                const checked = saved === key ? 'checked' : '';
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <label class="block cursor-pointer group">
+                        <input type="radio" name="fc_q_${q.id}" value="${key}" class="hidden" onchange="handleFcSelect(${q.id}, '${key}')" ${checked}>
+                        <div class="flex items-center p-4 rounded-xl border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 bg-gray-50/50 dark:bg-dark-bg/50 transition-all">
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-slate-500 mr-4 radio-dot flex-shrink-0 transition-all"></div>
+                            <div class="text-base text-gray-700 dark:text-gray-300 font-medium"><span class="font-bold mr-1">${key}.</span> ${q.options[key]}</div>
+                        </div>
+                    </label>
+                `;
+                optsContainer.appendChild(div);
+            }
+
+            // Reset Result UI
+            const resDiv = document.getElementById('fc-result');
+            resDiv.className = "hidden mt-6 p-4 rounded-xl border-l-4 text-sm animate-pulse";
+            resDiv.innerHTML = "";
+            
+            // Update Check Button State
+            const btnCheck = document.getElementById('fc-check-btn');
+            btnCheck.onclick = () => checkFlashcard(q.id, q.correct);
+        }
+
+        function nextCard() {
+            const setQs = getCurrentSetQuestions();
+            if(currentFcIndex < setQs.length - 1) {
+                currentFcIndex++;
+                renderFlashcard(setQs[currentFcIndex]);
+                // Animation reset
+                const card = document.getElementById('fc-card');
+                card.classList.remove('animate-flip-in');
+                void card.offsetWidth; // trigger reflow
+                card.classList.add('animate-flip-in');
+            } else {
+                // Hết set, gợi ý qua set sau
+                if(currentSetIndex < totalSets - 1 && confirm("Đã hết Bộ này. Bạn có muốn qua Bộ tiếp theo không?")) {
+                    loadSet(currentSetIndex + 1);
+                }
+            }
+        }
+
+        function prevCard() {
+            if(currentFcIndex > 0) {
+                currentFcIndex--;
+                const setQs = getCurrentSetQuestions();
+                renderFlashcard(setQs[currentFcIndex]);
+                const card = document.getElementById('fc-card');
+                card.classList.remove('animate-flip-in');
+                void card.offsetWidth;
+                card.classList.add('animate-flip-in');
+            }
+        }
+
+        // --- 6. INTERACTION & CHECKING ---
+        function handleListSelect(id, val) {
+            localStorage.setItem(`q_${id}`, val);
+            document.getElementById(`list-res-${id}`).classList.add('hidden');
+            updateGlobalProgress();
+        }
+
+        function handleFcSelect(id, val) {
+            localStorage.setItem(`q_${id}`, val);
+            document.getElementById('fc-result').classList.add('hidden');
+            updateGlobalProgress();
+        }
+
+        function checkListAnswer(id, correct) {
+            const val = localStorage.getItem(`q_${id}`);
+            const resDiv = document.getElementById(`list-res-${id}`);
+            showResult(resDiv, val, correct);
+        }
+
+        function checkFlashcard(id, correct) {
+            const val = localStorage.getItem(`q_${id}`);
+            const resDiv = document.getElementById('fc-result');
+            
+            if(!val) {
+                // Rung lắc nút nếu chưa chọn
+                const btn = document.getElementById('fc-check-btn');
+                btn.classList.add('animate-bounce');
+                setTimeout(() => btn.classList.remove('animate-bounce'), 500);
+                return;
+            }
+            showResult(resDiv, val, correct);
+        }
+
+        function showResult(el, val, correct) {
+            el.classList.remove('hidden');
+            if(val === correct) {
+                el.className = "mt-4 p-4 rounded-xl border-l-4 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 text-emerald-800 dark:text-emerald-300 block";
+                el.innerHTML = `<div class="flex gap-2 items-center"><i class="fa-solid fa-circle-check text-lg"></i> <span class="font-bold">Chính xác!</span></div>`;
+            } else {
+                el.className = "mt-4 p-4 rounded-xl border-l-4 bg-red-50 dark:bg-red-900/20 border-red-500 text-red-800 dark:text-red-300 block";
+                el.innerHTML = `<div class="flex gap-2 items-center"><i class="fa-solid fa-circle-xmark text-lg"></i> <span>Sai rồi. Đáp án là: <b>${correct}</b></span></div>`;
+            }
+        }
+
+        // --- 7. UTILS & SETTINGS ---
+        function updateGlobalProgress() {
+            let done = 0;
+            allQuestions.forEach(q => { if(localStorage.getItem(`q_${q.id}`)) done++; });
+            const pct = (done / allQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+        }
+
+        // Zoom & Theme (Giống bản cũ)
+        let currentSize = 16;
+        function loadSettings() {
+            if(localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+            if(localStorage.getItem('app_size')) {
+                currentSize = parseInt(localStorage.getItem('app_size'));
+                applyZoom();
+            }
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+        function adjustZoom(d) {
+            currentSize += d;
+            if(currentSize < 12) currentSize = 12; if(currentSize > 32) currentSize = 32;
+            applyZoom();
+        }
+        function applyZoom() {
+            document.getElementById('mainContainer').style.fontSize = currentSize + 'px';
+            document.getElementById('zoomDisplay').innerText = currentSize;
+            localStorage.setItem('app_size', currentSize);
+        }
+    </script>
+</body>
+</html>
