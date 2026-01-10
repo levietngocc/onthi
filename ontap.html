@@ -32,11 +32,18 @@
         .blur-mode .correct-mark { display: none !important; }
         .blur-mode .correct-circle { background-color: #f3f4f6 !important; color: #6b7280 !important; }
         .dark .blur-mode .correct-circle { background-color: #334155 !important; color: #94a3b8 !important; }
+        
+        /* Modal Animation */
+        .modal-enter { animation: modalIn 0.2s ease-out forwards; }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
     </style>
 </head>
-<body class="bg-gray-100 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
+<body class="bg-gray-100 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-10">
 
-    <header class="fixed top-0 w-full z-50 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
+    <header class="fixed top-0 w-full z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
         <div class="max-w-screen-xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
             
             <div class="flex items-center gap-4">
@@ -70,26 +77,94 @@
         
         <div class="bg-white dark:bg-dark-bg border-b border-gray-100 dark:border-gray-800 px-4 py-3">
             <div class="max-w-5xl mx-auto flex gap-3">
-                <input type="number" id="jumpInput" placeholder="Nhập số câu cần đến..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
-                <button onclick="jumpToQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all whitespace-nowrap">
+                <input type="number" id="jumpInput" placeholder="Nhập câu..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
+                
+                <button onclick="jumpToQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all whitespace-nowrap">
                     Đi tới
+                </button>
+
+                <button onclick="openAnswerModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md shadow-emerald-200 dark:shadow-none transition-all whitespace-nowrap flex items-center gap-2">
+                    <i class="fa-solid fa-table"></i> <span class="hidden sm:inline">Đáp án</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 pt-44" id="quizList">
+    <main class="max-w-5xl mx-auto px-4 pt-44 pb-10" id="quizList">
         <div class="flex flex-col items-center justify-center py-20 space-y-4 text-gray-400">
             <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500"></i>
             <span class="text-sm font-medium">Đang tải dữ liệu...</span>
         </div>
     </main>
 
+    <footer class="max-w-5xl mx-auto px-4 text-center pb-8 pt-4">
+        <div class="inline-block px-6 py-3 rounded-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm">
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                Nếu sai sót đáp án liên hệ Zalo <span class="text-indigo-600 dark:text-indigo-400 font-bold select-all">0325591025</span>
+            </p>
+        </div>
+    </footer>
+
+    <div id="answerModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeAnswerModal()"></div>
+        
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <div class="bg-white dark:bg-dark-card w-full max-w-4xl max-h-[85vh] rounded-2xl shadow-2xl flex flex-col pointer-events-auto modal-enter overflow-hidden">
+                <div class="p-4 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center bg-gray-50 dark:bg-slate-800/50">
+                    <h3 class="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-indigo-500"></i> Bảng Đáp Án Tổng
+                    </h3>
+                    <button onclick="closeAnswerModal()" class="w-8 h-8 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark text-lg text-gray-500"></i>
+                    </button>
+                </div>
+                
+                <div class="p-6 overflow-y-auto bg-white dark:bg-dark-card">
+                    <div id="answerGrid" class="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3">
+                        </div>
+                </div>
+
+                <div class="p-3 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 text-center text-xs text-gray-400">
+                    Bấm vào số câu để nhảy tới câu hỏi tương ứng
+                </div>
+            </div>
+        </div>
+    </div>
+
     <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-8 right-8 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
     <script>
+   // ==========================================
+// KHU VỰC CẤU HÌNH ĐÁP ÁN (1 - 161)
+// Dựa trên dữ liệu viết tay
+// ==========================================
+const CONFIG_DAP_AN_NHANH = {
+    1: "A", 2: "C", 3: "B", 4: "B", 5: "A", 6: "D", 7: "A", 8: "A", 9: "D", 10: "C",
+    11: "D", 12: "A", 13: "B", 14: "A", 15: "C", 16: "D", 17: "A", 18: "B", 19: "A", 20: "C",
+    21: "A", 22: "B", 23: "C", 24: "D", 25: "A", 26: "D", 27: "B", 28: "D", 29: "B", 30: "A",
+    31: "D", 32: "D", 33: "A", 34: "D", 35: "A", 36: "D", 37: "C", 38: "B", 39: "D", 40: "A",
+    41: "C", 42: "D", 43: "D", 44: "A", 45: "C", 46: "B", 47: "D", 48: "B", 49: "B", 50: "D",
+    51: "A", 52: "C", 53: "B", 54: "A", 55: "A", 56: "B", 57: "C", 58: "D", 59: "B", 60: "B",
+    61: "B", 62: "D", 63: "B", 64: "C", 65: "A", 66: "A", 67: "C", 68: "D", 69: "B", 70: "D",
+    71: "A", 72: "B", 73: "B", 74: "D", 75: "A", 76: "C", 77: "D", 78: "C", 79: "D", 80: "A",
+    81: "D", 82: "?", 83: "B", 84: "C", 85: "A", 86: "B", 87: "D", 88: "D", 89: "C", 90: "D",
+    91: "A", 92: "B", 93: "C", 94: "D", 95: "A", 96: "A", 97: "D", 98: "B", 99: "C", 100: "A",
+    101: "D", 102: "A", 103: "B", 104: "C", 105: "C", 106: "A", 107: "D", 108: "A", 109: "C", 110: "A",
+    111: "C", 112: "A", 113: "C", 114: "B", 115: "A", 116: "C", 117: "D", 118: "?", 119: "A", 120: "C",
+    121: "B", 122: "C", 123: "A", 124: "A", 125: "A", 126: "D", 127: "A", 128: "B", 129: "C", 130: "B",
+    131: "A", 132: "C", 133: "A", 134: "D", 135: "B", 136: "A", 137: "B", 138: "A", 139: "A", 140: "A",
+    141: "A", 142: "C", 143: "A", 144: "A", 145: "A", 146: "D", 147: "D", 148: "A", 149: "A", 150: "B",
+    151: "D", 152: "A", 153: "C", 154: "D", 155: "C", 156: "B", 157: "A", 158: "A", 159: "B", 160: "A",
+    161: "B"
+};
+        
+        // Code override cũ (vẫn giữ để ưu tiên cao nhất nếu cần sửa lỗi nhanh)
+        const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
+        // ==========================================
+
+
         // --- ZOOM ---
         const root = document.documentElement;
         const zoomDisplay = document.getElementById('zoomDisplay');
@@ -121,12 +196,13 @@
         // --- DATA ---
         const quizList = document.getElementById("quizList");
         const totalCount = document.getElementById("totalCount");
-        const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
+        let globalQuestions = []; // Lưu biến toàn cục để dùng cho bảng đáp án
 
         fetch("questions.txt")
             .then(res => res.text())
             .then(text => {
                 const questions = parseQuestions(text);
+                globalQuestions = questions; // Lưu lại
                 render(questions);
             })
             .catch(err => quizList.innerHTML = `<div class='bg-red-50 text-red-500 p-4 rounded-xl text-center border border-red-200'><b>Lỗi:</b> Không tìm thấy file questions.txt</div>`);
@@ -172,7 +248,7 @@
                         </h3>
                     </div>
                     <div class="grid grid-cols-1 gap-3">
-                `; // Dùng Grid để dễ tùy biến sau này
+                `;
 
                 for (const key in q.options) {
                     const isRight = (key === q.correct);
@@ -205,19 +281,60 @@
             });
         }
 
-        function jumpToQuestion() {
-            const val = document.getElementById('jumpInput').value;
+        function jumpToQuestion(idInput) {
+            const val = idInput || document.getElementById('jumpInput').value;
             const el = document.getElementById(`q-${val}`);
             if(el) {
                 const headerOffset = 200; 
                 const elementPosition = el.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                
+                // Hiệu ứng highlight
                 el.classList.add('ring-2', 'ring-indigo-500', 'ring-offset-4');
                 setTimeout(() => el.classList.remove('ring-2', 'ring-indigo-500', 'ring-offset-4'), 1500);
             } else {
-                alert("Không tìm thấy câu " + val);
+                if(!idInput) alert("Không tìm thấy câu " + val);
             }
+        }
+
+        // --- ANSWER KEY MODAL LOGIC ---
+        function openAnswerModal() {
+            const modal = document.getElementById('answerModal');
+            const grid = document.getElementById('answerGrid');
+            grid.innerHTML = ""; // Clear cũ
+
+            // Xác định nguồn dữ liệu đáp án
+            // Ưu tiên CONFIG_DAP_AN_NHANH nếu bạn dán vào, nếu không thì dùng dữ liệu đã parse
+            let finalQuestions = globalQuestions;
+
+            // Render Grid
+            finalQuestions.forEach(q => {
+                // Lấy đáp án chuẩn (Ưu tiên config -> override -> parse)
+                let correctAns = q.correct;
+                if(CONFIG_DAP_AN_NHANH && CONFIG_DAP_AN_NHANH[q.id]) {
+                    correctAns = CONFIG_DAP_AN_NHANH[q.id];
+                }
+
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg p-2 cursor-pointer hover:bg-indigo-50 dark:hover:bg-slate-700 hover:border-indigo-300 transition-all";
+                item.onclick = () => {
+                    closeAnswerModal();
+                    jumpToQuestion(q.id);
+                };
+                
+                item.innerHTML = `
+                    <span class="text-xs font-bold text-gray-500 dark:text-gray-400">${q.id}</span>
+                    <span class="text-sm font-extrabold text-indigo-600 dark:text-indigo-400">${correctAns || '?'}</span>
+                `;
+                grid.appendChild(item);
+            });
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeAnswerModal() {
+            document.getElementById('answerModal').classList.add('hidden');
         }
     </script>
 </body>
