@@ -1,399 +1,253 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Ôn Thi Premium</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      /* Màu sắc sang trọng */
-      --bg-body: #f3f4f6;       
-      --bg-card: #ffffff;       
-      --text-main: #1e293b;
-      --text-sub: #64748b;
-      
-      --brand-color: #6366f1;   /* Màu tím xanh Indigo thời thượng */
-      --success-bg: #ecfdf5;    /* Nền xanh ngọc nhạt */
-      --success-text: #059669;  /* Chữ xanh ngọc đậm */
-      --success-border: #10b981;
-
-      --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
-      --radius-card: 24px;      /* Bo góc lớn */
-      --radius-btn: 14px;
-    }
-
-    body {
-      font-family: 'Manrope', sans-serif;
-      background-color: var(--bg-body);
-      color: var(--text-main);
-      margin: 0;
-      padding-bottom: 120px;
-      font-size: 16px; 
-      line-height: 1.6;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* --- HEADER GLASSMORPHISM --- */
-    .header {
-      position: sticky;
-      top: 0;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-    }
-
-    /* Nút Quay lại & Zoom */
-    .btn-icon {
-      width: 44px; height: 44px;
-      border-radius: var(--radius-btn);
-      border: 1px solid rgba(0,0,0,0.08);
-      background: white;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-main);
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform 0.1s, background 0.2s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .btn-icon:active { transform: scale(0.92); }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ôn Thi</title>
     
-    .page-title {
-      font-weight: 800;
-      font-size: 1.1rem;
-      background: linear-gradient(to right, #6366f1, #3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* --- ZOOM DROPDOWN --- */
-    .zoom-wrapper { position: relative; }
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    .zoom-menu {
-      position: absolute;
-      top: 55px; right: 0;
-      background: white;
-      padding: 15px;
-      border-radius: 16px;
-      width: 220px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      display: none;
-      border: 1px solid rgba(0,0,0,0.05);
-      animation: slideDown 0.2s ease;
-    }
-    .zoom-menu.show { display: block; }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        slate: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 800: '#1e293b', 900: '#0f172a' },
+                        emerald: { 50: '#ecfdf5', 500: '#10b981', 700: '#047857' },
+                    }
+                }
+            }
+        }
+    </script>
 
-    .zoom-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #f8fafc;
-      padding: 6px;
-      border-radius: 12px;
-    }
-    
-    .btn-adjust {
-      width: 36px; height: 36px;
-      border: none; background: white;
-      border-radius: 8px;
-      font-weight: bold;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      cursor: pointer;
-    }
-
-    /* --- CONTAINER --- */
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-
-    /* --- QUESTION CARD --- */
-    .card {
-      background: var(--bg-card);
-      border-radius: var(--radius-card);
-      padding: 28px;
-      margin-bottom: 28px;
-      box-shadow: var(--shadow-card);
-      border: 1px solid white;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Số thứ tự câu hỏi - TO VÀ ĐẸP */
-    .card-header {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 20px;
-      border-bottom: 1px dashed #e2e8f0;
-      padding-bottom: 15px;
-    }
-
-    .q-badge {
-      font-size: 1.8rem; /* To bự */
-      font-weight: 800;
-      color: var(--brand-color);
-      line-height: 1;
-    }
-    .q-label {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-sub);
-      text-transform: uppercase;
-    }
-
-    .q-content {
-      font-size: 1.15em;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 24px;
-    }
-
-    /* --- OPTIONS --- */
-    .option-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .option-item {
-      display: flex;
-      align-items: center; /* Căn giữa dọc */
-      padding: 14px 18px;
-      border-radius: 16px;
-      border: 1px solid #f1f5f9;
-      background: #f8fafc;
-      transition: all 0.2s ease;
-    }
-
-    .opt-char {
-      width: 32px;
-      height: 32px;
-      display: flex; align-items: center; justify-content: center;
-      background: #e2e8f0;
-      color: var(--text-sub);
-      border-radius: 50%;
-      font-weight: 700;
-      font-size: 0.9em;
-      margin-right: 15px;
-      flex-shrink: 0;
-    }
-
-    .opt-text {
-      flex-grow: 1;
-      color: #334155;
-    }
-
-    /* --- STYLE ĐÁP ÁN ĐÚNG (Highlight nhẹ nhàng) --- */
-    .is-correct {
-      background: var(--success-bg);
-      border: 1px solid var(--success-border);
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-    }
-
-    .is-correct .opt-char {
-      background: var(--success-text);
-      color: white;
-    }
-
-    .is-correct .opt-text {
-      color: #047857;
-      font-weight: 600;
-    }
-    
-    /* Icon tick ở cuối */
-    .is-correct::after {
-      content: "✔";
-      color: var(--success-text);
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-
-    .is-normal { opacity: 0.8; }
-
-    /* Scroll Top */
-    #scrollTop {
-      position: fixed; bottom: 30px; right: 25px;
-      width: 56px; height: 56px;
-      background: #1e293b; color: white;
-      border-radius: 50%; border: none;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      cursor: pointer; display: none;
-      font-size: 24px; z-index: 90;
-      transition: transform 0.2s;
-    }
-    #scrollTop:active { transform: scale(0.9); }
-
-  </style>
-</head>
-<body>
-
-  <header class="header">
-    <a href="index.html" class="btn-icon" title="Quay lại">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-    </a>
-
-    <div class="page-title">LUYỆN THI</div>
-
-    <div class="zoom-wrapper">
-      <button class="btn-icon" onclick="toggleZoom()" id="zoomBtn">
-        <span style="font-size:1.1rem; font-family:serif;">Aa</span>
-      </button>
-      
-      <div class="zoom-menu" id="zoomMenu">
-        <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px; font-weight:600; text-align:center;">Cỡ chữ hiển thị</div>
-        <div class="zoom-controls">
-          <button class="btn-adjust" onclick="adjustZoom(-1)">A-</button>
-          <span id="zoomVal" style="font-weight:700; font-size:0.9rem;">100%</span>
-          <button class="btn-adjust" onclick="adjustZoom(1)">A+</button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="container" id="quizList">
-    <div style="text-align:center; margin-top:50px; color:#94a3b8;">
-      Đang tải dữ liệu đẹp trai...
-    </div>
-  </div>
-
-  <button id="scrollTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
-
-  <script>
-    // --- ZOOM LOGIC ---
-    let currentSize = 16;
-    const zoomMenu = document.getElementById('zoomMenu');
-    const zoomVal = document.getElementById('zoomVal');
-
-    if(localStorage.getItem('fontSizeProp')) {
-      currentSize = parseInt(localStorage.getItem('fontSizeProp'));
-      applyZoom();
-    }
-
-    function toggleZoom() {
-      zoomMenu.classList.toggle('show');
-    }
-
-    // Đóng menu khi bấm ra ngoài
-    document.addEventListener('click', (e) => {
-      if(!e.target.closest('.zoom-wrapper')) zoomMenu.classList.remove('show');
-    });
-
-    function adjustZoom(delta) {
-      currentSize += delta;
-      if(currentSize < 14) currentSize = 14;
-      if(currentSize > 26) currentSize = 26;
-      applyZoom();
-    }
-
-    function applyZoom() {
-      document.body.style.fontSize = currentSize + 'px';
-      zoomVal.innerText = Math.round((currentSize/16)*100) + '%';
-      localStorage.setItem('fontSizeProp', currentSize);
-    }
-
-    // --- RENDER LOGIC ---
-    const quizDiv = document.getElementById("quizList");
-    const answerOverrides = {
-      3: "B", 4: "A", 32: "B", 37: "C", 48: "A",
-      122: "D", 137: "D", 148: "D", 156: "D", 158: "B"
-    };
-
-    fetch("questions.txt")
-      .then(res => res.text())
-      .then(text => {
-        let questions = parseQuestions(text);
-        // Sửa đáp án
-        questions.forEach(q => {
-          if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
-        });
-        render(questions);
-      })
-      .catch(err => {
-         quizDiv.innerHTML = `<p style="text-align:center; color:red">Không tìm thấy file questions.txt</p>`;
-      });
-
-    function parseQuestions(text) {
-      const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
-      return blocks.map(block => {
-        const lines = block.split("\n").map(l => l.trim());
-        const id = parseInt(lines[0]);
-        const textQ = lines[1];
-        const options = {};
-        let correct = "";
+    <style>
+        /* CSS bổ sung nhỏ cho thanh cuộn mượt hơn */
+        html { scroll-behavior: smooth; }
         
-        lines.slice(2).forEach(line => {
-          const match = line.match(/^(\*?)([A-D])\.\s*(.+)$/);
-          if (!match) return;
-          const [, star, key, value] = match;
-          options[key] = value;
-          if (star) correct = key;
-        });
-        return { id, text: textQ, options, correct };
-      });
-    }
+        /* Animation cho menu Zoom */
+        .zoom-enter {
+            animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased pb-20 transition-all duration-200">
 
-    function render(questions) {
-      quizDiv.innerHTML = "";
-      // Hiển thị tổng số câu
-      quizDiv.innerHTML += `<div style="margin-bottom:20px; text-align:center; font-weight:600; color:#64748b; font-size:0.9em; text-transform:uppercase; letter-spacing:1px;">Tổng hợp ${questions.length} câu hỏi</div>`;
-
-      questions.forEach(q => {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        // Header: Badge số to + text
-        let html = `
-          <div class="card-header">
-            <div class="q-label">Câu</div>
-            <div class="q-badge">${q.id}</div>
-          </div>
-          <div class="q-content">${q.text}</div>
-          <div class="option-list">
-        `;
-
-        for (const key in q.options) {
-          const isRight = (key === q.correct);
-          const cls = isRight ? "is-correct" : "is-normal";
-          
-          html += `
-            <div class="option-item ${cls}">
-              <div class="opt-char">${key}</div>
-              <div class="opt-text">${q.options[key]}</div>
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="p-2 -ml-2 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </a>
+                <h1 class="text-lg font-bold text-slate-900 tracking-tight">ÔN THI</h1>
             </div>
-          `;
+
+            <div class="relative">
+                <button id="zoomBtn" onclick="toggleZoom()" class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm transition-all active:scale-95 shadow-sm">
+                    <span class="text-xs font-bold">A</span><span class="text-lg font-bold">A</span>
+                </button>
+
+                <div id="zoomMenu" class="hidden absolute right-0 top-full mt-2 w-48 bg-white rounded-xl border border-slate-200 shadow-xl p-3 zoom-enter flex-col gap-2 z-50">
+                    <div class="text-xs font-semibold text-slate-400 text-center uppercase tracking-wider mb-1">Cỡ chữ</div>
+                    <div class="flex items-center justify-between bg-slate-100 rounded-lg p-1">
+                        <button onclick="adjustZoom(-1)" class="w-10 h-10 flex items-center justify-center bg-white rounded shadow-sm text-slate-700 hover:text-indigo-600 active:scale-90 transition-all font-bold text-lg">-</button>
+                        <span id="zoomVal" class="text-sm font-bold text-slate-800 w-12 text-center">100%</span>
+                        <button onclick="adjustZoom(1)" class="w-10 h-10 flex items-center justify-center bg-white rounded shadow-sm text-slate-700 hover:text-indigo-600 active:scale-90 transition-all font-bold text-lg">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-8" id="mainContainer">
+        <div id="loading" class="text-center py-20">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-200 border-t-indigo-600"></div>
+            <p class="mt-4 text-slate-500 font-medium">Đang tải dữ liệu...</p>
+        </div>
+        
+        <div id="quizList" class="space-y-6 hidden"></div>
+    </main>
+
+    <button id="scrollTop" onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-slate-800 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-black hover:-translate-y-1 transition-all duration-300 hidden opacity-0 z-40">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <script>
+        // --- 1. ZOOM LOGIC (Tailwind Friendly) ---
+        // Tailwind dùng rem, nên ta chỉnh font-size gốc của thẻ HTML để zoom toàn trang
+        const htmlRoot = document.documentElement;
+        const zoomMenu = document.getElementById('zoomMenu');
+        const zoomVal = document.getElementById('zoomVal');
+        
+        // Mặc định 16px (100%)
+        let currentRootSize = 16; 
+
+        if(localStorage.getItem('tw_fontSize')) {
+            currentRootSize = parseInt(localStorage.getItem('tw_fontSize'));
+            applyZoom();
         }
 
-        html += `</div>`;
-        card.innerHTML = html;
-        quizDiv.appendChild(card);
-      });
-    }
+        function toggleZoom() {
+            zoomMenu.classList.toggle('hidden');
+            zoomMenu.classList.toggle('flex');
+        }
 
-    // Scroll
-    window.onscroll = () => {
-      const btn = document.getElementById("scrollTop");
-      if(document.documentElement.scrollTop > 400) btn.style.display = "block";
-      else btn.style.display = "none";
-    }
-  </script>
+        // Đóng menu khi click ra ngoài
+        document.addEventListener('click', (e) => {
+            if(!e.target.closest('#zoomBtn') && !e.target.closest('#zoomMenu')) {
+                zoomMenu.classList.add('hidden');
+                zoomMenu.classList.remove('flex');
+            }
+        });
+
+        function adjustZoom(delta) {
+            currentRootSize += delta;
+            // Giới hạn zoom
+            if(currentRootSize < 12) currentRootSize = 12;
+            if(currentRootSize > 22) currentRootSize = 22;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            htmlRoot.style.fontSize = currentRootSize + 'px';
+            // Tính phần trăm hiển thị
+            const percent = Math.round((currentRootSize / 16) * 100);
+            zoomVal.innerText = percent + '%';
+            localStorage.setItem('tw_fontSize', currentRootSize);
+        }
+
+        // --- 2. DATA PROCESSING ---
+        const quizList = document.getElementById("quizList");
+        const loading = document.getElementById("loading");
+        const answerOverrides = {
+            3: "B", 4: "A", 32: "B", 37: "C", 48: "A",
+            122: "D", 137: "D", 148: "D", 156: "D", 158: "B"
+        };
+
+        fetch("questions.txt")
+            .then(res => res.text())
+            .then(text => {
+                let questions = parseQuestions(text);
+                
+                // Override đáp án
+                questions.forEach(q => {
+                    if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
+                });
+
+                render(questions);
+                loading.classList.add('hidden');
+                quizList.classList.remove('hidden');
+            })
+            .catch(err => {
+                loading.innerHTML = `<p class="text-red-500 bg-red-50 p-4 rounded-lg">Không tìm thấy file questions.txt</p>`;
+            });
+
+        function parseQuestions(text) {
+            const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
+            return blocks.map(block => {
+                const lines = block.split("\n").map(l => l.trim());
+                const id = parseInt(lines[0]);
+                const textQ = lines[1];
+                const options = {};
+                let correct = "";
+                
+                lines.slice(2).forEach(line => {
+                    const match = line.match(/^(\*?)([A-D])\.\s*(.+)$/);
+                    if (!match) return;
+                    const [, star, key, value] = match;
+                    options[key] = value;
+                    if (star) correct = key;
+                });
+                return { id, text: textQ, options, correct };
+            });
+        }
+
+        function render(questions) {
+            // Header tổng số câu
+            const summary = document.createElement('div');
+            summary.className = "text-center text-slate-400 text-sm font-semibold uppercase tracking-widest mb-8";
+            summary.innerText = `Tổng hợp ${questions.length} câu hỏi`;
+            quizList.appendChild(summary);
+
+            questions.forEach(q => {
+                const card = document.createElement("div");
+                // TAILWIND CARD STYLE
+                card.className = "bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-shadow duration-300";
+
+                let html = `
+                    <div class="flex items-baseline gap-3 mb-4">
+                        <span class="flex-shrink-0 bg-slate-800 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-sm">
+                            Câu ${q.id}
+                        </span>
+                        <h2 class="text-lg font-semibold text-slate-900 leading-snug">
+                            ${q.text}
+                        </h2>
+                    </div>
+                    
+                    <div class="flex flex-col gap-3">
+                `;
+
+                for (const key in q.options) {
+                    const isRight = (key === q.correct);
+                    
+                    // Logic style cho đáp án đúng/sai
+                    // - Đúng: Nền xanh ngọc (emerald-50), Viền xanh (emerald-500), Chữ đậm
+                    // - Thường: Nền xám nhạt (slate-50), Viền mờ
+                    const containerClass = isRight 
+                        ? "bg-emerald-50 border-emerald-500 ring-1 ring-emerald-500/20" 
+                        : "bg-slate-50/50 border-slate-200 hover:bg-slate-100 hover:border-slate-300";
+                    
+                    const textClass = isRight 
+                        ? "text-emerald-800 font-semibold" 
+                        : "text-slate-600";
+                    
+                    const labelClass = isRight
+                        ? "text-emerald-600"
+                        : "text-slate-400";
+
+                    const checkMark = isRight 
+                        ? `<svg class="w-5 h-5 text-emerald-500 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>` 
+                        : "";
+
+                    html += `
+                        <div class="flex items-center p-3.5 rounded-lg border transition-all duration-200 ${containerClass}">
+                            <span class="w-8 flex-shrink-0 font-bold ${labelClass}">${key}.</span>
+                            <div class="flex-grow ${textClass} leading-relaxed">
+                                ${q.options[key]}
+                            </div>
+                            ${checkMark}
+                        </div>
+                    `;
+                }
+
+                html += `</div>`;
+                card.innerHTML = html;
+                quizList.appendChild(card);
+            });
+        }
+
+        // --- 3. SCROLL TOP BTN ---
+        const scrollBtn = document.getElementById("scrollTop");
+        window.onscroll = () => {
+            if (document.documentElement.scrollTop > 400) {
+                scrollBtn.classList.remove("hidden", "opacity-0");
+                scrollBtn.classList.add("opacity-100");
+            } else {
+                scrollBtn.classList.add("opacity-0");
+                setTimeout(() => {
+                    if(document.documentElement.scrollTop <= 400) 
+                        scrollBtn.classList.add("hidden");
+                }, 300);
+            }
+        };
+    </script>
 </body>
 </html>
