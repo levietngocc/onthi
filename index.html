@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software Testing - Ôn tập & Kiểm tra</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
@@ -31,7 +31,7 @@
             position: relative;
         }
 
-        /* Animated Background Mesh */
+        /* Animated Background Mesh - Hiệu ứng nền chuyển động */
         .bg-mesh {
             position: absolute;
             top: 0;
@@ -53,10 +53,10 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Decorative Shapes */
+        /* Decorative Shapes - Các hình khối mờ ảo phía sau */
         .shape {
             position: absolute;
-            filter: blur(60px);
+            filter: blur(80px);
             opacity: 0.6;
             z-index: -1;
             animation: float 8s infinite ease-in-out;
@@ -159,6 +159,7 @@
             overflow: hidden;
         }
 
+        /* Hiệu ứng lướt sáng khi hover */
         .menu-card::after {
             content: '';
             position: absolute;
@@ -218,35 +219,27 @@
             font-weight: 500;
         }
 
-        /* Specific Card Styles */
+        /* Specific Card Styles - Màu sắc riêng cho từng thẻ */
+        
         /* 1. Kiểm tra (Red/Orange) */
         .card-exam .icon-box {
             background: #fff1f2;
             color: #e11d48;
         }
-        .card-exam:hover {
-            background: #fff1f2;
-        }
-
+        
         /* 2. Ôn tập (Green/Teal) */
         .card-study .icon-box {
             background: #ecfdf5;
             color: #059669;
         }
-        .card-study:hover {
-            background: #ecfdf5;
-        }
-
+        
         /* 3. Câu hỏi ngắn (Blue/Indigo) */
         .card-short .icon-box {
             background: #eef2ff;
             color: #4f46e5;
         }
-        .card-short:hover {
-            background: #eef2ff;
-        }
-
-        /* Arrow Icon */
+        
+        /* Arrow Icon Animation */
         .arrow-icon {
             opacity: 0;
             transform: translateX(-10px);
@@ -258,37 +251,31 @@
             transform: translateX(0);
         }
 
-        /* Footer */
+        /* Footer Style */
         .footer {
             margin-top: 32px;
             padding-top: 20px;
             border-top: 1px dashed #cbd5e1;
+            text-align: center;
         }
 
         .created-by {
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: #94a3b8;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: color 0.3s;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
         
-        .created-by:hover {
+        .author-name {
+            font-family: 'JetBrains Mono', monospace; /* Font code nhìn cho ngầu */
             color: var(--primary-color);
+            font-weight: 600;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 4px;
         }
-
-        .heart {
-            color: #f43f5e;
-            animation: beat 1s infinite alternate;
-        }
-
-        @keyframes beat {
-            to { transform: scale(1.2); }
-        }
-
+        
         @media (max-width: 480px) {
             .container {
                 padding: 30px 20px;
@@ -315,8 +302,8 @@
                     <i class="ph ph-timer"></i>
                 </div>
                 <div class="text-content">
-                    <span class="card-title">Chế Độ Kiểm Tra</span>
-                    <span class="card-desc">Thi thử tính giờ, nộp bài lấy điểm</span>
+                    <span class="card-title">Kiểm Tra</span>
+                 
                 </div>
                 <i class="ph ph-caret-right arrow-icon"></i>
             </a>
@@ -326,27 +313,18 @@
                     <i class="ph ph-book-open-text"></i>
                 </div>
                 <div class="text-content">
-                    <span class="card-title">Chế Độ Ôn Tập</span>
-                    <span class="card-desc">Học và xem đáp án ngay lập tức</span>
+                    <span class="card-title">Ôn Tập</span>
+                  
                 </div>
                 <i class="ph ph-caret-right arrow-icon"></i>
             </a>
 
-            <a href="cautraloingan.html" class="menu-card card-short">
-                <div class="icon-box">
-                    <i class="ph ph-lightning"></i>
-                </div>
-                <div class="text-content">
-                    <span class="card-title">Câu Hỏi Ngắn</span>
-                    <span class="card-desc">Ôn nhanh các kiến thức cốt lõi</span>
-                </div>
-                <i class="ph ph-caret-right arrow-icon"></i>
-            </a>
+        
         </div>
 
         <div class="footer">
             <div class="created-by">
-                Created by VietNgoc <i class="ph-fill ph-heart heart"></i>
+                created by <span class="author-name">vietngoc</span>
             </div>
         </div>
     </div>
