@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ôn Thi Final UI</title>
+    <title>Ôn Thi Final</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -28,18 +28,6 @@
 
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        /* Logic ẩn đáp án khi thi thử */
-        .blur-mode .correct-bg { background-color: transparent !important; border-color: inherit !important; }
-        .blur-mode .correct-mark { display: none !important; }
-        .blur-mode .correct-circle { 
-            background-color: #f3f4f6 !important; /* gray-100 */
-            color: #6b7280 !important; /* gray-500 */
-        }
-        .dark .blur-mode .correct-circle {
-            background-color: #334155 !important; /* slate-700 */
-            color: #94a3b8 !important; /* slate-400 */
-        }
     </style>
 </head>
 <body class="bg-gray-100 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
@@ -74,9 +62,6 @@
             <div class="max-w-2xl mx-auto flex gap-3">
                 <input type="number" id="jumpInput" placeholder="Đến câu số..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
                 <button onclick="jumpToQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all">Đi</button>
-                <button id="modeBtn" onclick="toggleMode()" class="bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 px-4 py-2 rounded-lg text-sm font-bold border border-indigo-100 dark:border-slate-600 transition-all">
-                    <i class="fa-solid fa-eye mr-1"></i> Xem
-                </button>
             </div>
         </div>
     </header>
@@ -93,7 +78,7 @@
     </button>
 
     <script>
-        // --- 1. ZOOM LOGIC (0 to Unlimited) ---
+        // --- 1. ZOOM LOGIC ---
         const root = document.documentElement;
         const zoomDisplay = document.getElementById('zoomDisplay');
         let currentSize = 16; 
@@ -105,7 +90,7 @@
 
         function adjustZoom(delta) {
             currentSize += delta;
-            if(currentSize < 5) currentSize = 5; // Min limit 5px
+            if(currentSize < 5) currentSize = 5;
             applyZoom();
         }
 
@@ -128,7 +113,6 @@
         const quizList = document.getElementById("quizList");
         const totalCount = document.getElementById("totalCount");
         const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
-        let isStudyMode = true;
 
         fetch("questions.txt")
             .then(res => res.text())
@@ -166,7 +150,6 @@
             questions.forEach(q => {
                 const card = document.createElement("div");
                 card.id = `q-${q.id}`;
-                // Card Style: Shadow đẹp, bo góc
                 card.className = "group bg-white dark:bg-dark-card p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm mb-6 scroll-mt-48 transition-all hover:shadow-md";
 
                 let html = `
@@ -187,34 +170,31 @@
                     const isRight = (key === q.correct);
                     
                     // --- STYLE LOGIC ---
-                    // Container: Mặc định xám nhạt, viền ẩn
-                    let containerClass = "relative flex items-center p-3 rounded-xl border-2 cursor-pointer transition-all duration-200 group/opt ";
+                    // Container:
+                    let containerClass = "relative flex items-center p-3 rounded-xl border-2 transition-all duration-200 ";
                     
-                    // Vòng tròn A, B, C: Mặc định xám
-                    let circleClass = "correct-circle w-9 h-9 flex items-center justify-center rounded-full text-sm font-bold mr-4 flex-shrink-0 transition-colors ";
+                    // Circle Badge:
+                    let circleClass = "w-9 h-9 flex items-center justify-center rounded-full text-sm font-bold mr-4 flex-shrink-0 transition-colors ";
                     
-                    // Text
+                    // Text:
                     let textClass = "text-sm text-gray-700 dark:text-gray-300 flex-grow font-medium leading-relaxed";
 
                     if (isRight) {
-                        // KHI ĐÚNG:
-                        // Container: Nền xanh nhạt, Viền xanh
-                        containerClass += " correct-bg bg-emerald-50 dark:bg-emerald-900/10 border-emerald-500 dark:border-emerald-600";
-                        // Circle: Nền xanh đậm, chữ trắng
+                        // KHI ĐÚNG: Highlight Xanh
+                        containerClass += " bg-emerald-50 dark:bg-emerald-900/10 border-emerald-500 dark:border-emerald-600";
                         circleClass += " bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-none";
-                        // Text: Màu xanh đậm
-                        textClass += " correct-text text-emerald-800 dark:text-emerald-300";
+                        textClass += " text-emerald-800 dark:text-emerald-300";
                     } else {
-                        // KHI THƯỜNG:
-                        containerClass += " border-transparent bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-750 hover:border-gray-200 dark:hover:border-slate-600";
-                        circleClass += " bg-white dark:bg-slate-700 text-gray-500 dark:text-slate-400 border border-gray-200 dark:border-slate-600 group-hover/opt:border-gray-300";
+                        // KHI THƯỜNG: Xám
+                        containerClass += " border-transparent bg-gray-50 dark:bg-slate-800 border-gray-100 dark:border-slate-700";
+                        circleClass += " bg-white dark:bg-slate-700 text-gray-500 dark:text-slate-400 border border-gray-200 dark:border-slate-600";
                     }
 
-                    // Icon Checkmark (Dùng absolute right nhưng đảm bảo padding-right cho text)
-                    const checkIcon = isRight ? `<div class="correct-mark ml-3 text-emerald-500 dark:text-emerald-400 text-lg"><i class="fa-solid fa-circle-check"></i></div>` : ``;
+                    // Icon Checkmark
+                    const checkIcon = isRight ? `<div class="ml-3 text-emerald-500 dark:text-emerald-400 text-lg"><i class="fa-solid fa-circle-check"></i></div>` : ``;
 
                     html += `
-                        <div class="${containerClass}" onclick="reveal(this)">
+                        <div class="${containerClass}">
                             <div class="${circleClass}">${key}</div>
                             <div class="${textClass}">${q.options[key]}</div>
                             ${checkIcon}
@@ -228,42 +208,7 @@
             });
         }
 
-        // --- 4. INTERACTIONS ---
-        
-        function toggleMode() {
-            isStudyMode = !isStudyMode;
-            const btn = document.getElementById('modeBtn');
-            const main = document.getElementById('quizList');
-            
-            if(isStudyMode) {
-                main.classList.remove('blur-mode');
-                btn.innerHTML = '<i class="fa-solid fa-eye mr-1"></i> Xem';
-                btn.className = "bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 px-4 py-2 rounded-lg text-sm font-bold border border-indigo-100 dark:border-slate-600 transition-all";
-            } else {
-                main.classList.add('blur-mode');
-                btn.innerHTML = '<i class="fa-solid fa-eye-slash mr-1"></i> Thi';
-                btn.className = "bg-amber-50 dark:bg-slate-700 text-amber-600 dark:text-amber-400 px-4 py-2 rounded-lg text-sm font-bold border border-amber-100 dark:border-slate-600 transition-all";
-            }
-        }
-
-        function reveal(el) {
-            // Click để hiện đáp án khi đang thi thử
-            if (!isStudyMode && el.classList.contains('correct-bg')) {
-                // Force styles via inline css
-                el.style.backgroundColor = '#ecfdf5'; // emerald-50
-                el.style.borderColor = '#10b981';     // emerald-500
-                
-                const circle = el.querySelector('.correct-circle');
-                if(circle) {
-                    circle.style.backgroundColor = '#10b981';
-                    circle.style.color = '#ffffff';
-                }
-                
-                const text = el.querySelector('div:nth-child(2)');
-                if(text) text.style.color = '#065f46'; // emerald-800
-            }
-        }
-
+        // --- 4. NAVIGATION ---
         function jumpToQuestion() {
             const val = document.getElementById('jumpInput').value;
             const el = document.getElementById(`q-${val}`);
@@ -274,7 +219,7 @@
                 
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
                 
-                // Hiệu ứng highlight
+                // Highlight
                 el.classList.add('ring-2', 'ring-indigo-500', 'ring-offset-4');
                 setTimeout(() => el.classList.remove('ring-2', 'ring-indigo-500', 'ring-offset-4'), 1500);
             } else {
