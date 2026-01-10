@@ -1,461 +1,323 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ôn thi</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --primary-color: #4f46e5; /* Màu tím xanh hiện đại */
-      --primary-hover: #4338ca;
-      --bg-color: #f3f4f6;
-      --card-bg: #ffffff;
-      --text-color: #1f2937;
-      --text-muted: #6b7280;
-      --border-color: #e5e7eb;
-      --success-bg: #ecfdf5;
-      --success-text: #065f46;
-      --error-bg: #fef2f2;
-      --error-text: #991b1b;
-      --selected-bg: #eef2ff;
-      --selected-border: #6366f1;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Luyện Thi Pro</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      margin: 0;
-      padding-bottom: 80px; /* Chừa chỗ cho footer nếu cần */
-    }
-
-    /* Thanh Header dính trên cùng */
-    .sticky-header {
-      position: sticky;
-      top: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 15px 20px;
-      z-index: 1000;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .sticky-header h2 {
-      margin: 0;
-      font-size: 18px;
-      color: var(--primary-color);
-    }
-
-    .progress-badge {
-      background: var(--text-color);
-      color: white;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-
-    /* Card câu hỏi */
-    .question-card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-      transition: transform 0.2s;
-      border: 1px solid transparent;
-    }
-
-    .question-card:hover {
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-
-    .question-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    }
-
-    .q-number {
-      background: #e0e7ff;
-      color: var(--primary-color);
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 13px;
-      margin-right: 10px;
-      flex-shrink: 0;
-    }
-
-    .question-text {
-      font-size: 1.1rem;
-      font-weight: 600;
-      line-height: 1.5;
-      flex-grow: 1;
-    }
-
-    /* Đáp án */
-    .answers {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .answers label {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      border: 2px solid var(--border-color);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .answers label:hover {
-      background-color: #f9fafb;
-      border-color: #d1d5db;
-    }
-
-    .answers label.selected {
-      background-color: var(--selected-bg);
-      border-color: var(--selected-border);
-    }
-
-    .answers input[type="radio"] {
-      margin-right: 12px;
-      accent-color: var(--primary-color);
-      transform: scale(1.2);
-    }
-
-    /* Khu vực kết quả */
-    .result-area {
-      margin-top: 20px;
-      padding: 16px;
-      border-radius: 8px;
-      font-size: 15px;
-      display: none;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .result-correct {
-      background-color: var(--success-bg);
-      color: var(--success-text);
-      border-left: 5px solid #34d399;
-    }
-
-    .result-wrong {
-      background-color: var(--error-bg);
-      color: var(--error-text);
-      border-left: 5px solid #f87171;
-    }
-
-    /* Nút bấm */
-    .actions {
-      margin-top: 20px;
-      display: flex;
-      gap: 12px;
-      border-top: 1px solid #f3f4f6;
-      padding-top: 15px;
-    }
-
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-
-    .btn-check {
-      background-color: var(--primary-color);
-      color: white;
-      flex-grow: 1;
-    }
-    .btn-check:hover { background-color: var(--primary-hover); box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2); }
-
-    .btn-reset-q {
-      background-color: white;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-    }
-    .btn-reset-q:hover { background-color: #f3f4f6; color: var(--text-color); }
-
-    /* Footer reset all */
-    .footer-control {
-      text-align: center;
-      margin: 50px 0;
-    }
-
-    .btn-danger {
-      background-color: #ef4444;
-      color: white;
-      padding: 12px 24px;
-      font-size: 16px;
-    }
-    .btn-danger:hover { background-color: #dc2626; }
-
-    /* Nút cuộn lên đầu trang */
-    #scrollTopBtn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: var(--primary-color);
-      color: white;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-      display: none;
-      z-index: 999;
-    }
-
-  </style>
-</head>
-<body>
-
-  <div class="sticky-header">
-    <h2>Software Testing Exam</h2>
-    <div class="progress-badge" id="progress-count">Đã làm: 0/0</div>
-  </div>
-
-  <div class="container">
-    <div id="quiz">
-      <div style="text-align:center; padding: 50px; color: #666;">
-        Đang tải câu hỏi...<br>
-        <small>Hãy chắc chắn file <b>questions.txt</b> nằm cùng thư mục.</small>
-      </div>
-    </div>
-
-    <div class="footer-control">
-      <button class="btn btn-danger" onclick="resetAll()">⚠️ Xóa tất cả & Làm lại từ đầu</button>
-    </div>
-  </div>
-
-  <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑</button>
-
-  <script>
-    const quizDiv = document.getElementById("quiz");
-    const progressCount = document.getElementById("progress-count");
-
-    // 🔧 10 câu override đáp án
-    const answerOverrides = {
-      3: "B", 4: "A", 32: "B", 37: "C", 48: "A",
-      122: "D", 137: "D", 148: "D", 156: "D", 158: "B"
-    };
-
-    // =========================
-    // LOAD DỮ LIỆU
-    // =========================
-    fetch("questions.txt")
-      .then(res => res.text())
-      .then(text => {
-        let questions = parseQuestions(text);
-        
-        // Override
-        questions.forEach(q => {
-          if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
-        });
-
-        renderQuiz(questions);
-        updateProgress(); // Cập nhật số câu đã làm ngay khi load
-      })
-      .catch(err => {
-        console.error(err);
-        quizDiv.innerHTML = "<h3 style='color:red; text-align:center'>Lỗi: Không đọc được file questions.txt</h3>";
-      });
-
-    function parseQuestions(text) {
-      const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
-      return blocks.map(block => {
-        const lines = block.split("\n").map(l => l.trim());
-        const id = parseInt(lines[0]);
-        const textQ = lines[1];
-        const options = {};
-        let correct = "";
-
-        lines.slice(2).forEach(line => {
-          const match = line.match(/^(\*?)([A-D])\.\s*(.+)$/);
-          if (!match) return;
-          const [, star, key, value] = match;
-          options[key] = value;
-          if (star) correct = key;
-        });
-        return { id, text: textQ, options, correct };
-      });
-    }
-
-    // =========================
-    // RENDER GIAO DIỆN
-    // =========================
-    function renderQuiz(questions) {
-      quizDiv.innerHTML = "";
-      
-      // Update tổng số câu lên header
-      progressCount.textContent = `Đã làm: ${countDone()}/${questions.length}`;
-
-      questions.forEach(q => {
-        const savedAnswer = localStorage.getItem("q_" + q.id);
-        
-        const qCard = document.createElement("div");
-        qCard.className = "question-card";
-        qCard.id = `q-card-${q.id}`;
-
-        let html = `
-          <div class="question-header">
-            <span class="q-number">Câu ${q.id}</span>
-            <div class="question-text">${q.text}</div>
-          </div>
-        `;
-        
-        html += `<div class="answers" id="answers-${q.id}">`;
-        for (const key in q.options) {
-          const isChecked = savedAnswer === key ? "checked" : "";
-          const isSelectedClass = savedAnswer === key ? "selected" : "";
-          
-          html += `
-            <label class="${isSelectedClass}" id="label-${q.id}-${key}">
-              <input type="radio" 
-                name="q_${q.id}" 
-                value="${key}" 
-                ${isChecked}
-                onchange="handleSelect(${q.id}, '${key}')"
-              /> 
-              <span><b>${key}.</b> ${q.options[key]}</span>
-            </label>
-          `;
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' }
+                    }
+                }
+            }
         }
-        html += `</div>`;
+    </script>
 
-        // Khu vực kết quả
-        html += `<div id="result-${q.id}" class="result-area"></div>`;
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Custom Radio Button Styling */
+        input[type="radio"]:checked + div {
+            border-color: #4f46e5;
+            background-color: #eef2ff;
+        }
+        .dark input[type="radio"]:checked + div {
+            border-color: #6366f1;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+        input[type="radio"]:checked + div .radio-dot {
+            border-color: #4f46e5;
+            background-color: #4f46e5;
+            box-shadow: 0 0 0 3px #eef2ff;
+        }
+        .dark input[type="radio"]:checked + div .radio-dot {
+            border-color: #6366f1;
+            background-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        /* Animation kết quả */
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
 
-        // Nút chức năng
-        html += `
-          <div class="actions">
-            <button class="btn btn-check" onclick="checkQuestion(${q.id}, '${q.correct}')">Kiểm tra</button>
-            <button class="btn btn-reset-q" onclick="resetQuestion(${q.id})">Làm lại</button>
-          </div>
-        `;
+    <header class="fixed top-0 w-full z-50 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-slate-700 transition-all border border-transparent hover:border-indigo-200">
+                    <i class="fa-solid fa-house text-sm"></i>
+                </a>
+                <div class="hidden sm:flex flex-col">
+                    <h1 class="text-base font-bold text-indigo-600 dark:text-indigo-400 leading-tight">LUYỆN THI</h1>
+                    <span id="progressText" class="text-[10px] text-gray-500 font-medium">0/0 Đã làm</span>
+                </div>
+            </div>
 
-        qCard.innerHTML = html;
-        quizDiv.appendChild(qCard);
-      });
-    }
+            <div class="flex items-center gap-2">
+                <div class="flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg p-1 border border-gray-200 dark:border-slate-700">
+                    <button onclick="adjustZoom(-1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <span class="w-10 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">100%</span>
+                    <button onclick="adjustZoom(1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
 
-    // =========================
-    // LOGIC XỬ LÝ (GIỮ NGUYÊN NHƯ CŨ)
-    // =========================
+                <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-yellow-400 hover:bg-gray-200 transition-all">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline"></i>
+                </button>
+            </div>
+        </div>
 
-    function handleSelect(id, value) {
-      localStorage.setItem("q_" + id, value);
-      
-      // UX: Highlight ô được chọn
-      const labels = document.querySelectorAll(`#answers-${id} label`);
-      labels.forEach(lbl => lbl.classList.remove("selected"));
-      
-      const selectedLabel = document.getElementById(`label-${id}-${value}`);
-      if(selectedLabel) selectedLabel.classList.add("selected");
+        <div class="w-full h-1 bg-gray-200 dark:bg-slate-800">
+            <div id="progressBar" class="h-full bg-indigo-500 transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
+    </header>
 
-      // UX: Ẩn kết quả cũ nếu chọn lại
-      const resultDiv = document.getElementById(`result-${id}`);
-      resultDiv.style.display = "none";
-      resultDiv.className = "result-area";
+    <main class="max-w-4xl mx-auto px-4 pt-24" id="quizContainer">
+        <div class="flex flex-col items-center justify-center py-20 space-y-4 text-gray-400">
+            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500"></i>
+            <span class="text-sm font-medium">Đang tải câu hỏi...</span>
+        </div>
+    </main>
 
-      updateProgress();
-    }
+    <div class="max-w-4xl mx-auto px-4 mt-10 mb-20">
+        <button onclick="resetAllData()" class="w-full sm:w-auto px-6 py-3 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold flex items-center justify-center gap-2 transition-all mx-auto dark:bg-red-900/10 dark:text-red-400 dark:border-red-900/30">
+            <i class="fa-solid fa-trash-can"></i> Xóa dữ liệu & Làm lại
+        </button>
+    </div>
 
-    function checkQuestion(id, correctAuth) {
-      const userAns = localStorage.getItem("q_" + id);
-      const resultDiv = document.getElementById(`result-${id}`);
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
 
-      if (!userAns) {
-        alert("Vui lòng chọn đáp án trước!");
-        return;
-      }
+    <script>
+        // --- 1. ZOOM LOGIC ---
+        const root = document.documentElement;
+        const zoomDisplay = document.getElementById('zoomDisplay');
+        let currentSize = 16; 
+        if(localStorage.getItem('exam_fontsize')) {
+            currentSize = parseInt(localStorage.getItem('exam_fontsize'));
+            applyZoom();
+        }
+        function adjustZoom(delta) {
+            currentSize += delta;
+            if(currentSize < 5) currentSize = 5;
+            applyZoom();
+        }
+        function applyZoom() {
+            root.style.fontSize = currentSize + 'px';
+            localStorage.setItem('exam_fontsize', currentSize);
+            zoomDisplay.innerText = Math.round((currentSize/16)*100) + '%';
+        }
 
-      if (userAns === correctAuth) {
-        resultDiv.innerHTML = `<div>🎉 <strong>Chính xác!</strong></div>`;
-        resultDiv.className = "result-area result-correct";
-      } else {
-        resultDiv.innerHTML = `<div>⚠️ <strong>Sai rồi.</strong> Bạn chọn ${userAns}. <br>👉 Đáp án đúng: <strong>${correctAuth}</strong></div>`;
-        resultDiv.className = "result-area result-wrong";
-      }
-      resultDiv.style.display = "block";
-    }
+        // --- 2. THEME LOGIC ---
+        function toggleTheme() {
+            root.classList.toggle('dark');
+            localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.classList.add('dark');
+        }
 
-    function resetQuestion(id) {
-      localStorage.removeItem("q_" + id);
-      const radios = document.getElementsByName("q_" + id);
-      radios.forEach(r => r.checked = false);
+        // --- 3. DATA & APP LOGIC ---
+        const quizContainer = document.getElementById("quizContainer");
+        const progressText = document.getElementById("progressText");
+        const progressBar = document.getElementById("progressBar");
+        
+        // Override đáp án sai
+        const answerOverrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
 
-      const labels = document.querySelectorAll(`#answers-${id} label`);
-      labels.forEach(lbl => lbl.classList.remove("selected"));
+        let allQuestions = [];
 
-      const resultDiv = document.getElementById(`result-${id}`);
-      resultDiv.style.display = "none";
-      
-      updateProgress();
-    }
+        fetch("questions.txt")
+            .then(res => res.text())
+            .then(text => {
+                allQuestions = parseQuestions(text);
+                // Apply overrides
+                allQuestions.forEach(q => {
+                    if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
+                });
+                renderQuiz(allQuestions);
+                updateProgress();
+            })
+            .catch(err => quizContainer.innerHTML = `<div class='bg-red-50 text-red-500 p-4 rounded-xl text-center border border-red-200'><b>Lỗi:</b> Không tìm thấy file questions.txt</div>`);
 
-    function resetAll() {
-      if(confirm("CẢNH BÁO: Hành động này sẽ xóa toàn bộ đáp án bạn đã làm.\nBạn có chắc chắn không?")) {
-        localStorage.clear();
-        location.reload();
-      }
-    }
+        function parseQuestions(text) {
+            const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
+            return blocks.map(block => {
+                const lines = block.split("\n").map(l => l.trim());
+                const id = parseInt(lines[0]);
+                const textQ = lines[1];
+                const options = {};
+                let correct = "";
+                lines.slice(2).forEach(line => {
+                    const match = line.match(/^(\*?)([A-D])\.\s*(.+)$/);
+                    if (!match) return;
+                    const [, star, key, value] = match;
+                    options[key] = value;
+                    if (star) correct = key;
+                });
+                return { id, text: textQ, options, correct };
+            });
+        }
 
-    // Tiện ích đếm số câu đã làm
-    function countDone() {
-      let count = 0;
-      for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).startsWith("q_")) count++;
-      }
-      return count;
-    }
+        function renderQuiz(questions) {
+            quizContainer.innerHTML = "";
+            
+            questions.forEach(q => {
+                // Lấy đáp án đã lưu
+                const savedAns = localStorage.getItem(`q_${q.id}`);
+                
+                const card = document.createElement("div");
+                card.id = `card-${q.id}`;
+                card.className = "bg-white dark:bg-dark-card p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm mb-6 scroll-mt-32";
 
-    function updateProgress() {
-      // Lấy tổng số câu hỏi từ DOM hiện tại (vì biến questions nằm trong scope fetch)
-      // Cách đơn giản: đếm số lượng thẻ card
-      const total = document.querySelectorAll('.question-card').length;
-      if (total > 0) {
-        progressCount.textContent = `Đã làm: ${countDone()}/${total}`;
-      }
-    }
+                // --- HEADER CÂU HỎI ---
+                let html = `
+                    <div class="flex items-start gap-4 mb-5">
+                        <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 font-bold text-sm border border-indigo-100 dark:border-slate-600">
+                            ${q.id}
+                        </span>
+                        <h3 class="text-base font-semibold leading-relaxed text-gray-800 dark:text-gray-100 pt-1">
+                            ${q.text}
+                        </h3>
+                    </div>
+                `;
 
-    // Scroll to top button logic
-    window.onscroll = function() {
-      const btn = document.getElementById("scrollTopBtn");
-      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        btn.style.display = "block";
-      } else {
-        btn.style.display = "none";
-      }
-    };
-  </script>
+                // --- OPTIONS (RADIO CUSTOM) ---
+                html += `<div class="space-y-3" id="options-${q.id}">`;
+                for (const key in q.options) {
+                    const isChecked = savedAns === key ? 'checked' : '';
+                    html += `
+                        <label class="block cursor-pointer group">
+                            <input type="radio" name="q_${q.id}" value="${key}" class="hidden" onchange="handleSelect(${q.id}, '${key}')" ${isChecked}>
+                            <div class="flex items-center p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-all bg-white dark:bg-dark-bg/50">
+                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-slate-500 mr-4 flex items-center justify-center flex-shrink-0 radio-dot transition-colors"></div>
+                                <div class="flex-grow text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                                    <span class="font-bold mr-1">${key}.</span> ${q.options[key]}
+                                </div>
+                            </div>
+                        </label>
+                    `;
+                }
+                html += `</div>`;
+
+                // --- ACTION BAR ---
+                html += `
+                    <div class="mt-6 pt-4 border-t border-gray-100 dark:border-slate-700 flex flex-wrap gap-3">
+                        <button onclick="checkAnswer(${q.id}, '${q.correct}')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all active:scale-95">
+                            Kiểm tra
+                        </button>
+                        <button onclick="resetQuestion(${q.id})" class="px-4 py-2.5 rounded-lg text-sm font-bold border border-gray-200 dark:border-slate-600 text-gray-500 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-700 dark:hover:text-gray-200 transition-all">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                `;
+
+                // --- RESULT AREA ---
+                // Nếu đã check trước đó thì hiển thị lại (cần lưu trạng thái result nếu muốn xịn hơn, ở đây đơn giản là ẩn)
+                html += `<div id="result-${q.id}" class="hidden mt-4 p-4 rounded-xl text-sm border-l-4 fade-in"></div>`;
+
+                card.innerHTML = html;
+                quizContainer.appendChild(card);
+            });
+        }
+
+        // --- 4. INTERACTIONS ---
+
+        function handleSelect(id, value) {
+            localStorage.setItem(`q_${id}`, value);
+            // Ẩn kết quả cũ nếu chọn lại
+            const resDiv = document.getElementById(`result-${id}`);
+            resDiv.classList.add('hidden');
+            resDiv.className = "hidden mt-4 p-4 rounded-xl text-sm border-l-4 fade-in";
+            
+            updateProgress();
+        }
+
+        function checkAnswer(id, correct) {
+            const selected = localStorage.getItem(`q_${id}`);
+            const resDiv = document.getElementById(`result-${id}`);
+            
+            if (!selected) {
+                alert("Bạn chưa chọn đáp án nào!");
+                return;
+            }
+
+            resDiv.classList.remove('hidden');
+
+            if (selected === correct) {
+                // ĐÚNG
+                resDiv.className = "mt-4 p-4 rounded-xl text-sm border-l-4 fade-in bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 text-emerald-800 dark:text-emerald-300";
+                resDiv.innerHTML = `<div class="flex gap-3"><i class="fa-solid fa-circle-check text-xl mt-0.5"></i> <div><b>Chính xác!</b><br>Bạn quá đỉnh!</div></div>`;
+            } else {
+                // SAI
+                resDiv.className = "mt-4 p-4 rounded-xl text-sm border-l-4 fade-in bg-red-50 dark:bg-red-900/20 border-red-500 text-red-800 dark:text-red-300";
+                resDiv.innerHTML = `<div class="flex gap-3"><i class="fa-solid fa-circle-xmark text-xl mt-0.5"></i> <div><b>Sai rồi!</b><br>Đáp án đúng là: <b class="text-base">${correct}</b></div></div>`;
+            }
+        }
+
+        function resetQuestion(id) {
+            localStorage.removeItem(`q_${id}`);
+            // Uncheck inputs
+            const inputs = document.querySelectorAll(`input[name="q_${id}"]`);
+            inputs.forEach(i => i.checked = false);
+            // Hide result
+            const resDiv = document.getElementById(`result-${id}`);
+            resDiv.classList.add('hidden');
+            
+            updateProgress();
+        }
+
+        function resetAllData() {
+            if(confirm("Bạn có chắc chắn muốn xóa toàn bộ tiến độ làm bài không?")) {
+                // Chỉ xóa các key bắt đầu bằng q_
+                Object.keys(localStorage).forEach(key => {
+                    if(key.startsWith('q_')) localStorage.removeItem(key);
+                });
+                location.reload();
+            }
+        }
+
+        // --- 5. PROGRESS LOGIC ---
+        function updateProgress() {
+            if (allQuestions.length === 0) return;
+            
+            let doneCount = 0;
+            allQuestions.forEach(q => {
+                if(localStorage.getItem(`q_${q.id}`)) doneCount++;
+            });
+
+            // Update Text
+            progressText.innerText = `${doneCount}/${allQuestions.length} Đã làm`;
+            
+            // Update Bar Width
+            const percent = (doneCount / allQuestions.length) * 100;
+            progressBar.style.width = `${percent}%`;
+            
+            // Change color if complete
+            if(percent === 100) {
+                progressBar.classList.remove('bg-indigo-500');
+                progressBar.classList.add('bg-emerald-500');
+            }
+        }
+    </script>
 </body>
 </html>
