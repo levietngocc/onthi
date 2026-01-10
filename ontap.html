@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ôn Thi</title>
+    <title>Luyện Thi Pro Fixed</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -18,7 +18,7 @@
                 fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
                 extend: {
                     colors: {
-                        primary: '#4f46e5', /* Indigo 600 */
+                        primary: '#4f46e5',
                         dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' }
                     }
                 }
@@ -28,34 +28,60 @@
 
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .blur-mode .correct-bg { background-color: transparent !important; border-color: inherit !important; }
-        .blur-mode .correct-mark { display: none !important; }
-        .blur-mode .correct-circle { background-color: #f3f4f6 !important; color: #6b7280 !important; }
-        .dark .blur-mode .correct-circle { background-color: #334155 !important; color: #94a3b8 !important; }
+        
+        /* Custom Radio Styling - Dùng em để scale theo font-size */
+        input[type="radio"]:checked + div {
+            border-color: #4f46e5;
+            background-color: #eef2ff;
+        }
+        .dark input[type="radio"]:checked + div {
+            border-color: #6366f1;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+        input[type="radio"]:checked + div .radio-dot {
+            border-color: #4f46e5;
+            background-color: #4f46e5;
+            box-shadow: 0 0 0 0.2em #eef2ff; /* Dùng em cho shadow */
+        }
+        .dark input[type="radio"]:checked + div .radio-dot {
+            border-color: #6366f1;
+            background-color: #6366f1;
+            box-shadow: 0 0 0 0.2em rgba(99, 102, 241, 0.2);
+        }
+        
+        /* Animation */
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Vùng Zoom: Các phần tử con sẽ dùng em/inherit để ăn theo size cha */
+        #quizContainer {
+            transition: font-size 0.2s ease-out;
+            /* Mặc định size */
+            font-size: 16px; 
+        }
     </style>
 </head>
-<body class="bg-gray-100 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
+<body class="bg-gray-50 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
 
     <header class="fixed top-0 w-full z-50 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 shadow-sm">
-        <div class="max-w-screen-xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
             
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-slate-700 transition-all border border-gray-200 dark:border-slate-700" title="Về trang chủ">
-                    <i class="fa-solid fa-house"></i>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-slate-700 transition-all border border-transparent hover:border-indigo-200">
+                    <i class="fa-solid fa-house text-sm"></i>
                 </a>
-
-                <div class="flex flex-col">
-                    <h1 class="text-lg font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tight leading-tight">ÔN THI</h1>
-                    <span id="totalCount" class="text-[11px] text-gray-500 font-medium leading-none">Đang tải...</span>
+                <div class="hidden sm:flex flex-col">
+                    <h1 class="text-base font-bold text-indigo-600 dark:text-indigo-400 leading-tight">LUYỆN THI</h1>
+                    <span id="progressText" class="text-[10px] text-gray-500 font-medium">0/0 Đã làm</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                 <div class="flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg p-1 border border-gray-200 dark:border-slate-700">
                     <button onclick="adjustZoom(-1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <span class="w-12 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">100%</span>
+                    <span class="w-12 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">16px</span>
                     <button onclick="adjustZoom(1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -67,69 +93,84 @@
                 </button>
             </div>
         </div>
-        
-        <div class="bg-white dark:bg-dark-bg border-b border-gray-100 dark:border-gray-800 px-4 py-3">
-            <div class="max-w-5xl mx-auto flex gap-3">
-                <input type="number" id="jumpInput" placeholder="Nhập số câu cần đến..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 dark:text-white transition-all">
-                <button onclick="jumpToQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all whitespace-nowrap">
-                    Đi tới
-                </button>
-            </div>
+
+        <div class="w-full h-1 bg-gray-200 dark:bg-slate-800">
+            <div id="progressBar" class="h-full bg-indigo-500 transition-all duration-500 ease-out" style="width: 0%"></div>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 pt-44" id="quizList">
+    <main class="max-w-4xl mx-auto px-4 pt-24" id="quizContainer">
         <div class="flex flex-col items-center justify-center py-20 space-y-4 text-gray-400">
             <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500"></i>
-            <span class="text-sm font-medium">Đang tải dữ liệu...</span>
+            <span class="text-sm font-medium">Đang tải câu hỏi...</span>
         </div>
     </main>
 
-    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-8 right-8 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95">
+    <div class="max-w-4xl mx-auto px-4 mt-10 mb-20 text-base"> 
+        <button onclick="resetAllData()" class="w-full sm:w-auto px-6 py-3 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold flex items-center justify-center gap-2 transition-all mx-auto dark:bg-red-900/10 dark:text-red-400 dark:border-red-900/30">
+            <i class="fa-solid fa-trash-can"></i> Xóa dữ liệu & Làm lại
+        </button>
+    </div>
+
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95 text-xl">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
     <script>
-        // --- ZOOM ---
-        const root = document.documentElement;
+        // --- 1. ZOOM LOGIC (Targeted Div Only) ---
+        const container = document.getElementById('quizContainer');
         const zoomDisplay = document.getElementById('zoomDisplay');
         let currentSize = 16; 
-        if(localStorage.getItem('app_fontsize_v3')) {
-            currentSize = parseInt(localStorage.getItem('app_fontsize_v3'));
+        
+        if(localStorage.getItem('quiz_content_size')) {
+            currentSize = parseInt(localStorage.getItem('quiz_content_size'));
             applyZoom();
         }
+
         function adjustZoom(delta) {
             currentSize += delta;
-            if(currentSize < 5) currentSize = 5;
+            // Cho phép nhỏ tối đa xuống 10px, lớn 40px
+            if(currentSize < 10) currentSize = 10;
+            if(currentSize > 40) currentSize = 40;
             applyZoom();
         }
+
         function applyZoom() {
-            root.style.fontSize = currentSize + 'px';
-            localStorage.setItem('app_fontsize_v3', currentSize);
-            zoomDisplay.innerText = Math.round((currentSize/16)*100) + '%';
+            // Thay vì chỉnh root, ta chỉnh container
+            container.style.fontSize = currentSize + 'px';
+            localStorage.setItem('quiz_content_size', currentSize);
+            zoomDisplay.innerText = currentSize + 'px';
         }
 
-        // --- THEME ---
+        // --- 2. THEME LOGIC ---
         function toggleTheme() {
-            root.classList.toggle('dark');
-            localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         }
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            root.classList.add('dark');
+            document.documentElement.classList.add('dark');
         }
 
-        // --- DATA ---
-        const quizList = document.getElementById("quizList");
-        const totalCount = document.getElementById("totalCount");
-        const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
+        // --- 3. DATA & APP LOGIC ---
+        const progressText = document.getElementById("progressText");
+        const progressBar = document.getElementById("progressBar");
+        
+        // Override đáp án sai
+        const answerOverrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
+
+        let allQuestions = [];
 
         fetch("questions.txt")
             .then(res => res.text())
             .then(text => {
-                const questions = parseQuestions(text);
-                render(questions);
+                allQuestions = parseQuestions(text);
+                allQuestions.forEach(q => {
+                    if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
+                });
+                renderQuiz(allQuestions);
+                updateProgress();
             })
-            .catch(err => quizList.innerHTML = `<div class='bg-red-50 text-red-500 p-4 rounded-xl text-center border border-red-200'><b>Lỗi:</b> Không tìm thấy file questions.txt</div>`);
+            .catch(err => container.innerHTML = `<div class='bg-red-50 text-red-500 p-4 rounded-xl text-center border border-red-200'><b>Lỗi:</b> Không tìm thấy file questions.txt</div>`);
 
         function parseQuestions(text) {
             const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
@@ -145,78 +186,135 @@
                     const [, star, key, value] = match;
                     options[key] = value;
                     if (star) correct = key;
-                    if (overrides[id]) correct = overrides[id];
                 });
                 return { id, text: textQ, options, correct };
             });
         }
 
-        function render(questions) {
-            quizList.innerHTML = "";
-            totalCount.innerText = `${questions.length} CÂU HỎI`;
-
+        function renderQuiz(questions) {
+            container.innerHTML = "";
+            
             questions.forEach(q => {
+                const savedAns = localStorage.getItem(`q_${q.id}`);
+                
                 const card = document.createElement("div");
-                card.id = `q-${q.id}`;
-                card.className = "group bg-white dark:bg-dark-card p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm mb-6 scroll-mt-48 transition-all hover:shadow-md";
+                card.id = `card-${q.id}`;
+                // Lưu ý: Không dùng text-sm hay text-base ở đây để nó inherit font-size từ container
+                card.className = "bg-white dark:bg-dark-card p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm mb-6 scroll-mt-32";
 
+                // --- HEADER ---
+                // Font-size: Dùng em để scale theo size container
+                // 1.15em cho câu hỏi to hơn đáp án chút
                 let html = `
-                    <div class="flex flex-col gap-3 mb-5">
-                        <div class="inline-flex">
-                            <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm shadow-indigo-200 dark:shadow-none">
-                                Câu ${q.id}
-                            </span>
-                        </div>
-                        <h3 class="text-base font-bold leading-relaxed text-gray-800 dark:text-gray-100">
+                    <div class="flex items-start gap-4 mb-5">
+                        <span class="flex-shrink-0 w-[2.5em] h-[2.5em] flex items-center justify-center rounded-xl bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-100 dark:border-slate-600" style="font-size: 0.9em;">
+                            ${q.id}
+                        </span>
+                        <h3 class="font-semibold leading-relaxed text-gray-800 dark:text-gray-100 pt-1" style="font-size: 1.1em;">
                             ${q.text}
                         </h3>
                     </div>
-                    <div class="grid grid-cols-1 gap-3">
-                `; // Dùng Grid để dễ tùy biến sau này
+                `;
 
+                // --- OPTIONS ---
+                html += `<div class="space-y-3" id="options-${q.id}">`;
                 for (const key in q.options) {
-                    const isRight = (key === q.correct);
-                    let containerClass = "relative flex items-center p-3 rounded-xl border-2 transition-all duration-200 cursor-default ";
-                    let circleClass = "w-9 h-9 flex items-center justify-center rounded-full text-sm font-bold mr-4 flex-shrink-0 transition-colors ";
-                    let textClass = "text-sm text-gray-700 dark:text-gray-300 flex-grow font-medium leading-relaxed";
-
-                    if (isRight) {
-                        containerClass += " bg-emerald-50 dark:bg-emerald-900/10 border-emerald-500 dark:border-emerald-600";
-                        circleClass += " bg-emerald-500 text-white shadow-md shadow-emerald-200 dark:shadow-none";
-                        textClass += " text-emerald-800 dark:text-emerald-300";
-                    } else {
-                        containerClass += " border-transparent bg-gray-50 dark:bg-slate-800 border-gray-100 dark:border-slate-700";
-                        circleClass += " bg-white dark:bg-slate-700 text-gray-500 dark:text-slate-400 border border-gray-200 dark:border-slate-600";
-                    }
-
-                    const checkIcon = isRight ? `<div class="ml-3 text-emerald-500 dark:text-emerald-400 text-lg"><i class="fa-solid fa-circle-check"></i></div>` : ``;
-
+                    const isChecked = savedAns === key ? 'checked' : '';
                     html += `
-                        <div class="${containerClass}">
-                            <div class="${circleClass}">${key}</div>
-                            <div class="${textClass}">${q.options[key]}</div>
-                            ${checkIcon}
-                        </div>
+                        <label class="block cursor-pointer group">
+                            <input type="radio" name="q_${q.id}" value="${key}" class="hidden" onchange="handleSelect(${q.id}, '${key}')" ${isChecked}>
+                            <div class="flex items-center p-[0.8em] rounded-xl border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-all bg-white dark:bg-dark-bg/50">
+                                <div class="w-[1.2em] h-[1.2em] rounded-full border-2 border-gray-300 dark:border-slate-500 mr-4 flex items-center justify-center flex-shrink-0 radio-dot transition-colors"></div>
+                                <div class="flex-grow font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" style="font-size: 1em;">
+                                    <span class="font-bold mr-1">${key}.</span> ${q.options[key]}
+                                </div>
+                            </div>
+                        </label>
                     `;
                 }
                 html += `</div>`;
+
+                // --- ACTIONS (Static size text for buttons usually better, but let's scale slightly) ---
+                html += `
+                    <div class="mt-6 pt-4 border-t border-gray-100 dark:border-slate-700 flex flex-wrap gap-3 text-[16px]">
+                        <button onclick="checkAnswer(${q.id}, '${q.correct}')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-lg font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all active:scale-95">
+                            Kiểm tra
+                        </button>
+                        <button onclick="resetQuestion(${q.id})" class="px-4 py-2.5 rounded-lg font-bold border border-gray-200 dark:border-slate-600 text-gray-500 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-700 dark:hover:text-gray-200 transition-all">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                    </div>
+                `;
+
+                // --- RESULT ---
+                html += `<div id="result-${q.id}" class="hidden mt-4 p-4 rounded-xl border-l-4 fade-in" style="font-size: 1em;"></div>`;
+
                 card.innerHTML = html;
-                quizList.appendChild(card);
+                container.appendChild(card);
             });
         }
 
-        function jumpToQuestion() {
-            const val = document.getElementById('jumpInput').value;
-            const el = document.getElementById(`q-${val}`);
-            if(el) {
-                const headerOffset = 200; 
-                const elementPosition = el.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                el.classList.add('ring-2', 'ring-indigo-500', 'ring-offset-4');
-                setTimeout(() => el.classList.remove('ring-2', 'ring-indigo-500', 'ring-offset-4'), 1500);
+        // --- 4. INTERACTIONS ---
+
+        function handleSelect(id, value) {
+            localStorage.setItem(`q_${id}`, value);
+            const resDiv = document.getElementById(`result-${id}`);
+            resDiv.classList.add('hidden');
+            resDiv.className = "hidden mt-4 p-4 rounded-xl border-l-4 fade-in";
+            updateProgress();
+        }
+
+        function checkAnswer(id, correct) {
+            const selected = localStorage.getItem(`q_${id}`);
+            const resDiv = document.getElementById(`result-${id}`);
+            
+            if (!selected) {
+                alert("Bạn chưa chọn đáp án nào!");
+                return;
+            }
+
+            resDiv.classList.remove('hidden');
+
+            if (selected === correct) {
+                // ĐÚNG
+                resDiv.className = "mt-4 p-4 rounded-xl border-l-4 fade-in bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 text-emerald-800 dark:text-emerald-300";
+                resDiv.innerHTML = `<div class="flex gap-3"><i class="fa-solid fa-circle-check mt-1"></i> <div><b>Chính xác!</b></div></div>`;
             } else {
-                alert("Không tìm thấy câu " + val);
+                // SAI
+                resDiv.className = "mt-4 p-4 rounded-xl border-l-4 fade-in bg-red-50 dark:bg-red-900/20 border-red-500 text-red-800 dark:text-red-300";
+                resDiv.innerHTML = `<div class="flex gap-3"><i class="fa-solid fa-circle-xmark mt-1"></i> <div><b>Sai rồi!</b><br>Đáp án đúng: <b>${correct}</b></div></div>`;
+            }
+        }
+
+        function resetQuestion(id) {
+            localStorage.removeItem(`q_${id}`);
+            const inputs = document.querySelectorAll(`input[name="q_${id}"]`);
+            inputs.forEach(i => i.checked = false);
+            document.getElementById(`result-${id}`).classList.add('hidden');
+            updateProgress();
+        }
+
+        function resetAllData() {
+            if(confirm("Xóa toàn bộ tiến độ?")) {
+                Object.keys(localStorage).forEach(key => {
+                    if(key.startsWith('q_')) localStorage.removeItem(key);
+                });
+                location.reload();
+            }
+        }
+
+        function updateProgress() {
+            if (allQuestions.length === 0) return;
+            let doneCount = 0;
+            allQuestions.forEach(q => {
+                if(localStorage.getItem(`q_${q.id}`)) doneCount++;
+            });
+            progressText.innerText = `${doneCount}/${allQuestions.length} Đã làm`;
+            const percent = (doneCount / allQuestions.length) * 100;
+            progressBar.style.width = `${percent}%`;
+            if(percent === 100) {
+                progressBar.classList.remove('bg-indigo-500');
+                progressBar.classList.add('bg-emerald-500');
             }
         }
     </script>
