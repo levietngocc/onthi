@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ôn Thi App</title>
+    <title>Ôn Thi App Final</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -18,8 +18,8 @@
                 fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
                 extend: {
                     colors: {
-                        primary: '#4F46E5', /* Indigo 600 */
-                        dark: { bg: '#0f172a', card: '#1e293b', text: '#e2e8f0' }
+                        primary: '#6366f1',
+                        dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' }
                     }
                 }
             }
@@ -27,111 +27,117 @@
     </script>
 
     <style>
-        /* Tùy chỉnh thanh cuộn cho đẹp */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        /* CSS để ẩn thanh cuộn nhưng vẫn cuộn được (cho gọn) */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Hiệu ứng ẩn hiện đáp án */
-        .blur-answer .correct-mark { display: none; }
-        .blur-answer .correct-bg { background-color: transparent !important; border-color: #e2e8f0 !important; }
-        .dark .blur-answer .correct-bg { border-color: #334155 !important; }
-        .blur-answer .correct-text { color: inherit !important; font-weight: normal !important; }
+        /* Hiệu ứng ẩn đáp án khi thi thử */
+        .blur-mode .correct-bg { background-color: transparent !important; border-color: inherit !important; }
+        .blur-mode .correct-mark { display: none !important; }
+        .blur-mode .correct-text { color: inherit !important; font-weight: normal !important; }
+        .dark .blur-mode .correct-bg { border-color: #334155 !important; }
     </style>
 </head>
-<body class="bg-gray-50 text-slate-800 dark:bg-dark-bg dark:text-dark-text transition-colors duration-300 antialiased pb-24">
+<body class="bg-gray-50 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
 
-    <header class="fixed top-0 w-full z-40 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-lg border-b border-gray-200 dark:border-slate-800 transition-colors duration-300">
-        <div class="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
-            <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">
-                ÔN THI
-            </h1>
+    <header class="fixed top-0 w-full z-50 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+            
+            <div class="flex flex-col">
+                <h1 class="text-lg font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent uppercase tracking-wider">
+                    ÔN THI
+                </h1>
+                <span id="totalCount" class="text-[10px] text-gray-500 dark:text-gray-400 font-semibold">... câu hỏi</span>
+            </div>
 
             <div class="flex items-center gap-2">
-                <div class="relative hidden sm:block">
-                    <input type="number" id="jumpInput" placeholder="Đến câu..." class="w-24 pl-3 pr-2 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary transition-colors">
-                    <button onclick="jumpToQuestion()" class="absolute right-1 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                <div class="flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg p-1 border border-gray-200 dark:border-slate-700">
+                    <button onclick="adjustZoom(-1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <span class="w-8 text-center text-[10px] font-bold text-gray-500 dark:text-gray-400" id="zoomDisplay">100%</span>
+                    <button onclick="adjustZoom(1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
+                        <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
 
-                <button onclick="toggleTheme()" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all">
+                <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-yellow-400 hover:bg-gray-200 transition-all">
                     <i class="fa-solid fa-moon dark:hidden"></i>
                     <i class="fa-solid fa-sun hidden dark:inline"></i>
                 </button>
             </div>
         </div>
-    </header>
-
-    <div class="sm:hidden fixed top-16 w-full bg-white dark:bg-dark-bg border-b border-gray-200 dark:border-slate-800 z-30 px-4 py-2">
-        <div class="flex gap-2">
-            <input type="number" id="mobileJumpInput" placeholder="Nhập số câu..." class="flex-1 px-3 py-2 rounded-lg bg-gray-100 dark:bg-slate-800 border-none text-sm focus:ring-2 focus:ring-primary">
-            <button onclick="jumpToQuestionMobile()" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold">Đi</button>
-        </div>
-    </div>
-
-    <main class="max-w-2xl mx-auto px-4 pt-28 sm:pt-24" id="mainContainer">
         
-        <div class="flex items-center justify-between mb-6">
-            <span id="totalCount" class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-slate-400">Loading...</span>
-            
-            <button id="toggleModeBtn" onclick="toggleStudyMode()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 text-xs font-bold border border-indigo-100 dark:border-slate-700 hover:bg-indigo-100 transition-all">
-                <i class="fa-solid fa-eye"></i> <span>Xem đáp án</span>
-            </button>
-        </div>
-
-        <div id="quizList" class="space-y-5">
-            <div class="text-center py-10">
-                <i class="fa-solid fa-circle-notch fa-spin text-2xl text-primary"></i>
+        <div class="bg-white dark:bg-dark-bg border-b border-gray-100 dark:border-gray-800 px-4 py-2">
+            <div class="max-w-2xl mx-auto flex gap-2">
+                <input type="number" id="jumpInput" placeholder="Nhập số câu..." class="flex-1 bg-gray-100 dark:bg-slate-800 border-none rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-primary dark:text-white">
+                <button onclick="jumpToQuestion()" class="bg-primary text-white px-4 py-1.5 rounded-md text-sm font-semibold whitespace-nowrap">Đi tới</button>
+                <button id="modeBtn" onclick="toggleMode()" class="bg-indigo-100 dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 px-3 py-1.5 rounded-md text-sm font-semibold whitespace-nowrap">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
             </div>
         </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-4 pt-36" id="quizList">
+        <div class="text-center py-10 text-gray-400 italic">Đang tải dữ liệu...</div>
     </main>
 
-    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg shadow-indigo-500/30 flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-xl flex items-center justify-center z-40 hover:translate-y-[-2px] transition-all">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
     <script>
-        // --- 1. CONFIG & STATE ---
-        const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
-        let isStudyMode = true; // True = Hiện đáp án, False = Ẩn để thi thử
+        // --- 1. ZOOM LOGIC (UNLIMITED) ---
+        const root = document.documentElement;
+        const zoomDisplay = document.getElementById('zoomDisplay');
+        // Mặc định 16px
+        let currentSize = 16; 
 
-        // --- 2. THEME LOGIC ---
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-        }
-        // Auto load theme
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
+        if(localStorage.getItem('app_fontsize')) {
+            currentSize = parseInt(localStorage.getItem('app_fontsize'));
+            applyZoom();
         }
 
-        // --- 3. STUDY MODE LOGIC (UX Feature) ---
-        function toggleStudyMode() {
-            isStudyMode = !isStudyMode;
-            const btn = document.getElementById('toggleModeBtn');
-            const list = document.getElementById('quizList');
+        function adjustZoom(delta) {
+            currentSize += delta;
+            // GIỚI HẠN: Cho phép xuống tới 5px (gần như 0 theo yêu cầu)
+            if(currentSize < 5) currentSize = 5; 
+            // Max thì cứ để thoải mái
+            if(currentSize > 40) currentSize = 40;
             
-            if (isStudyMode) {
-                btn.innerHTML = `<i class="fa-solid fa-eye"></i> <span>Xem đáp án</span>`;
-                btn.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 text-xs font-bold border border-indigo-100 dark:border-slate-700";
-                list.classList.remove('blur-answer');
-            } else {
-                btn.innerHTML = `<i class="fa-solid fa-eye-slash"></i> <span>Thi thử (Ẩn)</span>`;
-                btn.className = "flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-slate-800 text-amber-600 dark:text-amber-400 text-xs font-bold border border-amber-100 dark:border-slate-700";
-                list.classList.add('blur-answer');
-            }
+            applyZoom();
         }
 
-        // --- 4. DATA LOGIC ---
+        function applyZoom() {
+            root.style.fontSize = currentSize + 'px';
+            localStorage.setItem('app_fontsize', currentSize);
+            // Hiển thị % tượng trưng
+            zoomDisplay.innerText = Math.round((currentSize/16)*100) + '%';
+        }
+
+        // --- 2. THEME ---
+        function toggleTheme() {
+            root.classList.toggle('dark');
+            localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.classList.add('dark');
+        }
+
+        // --- 3. DATA & RENDER ---
+        const quizList = document.getElementById("quizList");
+        const totalCount = document.getElementById("totalCount");
+        const overrides = { 3:"B", 4:"A", 32:"B", 37:"C", 48:"A", 122:"D", 137:"D", 148:"D", 156:"D", 158:"B" };
+        let isStudyMode = true;
+
         fetch("questions.txt")
             .then(res => res.text())
             .then(text => {
                 const questions = parseQuestions(text);
                 render(questions);
             })
-            .catch(err => document.getElementById("quizList").innerHTML = "Lỗi file questions.txt");
+            .catch(err => quizList.innerHTML = "<p class='text-center text-red-500'>Lỗi tải file questions.txt</p>");
 
         function parseQuestions(text) {
             const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
@@ -148,100 +154,116 @@
                     const [, star, key, value] = match;
                     options[key] = value;
                     if (star) correct = key;
-                    if (overrides[id]) correct = overrides[id]; // Apply overrides directly
+                    if (overrides[id]) correct = overrides[id];
                 });
                 return { id, text: textQ, options, correct };
             });
         }
 
         function render(questions) {
-            const container = document.getElementById("quizList");
-            container.innerHTML = "";
-            document.getElementById("totalCount").innerText = `${questions.length} CÂU HỎI`;
+            quizList.innerHTML = "";
+            totalCount.innerText = `${questions.length} CÂU`;
 
             questions.forEach(q => {
                 const card = document.createElement("div");
-                // Card Style: Shadow mềm, Border mỏng, Rounded đẹp
-                card.className = "group bg-white dark:bg-dark-card rounded-2xl p-5 border border-gray-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-300 scroll-mt-32";
-                card.id = `q-${q.id}`; // ID để nhảy tới
+                // Layout Card
+                card.id = `q-${q.id}`;
+                card.className = "group bg-white dark:bg-dark-card p-5 rounded-xl border border-gray-200 dark:border-dark-border shadow-sm mb-4 scroll-mt-40";
 
-                // Header câu hỏi
                 let html = `
-                    <div class="flex gap-3 mb-4">
-                        <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 font-bold text-sm">
-                            ${q.id}
+                    <div class="flex gap-3 mb-3">
+                        <span class="flex-shrink-0 bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded text-xs font-bold h-fit">
+                            #${q.id}
                         </span>
-                        <h3 class="text-base font-semibold text-gray-800 dark:text-gray-100 leading-snug pt-1">
+                        <h3 class="text-base font-semibold leading-relaxed text-gray-900 dark:text-gray-100">
                             ${q.text}
                         </h3>
                     </div>
-                    <div class="space-y-2.5">
+                    <div class="flex flex-col gap-2.5">
                 `;
 
-                // Options
                 for (const key in q.options) {
                     const isRight = (key === q.correct);
                     
-                    // Style mặc định
-                    let baseClass = "relative flex items-center p-3 rounded-xl border border-gray-100 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-800/50 transition-all cursor-pointer select-none";
-                    let textClass = "text-sm text-gray-600 dark:text-slate-300 ml-3";
-                    let labelClass = "font-bold text-gray-400 dark:text-slate-500 w-5";
-
-                    // Style khi ĐÚNG (Có class correct-bg để JS toggle)
+                    // Style cơ bản
+                    let containerClass = "relative flex items-start p-3 rounded-lg border border-transparent bg-gray-50 dark:bg-slate-800/50 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700/80 transition-all";
+                    let labelClass = "font-bold text-gray-400 dark:text-slate-500 w-6 flex-shrink-0 pt-[2px]"; // Cố định chiều rộng chữ A,B,C,D
+                    let textClass = "text-sm text-gray-600 dark:text-slate-300 flex-grow leading-relaxed"; // flex-grow để đẩy icon ra
+                    
+                    // Style Đúng (Ẩn hiện bằng JS class toggle)
                     if (isRight) {
-                        baseClass += " correct-bg bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800";
-                        textClass += " correct-text text-emerald-800 dark:text-emerald-400 font-semibold";
-                        labelClass = "correct-text font-bold text-emerald-600 dark:text-emerald-400 w-5";
+                        containerClass += " correct-bg bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 dark:border-emerald-700";
+                        labelClass = " correct-text text-emerald-600 dark:text-emerald-400";
+                        textClass += " correct-text text-emerald-800 dark:text-emerald-300 font-medium";
+                    } else {
+                        containerClass += " border-gray-100 dark:border-slate-700";
                     }
 
+                    // ICON TICK: Dùng flex-shrink-0 để không bị bóp méo, ml-2 để cách chữ ra
+                    const tickIcon = isRight ? `<div class="correct-mark flex-shrink-0 text-emerald-500 dark:text-emerald-400 ml-2 pt-[2px]"><i class="fa-solid fa-check"></i></div>` : ``;
+
                     html += `
-                        <div class="${baseClass}" onclick="revealOne(this)">
-                            <span class="${labelClass}">${key}</span>
-                            <span class="${textClass}">${q.options[key]}</span>
-                            ${isRight ? '<i class="correct-mark fa-solid fa-check text-emerald-500 absolute right-4"></i>' : ''}
+                        <div class="${containerClass}" onclick="reveal(this)">
+                            <div class="${labelClass}">${key}</div>
+                            <div class="${textClass}">${q.options[key]}</div>
+                            ${tickIcon}
                         </div>
                     `;
                 }
 
                 html += `</div>`;
                 card.innerHTML = html;
-                container.appendChild(card);
+                quizList.appendChild(card);
             });
         }
 
-        // --- 5. INTERACTION UTILS ---
+        // --- 4. INTERACTIONS ---
         
-        // Khi ở chế độ "Thi thử", bấm vào đáp án để hiện màu
-        function revealOne(el) {
-            if (!isStudyMode && el.classList.contains('correct-bg')) {
-                // Tạm thời hiện style đúng cho element này
-                el.style.backgroundColor = ""; 
-                el.style.borderColor = "";
-                el.classList.add('!bg-emerald-50', '!border-emerald-500');
-                const text = el.querySelector('span:nth-child(2)');
-                if(text) text.classList.add('!text-emerald-800', '!font-bold');
+        function toggleMode() {
+            isStudyMode = !isStudyMode;
+            const btn = document.getElementById('modeBtn');
+            const main = document.getElementById('quizList');
+            
+            if(isStudyMode) {
+                main.classList.remove('blur-mode');
+                btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                btn.className = "bg-indigo-100 dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 px-3 py-1.5 rounded-md text-sm font-semibold";
+            } else {
+                main.classList.add('blur-mode');
+                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+                btn.className = "bg-amber-100 dark:bg-slate-700 text-amber-700 dark:text-amber-300 px-3 py-1.5 rounded-md text-sm font-semibold";
             }
         }
 
-        // Jump Logic
+        function reveal(el) {
+            // Khi đang ở chế độ ẩn đáp án, bấm vào thì hiện
+            if (!isStudyMode && el.classList.contains('correct-bg')) {
+                // Force style hiển thị
+                el.style.setProperty('background-color', 'rgba(16, 185, 129, 0.1)', 'important');
+                el.style.setProperty('border-color', '#10b981', 'important');
+                const label = el.querySelector('div:first-child');
+                const text = el.querySelector('div:nth-child(2)');
+                if(label) label.style.color = '#059669';
+                if(text) {
+                    text.style.color = '#065f46';
+                    text.style.fontWeight = '600';
+                }
+            }
+        }
+
         function jumpToQuestion() {
             const val = document.getElementById('jumpInput').value;
-            doJump(val);
-        }
-        function jumpToQuestionMobile() {
-            const val = document.getElementById('mobileJumpInput').value;
-            doJump(val);
-        }
-        function doJump(val) {
-            if(!val) return;
             const el = document.getElementById(`q-${val}`);
             if(el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                // Highlight hiệu ứng
-                el.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
-                setTimeout(() => el.classList.remove('ring-2', 'ring-primary', 'ring-offset-2'), 1500);
-            } else {
-                alert('Không tìm thấy câu ' + val);
+                // Tính toán offset để tránh header che mất
+                const headerOffset = 140; 
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                
+                el.classList.add('ring-2', 'ring-primary');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-primary'), 2000);
             }
         }
     </script>
