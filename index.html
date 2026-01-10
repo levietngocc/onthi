@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Software Testing Portal</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
     <script>
         tailwind.config = {
             theme: {
                 fontFamily: {
-                    sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    mono: ['JetBrains Mono', 'monospace'],
+                    sans: ["Plus Jakarta Sans", "sans-serif"],
+                    mono: ["JetBrains Mono", "monospace"],
                 },
                 extend: {
                     animation: {
-                        'float': 'float 8s ease-in-out infinite',
-                        'blob': 'blob 10s infinite',
+                        float: "float 8s ease-in-out infinite",
+                        blob: "blob 10s infinite",
                     },
                     keyframes: {
                         float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                            "0%, 100%": { transform: "translateY(0)" },
+                            "50%": { transform: "translateY(-10px)" },
                         },
                         blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        }
-                    }
-                }
-            }
-        }
+                            "0%": { transform: "translate(0px, 0px) scale(1)" },
+                            "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+                            "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+                            "100%": { transform: "translate(0px, 0px) scale(1)" },
+                        },
+                    },
+                },
+            },
+        };
     </script>
 
     <style>
@@ -46,15 +46,14 @@
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #eef2ff 100%);
             position: relative;
         }
-        
+
         /* Glassmorphism Sáng */
         .glass-panel {
             background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 
-                0 4px 6px -1px rgba(0, 0, 0, 0.01), 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01),
                 0 20px 40px -5px rgba(14, 165, 233, 0.15),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.5);
         }
@@ -67,7 +66,6 @@
     </style>
 </head>
 <body class="bg-crystal min-h-screen flex items-center justify-center p-6 overflow-hidden">
-
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div class="absolute top-10 left-10 w-96 h-96 bg-sky-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-blob"></div>
         <div class="absolute top-10 right-10 w-96 h-96 bg-cyan-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-blob animation-delay-2000"></div>
@@ -75,21 +73,17 @@
     </div>
 
     <div class="glass-panel w-full max-w-md rounded-[2.5rem] p-8 md:p-10 animate-float">
-        
         <div class="text-center mb-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-sky-100 shadow-sm mb-5">
                 <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
                 <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Quiz Portal</span>
             </div>
-            
-            <h1 class="text-4xl font-extrabold text-slate-800 tracking-tight leading-tight mb-2">
-                Software <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-indigo-600">Testing</span>
-            </h1>
+
+            <h1 class="text-4xl font-extrabold text-slate-800 tracking-tight leading-tight mb-2">Software <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-indigo-600">Testing</span></h1>
             <p class="text-slate-500 text-sm font-medium">Hệ thống ôn tập & kiểm tra trực tuyến</p>
         </div>
 
         <div class="flex flex-col gap-4">
-            
             <a href="ontap.html" class="menu-item-hover group flex items-center p-4 bg-white/80 border border-white rounded-2xl transition-all duration-300">
                 <div class="w-14 h-14 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-300 shadow-sm">
                     <i class="ph-fill ph-book-open-text"></i>
@@ -116,6 +110,19 @@
                 </div>
             </a>
 
+            <a href="random.html" class="menu-item-hover group flex items-center p-4 bg-white/80 border border-white rounded-2xl transition-all duration-300">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <i class="ph-fill ph-shuffle"></i>
+                </div>
+                <div class="ml-5 flex-1">
+                    <h3 class="text-lg font-bold text-slate-700 group-hover:text-emerald-600 transition-colors">Làm đề ngẫu nhiên</h3>
+                    <p class="text-xs text-slate-400 font-medium group-hover:text-slate-500">Random 50 câu ôn luyện</p>
+                </div>
+                <div class="text-slate-300 group-hover:text-emerald-500 transition-colors">
+                    <i class="ph-bold ph-caret-right text-xl"></i>
+                </div>
+            </a>
+
             <a href="kiemtra.html" class="menu-item-hover group flex items-center p-4 bg-white/80 border border-white rounded-2xl transition-all duration-300">
                 <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:bg-rose-500 group-hover:text-white transition-all duration-300 shadow-sm">
                     <i class="ph-fill ph-timer"></i>
@@ -128,11 +135,9 @@
                     <i class="ph-bold ph-caret-right text-xl"></i>
                 </div>
             </a>
-
         </div>
 
         <div class="mt-12 pt-6 border-t border-slate-200/60 flex flex-col items-center gap-6">
-            
             <a href="https://zalo.me/0325591025" target="_blank" class="group flex items-center gap-3 px-5 py-2.5 bg-white border border-slate-100 rounded-full shadow-sm hover:shadow-md hover:border-sky-200 transition-all cursor-pointer no-underline">
                 <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
                     <i class="ph-fill ph-chat-circle-dots"></i>
@@ -145,15 +150,10 @@
 
             <div class="flex items-center gap-4 opacity-40 hover:opacity-80 transition-opacity duration-500 cursor-default">
                 <div class="h-px w-6 bg-slate-400"></div>
-                <span class="font-mono text-[12px] text-slate-500 tracking-[0.2em]">
-                    created by vietngoc
-                </span>
+                <span class="font-mono text-[12px] text-slate-500 tracking-[0.2em]">created by vietngoc</span>
                 <div class="h-px w-6 bg-slate-400"></div>
             </div>
-
         </div>
-
     </div>
-
 </body>
 </html>
