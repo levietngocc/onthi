@@ -3,331 +3,315 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Ôn Thi</title>
+  <title>Ôn Thi Premium</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* Màu sắc tối giản, sang trọng */
-      --bg-body: #f9fafb;       /* Xám rất nhạt */
-      --bg-card: #ffffff;       /* Trắng tinh */
-      --text-primary: #111827;  /* Đen than */
-      --text-secondary: #6b7280;/* Xám ghi */
+      /* Màu sắc sang trọng */
+      --bg-body: #f3f4f6;       
+      --bg-card: #ffffff;       
+      --text-main: #1e293b;
+      --text-sub: #64748b;
       
-      --accent-color: #10b981;  /* Xanh lá chủ đạo */
-      --accent-bg: #ecfdf5;     /* Nền xanh nhạt cho đáp án đúng */
-      
-      --border: 1px solid #e5e7eb;
-      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-      --radius: 16px;
+      --brand-color: #6366f1;   /* Màu tím xanh Indigo thời thượng */
+      --success-bg: #ecfdf5;    /* Nền xanh ngọc nhạt */
+      --success-text: #059669;  /* Chữ xanh ngọc đậm */
+      --success-border: #10b981;
+
+      --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+      --radius-card: 24px;      /* Bo góc lớn */
+      --radius-btn: 14px;
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       background-color: var(--bg-body);
-      color: var(--text-primary);
+      color: var(--text-main);
       margin: 0;
-      padding-bottom: 100px;
-      font-size: 16px; /* Size gốc */
-      transition: font-size 0.2s ease;
-      line-height: 1.5;
+      padding-bottom: 120px;
+      font-size: 16px; 
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* --- HEADER --- */
+    /* --- HEADER GLASSMORPHISM --- */
     .header {
       position: sticky;
       top: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: var(--border);
-      padding: 0 20px;
-      height: 64px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
     }
 
-    .brand {
-      font-weight: 800;
-      font-size: 1.25rem;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      text-transform: uppercase;
-    }
-
-    /* --- ZOOM CONTROL (MENU XỔ XUỐNG) --- */
-    .header-actions {
-      position: relative; /* Để định vị cái menu xổ xuống */
-    }
-
-    .btn-settings {
-      background: transparent;
-      border: var(--border);
-      width: 40px; height: 40px;
-      border-radius: 50%; /* Tròn */
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--text-primary);
-      transition: background 0.2s;
-    }
-    .btn-settings:hover, .btn-settings.active {
-      background: #f3f4f6;
-    }
-
-    /* Cái hộp menu Zoom */
-    .zoom-popup {
-      position: absolute;
-      top: 55px;
-      right: 0;
+    /* Nút Quay lại & Zoom */
+    .btn-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-btn);
+      border: 1px solid rgba(0,0,0,0.08);
       background: white;
-      border: var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      width: 200px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      display: none; /* Mặc định ẩn */
-      flex-direction: column;
-      gap: 10px;
-      animation: popIn 0.2s ease-out;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-main);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.1s, background 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
-    .zoom-popup.show { display: flex; }
+    .btn-icon:active { transform: scale(0.92); }
+    
+    .page-title {
+      font-weight: 800;
+      font-size: 1.1rem;
+      background: linear-gradient(to right, #6366f1, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-    @keyframes popIn {
+    /* --- ZOOM DROPDOWN --- */
+    .zoom-wrapper { position: relative; }
+    
+    .zoom-menu {
+      position: absolute;
+      top: 55px; right: 0;
+      background: white;
+      padding: 15px;
+      border-radius: 16px;
+      width: 220px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      display: none;
+      border: 1px solid rgba(0,0,0,0.05);
+      animation: slideDown 0.2s ease;
+    }
+    .zoom-menu.show { display: block; }
+    
+    @keyframes slideDown {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .zoom-label {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      font-weight: 600;
-      text-align: center;
-    }
-
-    .zoom-buttons {
+    .zoom-controls {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: #f3f4f6;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 6px;
+      border-radius: 12px;
+    }
+    
+    .btn-adjust {
+      width: 36px; height: 36px;
+      border: none; background: white;
       border-radius: 8px;
-      padding: 4px;
-    }
-
-    .btn-zoom {
-      width: 40px; height: 40px;
-      border: none;
-      background: white;
-      border-radius: 6px;
-      font-size: 1.2rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-    .btn-zoom:active { transform: scale(0.95); }
-
-    .zoom-display {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text-primary);
     }
 
-    /* --- CONTENT --- */
+    /* --- CONTAINER --- */
     .container {
-      max-width: 720px; /* Hẹp lại chút để dễ đọc giống sách */
-      margin: 40px auto;
+      max-width: 700px;
+      margin: 30px auto;
       padding: 0 20px;
     }
 
     /* --- QUESTION CARD --- */
-    .question-card {
+    .card {
       background: var(--bg-card);
-      border-radius: var(--radius);
-      padding: 30px;
-      margin-bottom: 30px;
-      border: var(--border);
-      /* Hiệu ứng đổ bóng mờ ảo tinh tế */
-      box-shadow: var(--shadow);
+      border-radius: var(--radius-card);
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid white;
+      position: relative;
+      overflow: hidden;
     }
 
-    .q-meta {
+    /* Số thứ tự câu hỏi - TO VÀ ĐẸP */
+    .card-header {
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 16px;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 1px dashed #e2e8f0;
+      padding-bottom: 15px;
     }
 
-    .q-id {
-      font-size: 0.75em;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-secondary);
-      font-weight: 700;
+    .q-badge {
+      font-size: 1.8rem; /* To bự */
+      font-weight: 800;
+      color: var(--brand-color);
+      line-height: 1;
     }
-
-    .q-text {
-      font-size: 1.2em; /* Chữ câu hỏi to rõ */
+    .q-label {
+      font-size: 0.9rem;
       font-weight: 600;
-      margin-bottom: 24px;
-      color: #000;
+      color: var(--text-sub);
+      text-transform: uppercase;
     }
 
-    /* --- ANSWERS --- */
-    .options-grid {
+    .q-content {
+      font-size: 1.15em;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 24px;
+    }
+
+    /* --- OPTIONS --- */
+    .option-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
 
-    .option-row {
+    .option-item {
       display: flex;
-      align-items: baseline; /* Canh dòng text chuẩn */
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid transparent; /* Giữ chỗ cho viền */
-      transition: all 0.2s;
+      align-items: center; /* Căn giữa dọc */
+      padding: 14px 18px;
+      border-radius: 16px;
+      border: 1px solid #f1f5f9;
+      background: #f8fafc;
+      transition: all 0.2s ease;
     }
 
-    .opt-key {
-      flex-shrink: 0;
-      width: 30px;
+    .opt-char {
+      width: 32px;
+      height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: #e2e8f0;
+      color: var(--text-sub);
+      border-radius: 50%;
       font-weight: 700;
-      color: var(--text-secondary);
       font-size: 0.9em;
+      margin-right: 15px;
+      flex-shrink: 0;
     }
 
-    .opt-val {
+    .opt-text {
       flex-grow: 1;
-      color: #374151;
-      line-height: 1.6;
+      color: #334155;
     }
 
-    /* Styling Đáp Án Đúng */
+    /* --- STYLE ĐÁP ÁN ĐÚNG (Highlight nhẹ nhàng) --- */
     .is-correct {
-      background-color: var(--accent-bg);
-      border-color: var(--accent-color);
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
     }
-    .is-correct .opt-key { color: var(--accent-color); }
-    .is-correct .opt-val { 
-      color: #065f46; 
+
+    .is-correct .opt-char {
+      background: var(--success-text);
+      color: white;
+    }
+
+    .is-correct .opt-text {
+      color: #047857;
       font-weight: 600;
     }
     
-    /* Dấu tích nhỏ xinh */
+    /* Icon tick ở cuối */
     .is-correct::after {
-      content: "✓";
-      color: var(--accent-color);
+      content: "✔";
+      color: var(--success-text);
       font-weight: bold;
-      margin-left: 10px;
-    }
-    
-    .is-normal {
-      border-color: #f3f4f6; /* Viền rất mờ */
+      font-size: 1.2em;
     }
 
-    /* Scroll Top Button */
+    .is-normal { opacity: 0.8; }
+
+    /* Scroll Top */
     #scrollTop {
-      position: fixed; bottom: 30px; right: 30px;
-      width: 50px; height: 50px;
-      background: var(--text-primary);
-      color: white;
-      border: none; border-radius: 50%;
+      position: fixed; bottom: 30px; right: 25px;
+      width: 56px; height: 56px;
+      background: #1e293b; color: white;
+      border-radius: 50%; border: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
       cursor: pointer; display: none;
-      font-size: 1.5rem;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      font-size: 24px; z-index: 90;
+      transition: transform 0.2s;
     }
-    
-    /* Mobile Responsive */
-    @media (max-width: 600px) {
-      .question-card { padding: 20px; }
-      .q-text { font-size: 1.1em; }
-    }
+    #scrollTop:active { transform: scale(0.9); }
+
   </style>
 </head>
 <body>
 
   <header class="header">
-    <a href="index.html" style="text-decoration:none; color:inherit;">
-      <div class="brand">ÔN THI</div>
+    <a href="index.html" class="btn-icon" title="Quay lại">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
     </a>
 
-    <div class="header-actions">
-      <button class="btn-settings" onclick="toggleZoomMenu()" id="zoomBtn">
-        Aa
-      </button>
+    <div class="page-title">LUYỆN THI</div>
 
-      <div class="zoom-popup" id="zoomPopup">
-        <div class="zoom-label">Cỡ chữ hiển thị</div>
-        <div class="zoom-buttons">
-          <button class="btn-zoom" onclick="changeZoom(-1)">-</button>
-          <span class="zoom-display" id="zoomLevel">100%</span>
-          <button class="btn-zoom" onclick="changeZoom(1)">+</button>
+    <div class="zoom-wrapper">
+      <button class="btn-icon" onclick="toggleZoom()" id="zoomBtn">
+        <span style="font-size:1.1rem; font-family:serif;">Aa</span>
+      </button>
+      
+      <div class="zoom-menu" id="zoomMenu">
+        <div style="font-size:0.85rem; color:#64748b; margin-bottom:8px; font-weight:600; text-align:center;">Cỡ chữ hiển thị</div>
+        <div class="zoom-controls">
+          <button class="btn-adjust" onclick="adjustZoom(-1)">A-</button>
+          <span id="zoomVal" style="font-weight:700; font-size:0.9rem;">100%</span>
+          <button class="btn-adjust" onclick="adjustZoom(1)">A+</button>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="container" id="container">
-    <div style="text-align:center; margin-top:100px; color:#9ca3af">Đang tải dữ liệu...</div>
+  <div class="container" id="quizList">
+    <div style="text-align:center; margin-top:50px; color:#94a3b8;">
+      Đang tải dữ liệu đẹp trai...
+    </div>
   </div>
 
   <button id="scrollTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
 
   <script>
-    // --- 1. ZOOM LOGIC (THEO YÊU CẦU) ---
-    const rootElement = document.documentElement;
-    const zoomLevelDisplay = document.getElementById('zoomLevel');
-    const zoomPopup = document.getElementById('zoomPopup');
-    const zoomBtn = document.getElementById('zoomBtn');
-    
-    let currentSize = 16; // Font gốc (px)
-    let zoomPercentage = 100;
+    // --- ZOOM LOGIC ---
+    let currentSize = 16;
+    const zoomMenu = document.getElementById('zoomMenu');
+    const zoomVal = document.getElementById('zoomVal');
 
-    // Load setting cũ nếu có
-    if(localStorage.getItem('userFontSize')) {
-      currentSize = parseInt(localStorage.getItem('userFontSize'));
-      updateZoomDisplay();
+    if(localStorage.getItem('fontSizeProp')) {
+      currentSize = parseInt(localStorage.getItem('fontSizeProp'));
+      applyZoom();
     }
 
-    function toggleZoomMenu() {
-      zoomPopup.classList.toggle('show');
-      zoomBtn.classList.toggle('active');
+    function toggleZoom() {
+      zoomMenu.classList.toggle('show');
     }
 
-    // Đóng menu khi click ra ngoài
-    document.addEventListener('click', function(event) {
-      if (!zoomPopup.contains(event.target) && !zoomBtn.contains(event.target)) {
-        zoomPopup.classList.remove('show');
-        zoomBtn.classList.remove('active');
-      }
+    // Đóng menu khi bấm ra ngoài
+    document.addEventListener('click', (e) => {
+      if(!e.target.closest('.zoom-wrapper')) zoomMenu.classList.remove('show');
     });
 
-    function changeZoom(direction) {
-      // Tăng giảm 1px mỗi lần click
-      currentSize += direction;
-      
-      // Giới hạn
-      if (currentSize < 12) currentSize = 12;
-      if (currentSize > 28) currentSize = 28;
-
-      // Lưu và áp dụng
-      document.body.style.fontSize = currentSize + 'px';
-      localStorage.setItem('userFontSize', currentSize);
-      updateZoomDisplay();
+    function adjustZoom(delta) {
+      currentSize += delta;
+      if(currentSize < 14) currentSize = 14;
+      if(currentSize > 26) currentSize = 26;
+      applyZoom();
     }
 
-    function updateZoomDisplay() {
-      // Tính % cho vui mắt
-      let percent = Math.round((currentSize / 16) * 100);
-      zoomLevelDisplay.innerText = percent + "%";
+    function applyZoom() {
       document.body.style.fontSize = currentSize + 'px';
+      zoomVal.innerText = Math.round((currentSize/16)*100) + '%';
+      localStorage.setItem('fontSizeProp', currentSize);
     }
 
-    // --- 2. LOGIC CÂU HỎI ---
-    const quizDiv = document.getElementById("container");
+    // --- RENDER LOGIC ---
+    const quizDiv = document.getElementById("quizList");
     const answerOverrides = {
       3: "B", 4: "A", 32: "B", 37: "C", 48: "A",
       122: "D", 137: "D", 148: "D", 156: "D", 158: "B"
@@ -337,12 +321,15 @@
       .then(res => res.text())
       .then(text => {
         let questions = parseQuestions(text);
+        // Sửa đáp án
         questions.forEach(q => {
           if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
         });
         render(questions);
       })
-      .catch(err => quizDiv.innerHTML = "Lỗi load file questions.txt");
+      .catch(err => {
+         quizDiv.innerHTML = `<p style="text-align:center; color:red">Không tìm thấy file questions.txt</p>`;
+      });
 
     function parseQuestions(text) {
       const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
@@ -366,25 +353,21 @@
 
     function render(questions) {
       quizDiv.innerHTML = "";
-      
-      // Thêm dòng tổng số câu
-      const info = document.createElement('div');
-      info.style.marginBottom = "20px";
-      info.style.color = "var(--text-secondary)";
-      info.style.fontSize = "0.9em";
-      info.innerText = `Tổng hợp ${questions.length} câu hỏi trắc nghiệm`;
-      quizDiv.appendChild(info);
+      // Hiển thị tổng số câu
+      quizDiv.innerHTML += `<div style="margin-bottom:20px; text-align:center; font-weight:600; color:#64748b; font-size:0.9em; text-transform:uppercase; letter-spacing:1px;">Tổng hợp ${questions.length} câu hỏi</div>`;
 
       questions.forEach(q => {
         const card = document.createElement("div");
-        card.className = "question-card";
+        card.className = "card";
 
+        // Header: Badge số to + text
         let html = `
-          <div class="q-meta">
-            <span class="q-id">Câu ${q.id}</span>
+          <div class="card-header">
+            <div class="q-label">Câu</div>
+            <div class="q-badge">${q.id}</div>
           </div>
-          <div class="q-text">${q.text}</div>
-          <div class="options-grid">
+          <div class="q-content">${q.text}</div>
+          <div class="option-list">
         `;
 
         for (const key in q.options) {
@@ -392,9 +375,9 @@
           const cls = isRight ? "is-correct" : "is-normal";
           
           html += `
-            <div class="option-row ${cls}">
-              <div class="opt-key">${key}</div>
-              <div class="opt-val">${q.options[key]}</div>
+            <div class="option-item ${cls}">
+              <div class="opt-char">${key}</div>
+              <div class="opt-text">${q.options[key]}</div>
             </div>
           `;
         }
@@ -405,12 +388,12 @@
       });
     }
 
-    // Scroll button
-    const btnScroll = document.getElementById("scrollTop");
+    // Scroll
     window.onscroll = () => {
-      if (document.documentElement.scrollTop > 500) btnScroll.style.display = "block";
-      else btnScroll.style.display = "none";
-    };
+      const btn = document.getElementById("scrollTop");
+      if(document.documentElement.scrollTop > 400) btn.style.display = "block";
+      else btn.style.display = "none";
+    }
   </script>
 </body>
 </html>
