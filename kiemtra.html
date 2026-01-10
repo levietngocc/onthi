@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Testing</title>
+    <title>Luyện Thi Pro Fixed</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -28,7 +28,8 @@
 
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        /* Custom Radio Button Styling */
+        
+        /* Custom Radio Styling - Dùng em để scale theo font-size */
         input[type="radio"]:checked + div {
             border-color: #4f46e5;
             background-color: #eef2ff;
@@ -40,16 +41,24 @@
         input[type="radio"]:checked + div .radio-dot {
             border-color: #4f46e5;
             background-color: #4f46e5;
-            box-shadow: 0 0 0 3px #eef2ff;
+            box-shadow: 0 0 0 0.2em #eef2ff; /* Dùng em cho shadow */
         }
         .dark input[type="radio"]:checked + div .radio-dot {
             border-color: #6366f1;
             background-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 0 0.2em rgba(99, 102, 241, 0.2);
         }
-        /* Animation kết quả */
+        
+        /* Animation */
         .fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Vùng Zoom: Các phần tử con sẽ dùng em/inherit để ăn theo size cha */
+        #quizContainer {
+            transition: font-size 0.2s ease-out;
+            /* Mặc định size */
+            font-size: 16px; 
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-slate-800 dark:bg-dark-bg dark:text-gray-200 transition-colors duration-200 pb-32">
@@ -72,7 +81,7 @@
                     <button onclick="adjustZoom(-1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <span class="w-10 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">100%</span>
+                    <span class="w-12 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">16px</span>
                     <button onclick="adjustZoom(1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -97,47 +106,52 @@
         </div>
     </main>
 
-    <div class="max-w-4xl mx-auto px-4 mt-10 mb-20">
+    <div class="max-w-4xl mx-auto px-4 mt-10 mb-20 text-base"> 
         <button onclick="resetAllData()" class="w-full sm:w-auto px-6 py-3 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold flex items-center justify-center gap-2 transition-all mx-auto dark:bg-red-900/10 dark:text-red-400 dark:border-red-900/30">
             <i class="fa-solid fa-trash-can"></i> Xóa dữ liệu & Làm lại
         </button>
     </div>
 
-    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95">
+    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95 text-xl">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
     <script>
-        // --- 1. ZOOM LOGIC ---
-        const root = document.documentElement;
+        // --- 1. ZOOM LOGIC (Targeted Div Only) ---
+        const container = document.getElementById('quizContainer');
         const zoomDisplay = document.getElementById('zoomDisplay');
         let currentSize = 16; 
-        if(localStorage.getItem('exam_fontsize')) {
-            currentSize = parseInt(localStorage.getItem('exam_fontsize'));
+        
+        if(localStorage.getItem('quiz_content_size')) {
+            currentSize = parseInt(localStorage.getItem('quiz_content_size'));
             applyZoom();
         }
+
         function adjustZoom(delta) {
             currentSize += delta;
-            if(currentSize < 5) currentSize = 5;
+            // Cho phép nhỏ tối đa xuống 10px, lớn 40px
+            if(currentSize < 10) currentSize = 10;
+            if(currentSize > 40) currentSize = 40;
             applyZoom();
         }
+
         function applyZoom() {
-            root.style.fontSize = currentSize + 'px';
-            localStorage.setItem('exam_fontsize', currentSize);
-            zoomDisplay.innerText = Math.round((currentSize/16)*100) + '%';
+            // Thay vì chỉnh root, ta chỉnh container
+            container.style.fontSize = currentSize + 'px';
+            localStorage.setItem('quiz_content_size', currentSize);
+            zoomDisplay.innerText = currentSize + 'px';
         }
 
         // --- 2. THEME LOGIC ---
         function toggleTheme() {
-            root.classList.toggle('dark');
-            localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         }
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            root.classList.add('dark');
+            document.documentElement.classList.add('dark');
         }
 
         // --- 3. DATA & APP LOGIC ---
-        const quizContainer = document.getElementById("quizContainer");
         const progressText = document.getElementById("progressText");
         const progressBar = document.getElementById("progressBar");
         
@@ -150,14 +164,13 @@
             .then(res => res.text())
             .then(text => {
                 allQuestions = parseQuestions(text);
-                // Apply overrides
                 allQuestions.forEach(q => {
                     if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
                 });
                 renderQuiz(allQuestions);
                 updateProgress();
             })
-            .catch(err => quizContainer.innerHTML = `<div class='bg-red-50 text-red-500 p-4 rounded-xl text-center border border-red-200'><b>Lỗi:</b> Không tìm thấy file questions.txt</div>`);
+            .catch(err => container.innerHTML = `<div class='bg-red-50 text-red-500 p-4 rounded-xl text-center border border-red-200'><b>Lỗi:</b> Không tìm thấy file questions.txt</div>`);
 
         function parseQuestions(text) {
             const blocks = text.trim().split(/\n(?=\d+\.)/).filter(Boolean);
@@ -179,38 +192,40 @@
         }
 
         function renderQuiz(questions) {
-            quizContainer.innerHTML = "";
+            container.innerHTML = "";
             
             questions.forEach(q => {
-                // Lấy đáp án đã lưu
                 const savedAns = localStorage.getItem(`q_${q.id}`);
                 
                 const card = document.createElement("div");
                 card.id = `card-${q.id}`;
+                // Lưu ý: Không dùng text-sm hay text-base ở đây để nó inherit font-size từ container
                 card.className = "bg-white dark:bg-dark-card p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm mb-6 scroll-mt-32";
 
-                // --- HEADER CÂU HỎI ---
+                // --- HEADER ---
+                // Font-size: Dùng em để scale theo size container
+                // 1.15em cho câu hỏi to hơn đáp án chút
                 let html = `
                     <div class="flex items-start gap-4 mb-5">
-                        <span class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 font-bold text-sm border border-indigo-100 dark:border-slate-600">
+                        <span class="flex-shrink-0 w-[2.5em] h-[2.5em] flex items-center justify-center rounded-xl bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-100 dark:border-slate-600" style="font-size: 0.9em;">
                             ${q.id}
                         </span>
-                        <h3 class="text-base font-semibold leading-relaxed text-gray-800 dark:text-gray-100 pt-1">
+                        <h3 class="font-semibold leading-relaxed text-gray-800 dark:text-gray-100 pt-1" style="font-size: 1.1em;">
                             ${q.text}
                         </h3>
                     </div>
                 `;
 
-                // --- OPTIONS (RADIO CUSTOM) ---
+                // --- OPTIONS ---
                 html += `<div class="space-y-3" id="options-${q.id}">`;
                 for (const key in q.options) {
                     const isChecked = savedAns === key ? 'checked' : '';
                     html += `
                         <label class="block cursor-pointer group">
                             <input type="radio" name="q_${q.id}" value="${key}" class="hidden" onchange="handleSelect(${q.id}, '${key}')" ${isChecked}>
-                            <div class="flex items-center p-3.5 rounded-xl border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-all bg-white dark:bg-dark-bg/50">
-                                <div class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-slate-500 mr-4 flex items-center justify-center flex-shrink-0 radio-dot transition-colors"></div>
-                                <div class="flex-grow text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                            <div class="flex items-center p-[0.8em] rounded-xl border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-all bg-white dark:bg-dark-bg/50">
+                                <div class="w-[1.2em] h-[1.2em] rounded-full border-2 border-gray-300 dark:border-slate-500 mr-4 flex items-center justify-center flex-shrink-0 radio-dot transition-colors"></div>
+                                <div class="flex-grow font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" style="font-size: 1em;">
                                     <span class="font-bold mr-1">${key}.</span> ${q.options[key]}
                                 </div>
                             </div>
@@ -219,24 +234,23 @@
                 }
                 html += `</div>`;
 
-                // --- ACTION BAR ---
+                // --- ACTIONS (Static size text for buttons usually better, but let's scale slightly) ---
                 html += `
-                    <div class="mt-6 pt-4 border-t border-gray-100 dark:border-slate-700 flex flex-wrap gap-3">
-                        <button onclick="checkAnswer(${q.id}, '${q.correct}')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-lg text-sm font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all active:scale-95">
+                    <div class="mt-6 pt-4 border-t border-gray-100 dark:border-slate-700 flex flex-wrap gap-3 text-[16px]">
+                        <button onclick="checkAnswer(${q.id}, '${q.correct}')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-lg font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all active:scale-95">
                             Kiểm tra
                         </button>
-                        <button onclick="resetQuestion(${q.id})" class="px-4 py-2.5 rounded-lg text-sm font-bold border border-gray-200 dark:border-slate-600 text-gray-500 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-700 dark:hover:text-gray-200 transition-all">
+                        <button onclick="resetQuestion(${q.id})" class="px-4 py-2.5 rounded-lg font-bold border border-gray-200 dark:border-slate-600 text-gray-500 hover:bg-gray-50 dark:hover:bg-slate-700 hover:text-gray-700 dark:hover:text-gray-200 transition-all">
                             <i class="fa-solid fa-rotate-right"></i>
                         </button>
                     </div>
                 `;
 
-                // --- RESULT AREA ---
-                // Nếu đã check trước đó thì hiển thị lại (cần lưu trạng thái result nếu muốn xịn hơn, ở đây đơn giản là ẩn)
-                html += `<div id="result-${q.id}" class="hidden mt-4 p-4 rounded-xl text-sm border-l-4 fade-in"></div>`;
+                // --- RESULT ---
+                html += `<div id="result-${q.id}" class="hidden mt-4 p-4 rounded-xl border-l-4 fade-in" style="font-size: 1em;"></div>`;
 
                 card.innerHTML = html;
-                quizContainer.appendChild(card);
+                container.appendChild(card);
             });
         }
 
@@ -244,11 +258,9 @@
 
         function handleSelect(id, value) {
             localStorage.setItem(`q_${id}`, value);
-            // Ẩn kết quả cũ nếu chọn lại
             const resDiv = document.getElementById(`result-${id}`);
             resDiv.classList.add('hidden');
-            resDiv.className = "hidden mt-4 p-4 rounded-xl text-sm border-l-4 fade-in";
-            
+            resDiv.className = "hidden mt-4 p-4 rounded-xl border-l-4 fade-in";
             updateProgress();
         }
 
@@ -265,30 +277,25 @@
 
             if (selected === correct) {
                 // ĐÚNG
-                resDiv.className = "mt-4 p-4 rounded-xl text-sm border-l-4 fade-in bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 text-emerald-800 dark:text-emerald-300";
-                resDiv.innerHTML = `<div class="flex gap-3"><i class="fa-solid fa-circle-check text-xl mt-0.5"></i> <div><b>Chính xác!</b><br>Bạn quá đỉnh!</div></div>`;
+                resDiv.className = "mt-4 p-4 rounded-xl border-l-4 fade-in bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 text-emerald-800 dark:text-emerald-300";
+                resDiv.innerHTML = `<div class="flex gap-3"><i class="fa-solid fa-circle-check mt-1"></i> <div><b>Chính xác!</b></div></div>`;
             } else {
                 // SAI
-                resDiv.className = "mt-4 p-4 rounded-xl text-sm border-l-4 fade-in bg-red-50 dark:bg-red-900/20 border-red-500 text-red-800 dark:text-red-300";
-                resDiv.innerHTML = `<div class="flex gap-3"><i class="fa-solid fa-circle-xmark text-xl mt-0.5"></i> <div><b>Sai rồi!</b><br>Đáp án đúng là: <b class="text-base">${correct}</b></div></div>`;
+                resDiv.className = "mt-4 p-4 rounded-xl border-l-4 fade-in bg-red-50 dark:bg-red-900/20 border-red-500 text-red-800 dark:text-red-300";
+                resDiv.innerHTML = `<div class="flex gap-3"><i class="fa-solid fa-circle-xmark mt-1"></i> <div><b>Sai rồi!</b><br>Đáp án đúng: <b>${correct}</b></div></div>`;
             }
         }
 
         function resetQuestion(id) {
             localStorage.removeItem(`q_${id}`);
-            // Uncheck inputs
             const inputs = document.querySelectorAll(`input[name="q_${id}"]`);
             inputs.forEach(i => i.checked = false);
-            // Hide result
-            const resDiv = document.getElementById(`result-${id}`);
-            resDiv.classList.add('hidden');
-            
+            document.getElementById(`result-${id}`).classList.add('hidden');
             updateProgress();
         }
 
         function resetAllData() {
-            if(confirm("Bạn có chắc chắn muốn xóa toàn bộ tiến độ làm bài không?")) {
-                // Chỉ xóa các key bắt đầu bằng q_
+            if(confirm("Xóa toàn bộ tiến độ?")) {
                 Object.keys(localStorage).forEach(key => {
                     if(key.startsWith('q_')) localStorage.removeItem(key);
                 });
@@ -296,23 +303,15 @@
             }
         }
 
-        // --- 5. PROGRESS LOGIC ---
         function updateProgress() {
             if (allQuestions.length === 0) return;
-            
             let doneCount = 0;
             allQuestions.forEach(q => {
                 if(localStorage.getItem(`q_${q.id}`)) doneCount++;
             });
-
-            // Update Text
             progressText.innerText = `${doneCount}/${allQuestions.length} Đã làm`;
-            
-            // Update Bar Width
             const percent = (doneCount / allQuestions.length) * 100;
             progressBar.style.width = `${percent}%`;
-            
-            // Change color if complete
             if(percent === 100) {
                 progressBar.classList.remove('bg-indigo-500');
                 progressBar.classList.add('bg-emerald-500');
