@@ -27,16 +27,28 @@
     <style>
         body { background-color: #3e4144; overflow-x: hidden; }
         
-        /* Trang A4 chuẩn */
+        /* CẤU HÌNH TRANG GIẤY RESPONSIVE */
         .page-container {
-            width: 210mm;
-            min-height: 297mm;
-            margin: 40px auto;
             background: white;
-            padding: 20mm 15mm; 
             position: relative;
             transform-origin: top center;
             transition: transform 0.2s ease-out;
+            
+            /* Mặc định (Mobile): Rộng 95%, lề nhỏ */
+            width: 95%;
+            min-height: 80vh;
+            margin: 20px auto;
+            padding: 15px 15px;
+        }
+
+        /* Màn hình lớn (PC/Tablet): Quay về khổ A4 chuẩn */
+        @media (min-width: 640px) {
+            .page-container {
+                width: 210mm;
+                min-height: 297mm;
+                margin: 40px auto;
+                padding: 20mm 15mm;
+            }
         }
 
         html { scroll-behavior: smooth; }
@@ -46,7 +58,7 @@
         ::-webkit-scrollbar-track { background: #2d3032; }
         ::-webkit-scrollbar-thumb { background: #5f6368; border-radius: 4px; }
 
-        /* Style Đáp án đúng - Gạch chân đỏ */
+        /* Style Đáp án đúng */
         .correct-answer { 
             color: #b91c1c; 
             font-weight: 700;
@@ -104,8 +116,8 @@
         <div class="page-container shadow-page rounded-sm" id="main-page">
             
             <div class="text-center border-b border-slate-800 pb-4 mb-6">
-                <h1 class="text-xl font-bold uppercase tracking-tight text-slate-900 font-sans">Câu Hỏi Trắc Nghiệm</h1>
-                <p class="text-[11px] text-slate-500 italic font-sans mt-1">Sai sót liên hệ Zalo : 0325591025</p>
+                <h1 class="text-base sm:text-xl font-bold uppercase tracking-tight text-slate-900 font-sans">Câu Hỏi Trắc Nghiệm</h1>
+                <p class="text-[10px] sm:text-[11px] text-slate-500 italic font-sans mt-1">Sai sót liên hệ Zalo : 0325591025</p>
             </div>
 
             <div id="content-body" class="space-y-4 text-justify">
@@ -136,7 +148,9 @@
         function updateZoom() {
             page.style.transform = `scale(${currentZoom / 100})`;
             zoomLabel.innerText = `${currentZoom}%`;
-            page.style.marginBottom = currentZoom > 100 ? `${(currentZoom - 100) * 3}mm` : '40px';
+            // Điều chỉnh margin khi zoom để không bị che
+            const extraMargin = currentZoom > 100 ? (currentZoom - 100) * 2 : 20;
+            page.style.marginBottom = `${extraMargin}px`;
         }
         function zoomIn() { if (currentZoom < 200) { currentZoom += 10; updateZoom(); } }
         function zoomOut() { if (currentZoom > 50) { currentZoom -= 10; updateZoom(); } }
@@ -222,16 +236,17 @@
         function renderQuestion(q) {
             let optionsBlock = q.options.map(opt => {
                 const correctClass = opt.isCorrect ? 'correct-answer' : 'text-slate-700';
-                return `<div class="${correctClass} text-[13px] leading-snug pl-1 mb-0.5">${opt.text}</div>`;
+                // Mobile: text-[10px], PC: text-[13px]
+                return `<div class="${correctClass} text-[10px] sm:text-[13px] leading-snug pl-1 mb-0.5">${opt.text}</div>`;
             }).join('');
 
             return `
                 <div class="mb-4 pb-2 border-b border-slate-100 last:border-0 page-break-avoid">
-                    <div class="flex items-start gap-2 mb-1">
-                        <span class="text-[14px] font-bold text-slate-900 font-sans whitespace-nowrap flex-shrink-0">Câu ${q.number}:</span>
-                        <span class="text-[14px] font-semibold text-slate-800 leading-snug font-serif">${q.content}</span>
+                    <div class="flex items-start gap-1 sm:gap-2 mb-1">
+                        <span class="text-[11px] sm:text-[14px] font-bold text-slate-900 font-sans whitespace-nowrap flex-shrink-0">Câu ${q.number}:</span>
+                        <span class="text-[11px] sm:text-[14px] font-semibold text-slate-800 leading-snug font-serif">${q.content}</span>
                     </div>
-                    <div class="pl-0 mt-1 font-serif ml-4">
+                    <div class="pl-0 mt-1 font-serif ml-2 sm:ml-4">
                         ${optionsBlock}
                     </div>
                 </div>
