@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Test</title>
+    <title>Luyện Thi Trắc Nghiệm</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -29,7 +29,7 @@
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* Custom Radio Styling - Dùng em để scale theo font-size */
+        /* Custom Radio Styling */
         input[type="radio"]:checked + div {
             border-color: #4f46e5;
             background-color: #eef2ff;
@@ -41,7 +41,7 @@
         input[type="radio"]:checked + div .radio-dot {
             border-color: #4f46e5;
             background-color: #4f46e5;
-            box-shadow: 0 0 0 0.2em #eef2ff; /* Dùng em cho shadow */
+            box-shadow: 0 0 0 0.2em #eef2ff;
         }
         .dark input[type="radio"]:checked + div .radio-dot {
             border-color: #6366f1;
@@ -53,10 +53,9 @@
         .fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Vùng Zoom: Các phần tử con sẽ dùng em/inherit để ăn theo size cha */
+        /* Vùng Zoom */
         #quizContainer {
             transition: font-size 0.2s ease-out;
-            /* Mặc định size */
             font-size: 16px; 
         }
     </style>
@@ -81,11 +80,15 @@
                     <button onclick="adjustZoom(-1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <span class="w-12 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">16px</span>
+                    <span class="w-10 text-center text-[11px] font-bold text-gray-600 dark:text-gray-400" id="zoomDisplay">16px</span>
                     <button onclick="adjustZoom(1)" class="w-8 h-8 flex items-center justify-center rounded hover:bg-white dark:hover:bg-slate-700 active:scale-90 transition-all text-xs font-bold">
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
+
+                <button onclick="resetAllData()" title="Làm lại từ đầu" class="w-10 h-10 flex items-center justify-center rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-100 dark:border-red-900/30 transition-all active:scale-95">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
 
                 <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-yellow-400 hover:bg-gray-200 transition-all">
                     <i class="fa-solid fa-moon dark:hidden"></i>
@@ -106,18 +109,20 @@
         </div>
     </main>
 
-    <div class="max-w-4xl mx-auto px-4 mt-10 mb-20 text-base"> 
-        <button onclick="resetAllData()" class="w-full sm:w-auto px-6 py-3 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl font-bold flex items-center justify-center gap-2 transition-all mx-auto dark:bg-red-900/10 dark:text-red-400 dark:border-red-900/30">
-            <i class="fa-solid fa-trash-can"></i> Xóa dữ liệu & Làm lại
-        </button>
-    </div>
-
     <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/40 flex items-center justify-center z-40 hover:-translate-y-1 transition-all active:scale-95 text-xl">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
     <script>
-        // --- 1. ZOOM LOGIC (Targeted Div Only) ---
+        // --- 1. CONFIG & STATE ---
+        // Biến lưu trữ đáp án tạm thời (Mất khi reload)
+        let userAnswers = {}; 
+        let allQuestions = [];
+        
+        // Override đáp án sai (nếu cần)
+        const answerOverrides = { };
+
+        // --- 2. ZOOM LOGIC (Persistent) ---
         const container = document.getElementById('quizContainer');
         const zoomDisplay = document.getElementById('zoomDisplay');
         let currentSize = 16; 
@@ -129,20 +134,18 @@
 
         function adjustZoom(delta) {
             currentSize += delta;
-            // Cho phép nhỏ tối đa xuống 10px, lớn 40px
             if(currentSize < 10) currentSize = 10;
             if(currentSize > 40) currentSize = 40;
             applyZoom();
         }
 
         function applyZoom() {
-            // Thay vì chỉnh root, ta chỉnh container
             container.style.fontSize = currentSize + 'px';
             localStorage.setItem('quiz_content_size', currentSize);
             zoomDisplay.innerText = currentSize + 'px';
         }
 
-        // --- 2. THEME LOGIC ---
+        // --- 3. THEME LOGIC (Persistent) ---
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
@@ -151,14 +154,9 @@
             document.documentElement.classList.add('dark');
         }
 
-        // --- 3. DATA & APP LOGIC ---
+        // --- 4. APP LOGIC ---
         const progressText = document.getElementById("progressText");
         const progressBar = document.getElementById("progressBar");
-        
-        // Override đáp án sai
-        const answerOverrides = {  };
-
-        let allQuestions = [];
 
         fetch("questions.txt")
             .then(res => res.text())
@@ -167,7 +165,7 @@
                 allQuestions.forEach(q => {
                     if (answerOverrides[q.id]) q.correct = answerOverrides[q.id];
                 });
-                renderQuiz(allQuestions);
+                renderQuiz();
                 updateProgress();
             })
             .catch(err => container.innerHTML = `<div class='bg-red-50 text-red-500 p-4 rounded-xl text-center border border-red-200'><b>Lỗi:</b> Không tìm thấy file questions.txt</div>`);
@@ -191,20 +189,18 @@
             });
         }
 
-        function renderQuiz(questions) {
+        function renderQuiz() {
             container.innerHTML = "";
             
-            questions.forEach(q => {
-                const savedAns = localStorage.getItem(`q_${q.id}`);
+            allQuestions.forEach(q => {
+                // Lấy đáp án từ biến tạm userAnswers thay vì localStorage
+                const savedAns = userAnswers[q.id]; 
                 
                 const card = document.createElement("div");
                 card.id = `card-${q.id}`;
-                // Lưu ý: Không dùng text-sm hay text-base ở đây để nó inherit font-size từ container
                 card.className = "bg-white dark:bg-dark-card p-6 rounded-2xl border border-gray-100 dark:border-dark-border shadow-sm mb-6 scroll-mt-32";
 
-                // --- HEADER ---
-                // Font-size: Dùng em để scale theo size container
-                // 1.15em cho câu hỏi to hơn đáp án chút
+                // HEADER
                 let html = `
                     <div class="flex items-start gap-4 mb-5">
                         <span class="flex-shrink-0 w-[2.5em] h-[2.5em] flex items-center justify-center rounded-xl bg-indigo-50 dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-100 dark:border-slate-600" style="font-size: 0.9em;">
@@ -216,7 +212,7 @@
                     </div>
                 `;
 
-                // --- OPTIONS ---
+                // OPTIONS
                 html += `<div class="space-y-3" id="options-${q.id}">`;
                 for (const key in q.options) {
                     const isChecked = savedAns === key ? 'checked' : '';
@@ -234,7 +230,7 @@
                 }
                 html += `</div>`;
 
-                // --- ACTIONS (Static size text for buttons usually better, but let's scale slightly) ---
+                // ACTIONS
                 html += `
                     <div class="mt-6 pt-4 border-t border-gray-100 dark:border-slate-700 flex flex-wrap gap-3 text-[16px]">
                         <button onclick="checkAnswer(${q.id}, '${q.correct}')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-lg font-bold shadow-md shadow-indigo-200 dark:shadow-none transition-all active:scale-95">
@@ -246,7 +242,7 @@
                     </div>
                 `;
 
-                // --- RESULT ---
+                // RESULT
                 html += `<div id="result-${q.id}" class="hidden mt-4 p-4 rounded-xl border-l-4 fade-in" style="font-size: 1em;"></div>`;
 
                 card.innerHTML = html;
@@ -254,10 +250,12 @@
             });
         }
 
-        // --- 4. INTERACTIONS ---
+        // --- 5. INTERACTIONS ---
 
         function handleSelect(id, value) {
-            localStorage.setItem(`q_${id}`, value);
+            // Lưu vào biến tạm RAM
+            userAnswers[id] = value;
+            
             const resDiv = document.getElementById(`result-${id}`);
             resDiv.classList.add('hidden');
             resDiv.className = "hidden mt-4 p-4 rounded-xl border-l-4 fade-in";
@@ -265,7 +263,7 @@
         }
 
         function checkAnswer(id, correct) {
-            const selected = localStorage.getItem(`q_${id}`);
+            const selected = userAnswers[id]; // Lấy từ biến RAM
             const resDiv = document.getElementById(`result-${id}`);
             
             if (!selected) {
@@ -287,7 +285,7 @@
         }
 
         function resetQuestion(id) {
-            localStorage.removeItem(`q_${id}`);
+            delete userAnswers[id]; // Xóa khỏi biến RAM
             const inputs = document.querySelectorAll(`input[name="q_${id}"]`);
             inputs.forEach(i => i.checked = false);
             document.getElementById(`result-${id}`).classList.add('hidden');
@@ -295,26 +293,28 @@
         }
 
         function resetAllData() {
-            if(confirm("Xóa toàn bộ tiến độ?")) {
-                Object.keys(localStorage).forEach(key => {
-                    if(key.startsWith('q_')) localStorage.removeItem(key);
-                });
-                location.reload();
+            if(confirm("Xóa toàn bộ tiến độ và làm lại từ đầu?")) {
+                userAnswers = {}; // Reset biến RAM
+                renderQuiz(); // Render lại giao diện
+                updateProgress();
+                window.scrollTo({top:0, behavior:'smooth'});
             }
         }
 
         function updateProgress() {
             if (allQuestions.length === 0) return;
-            let doneCount = 0;
-            allQuestions.forEach(q => {
-                if(localStorage.getItem(`q_${q.id}`)) doneCount++;
-            });
+            const doneCount = Object.keys(userAnswers).length;
+            
             progressText.innerText = `${doneCount}/${allQuestions.length} Đã làm`;
             const percent = (doneCount / allQuestions.length) * 100;
             progressBar.style.width = `${percent}%`;
+            
             if(percent === 100) {
                 progressBar.classList.remove('bg-indigo-500');
                 progressBar.classList.add('bg-emerald-500');
+            } else {
+                progressBar.classList.add('bg-indigo-500');
+                progressBar.classList.remove('bg-emerald-500');
             }
         }
     </script>
