@@ -1044,9 +1044,9 @@ D. Nhằm quảng cáo
 150.
 Tội phạm dùng thủ đoạn nào chiếm quyền giám sát Camera IP?
 A. Chiếm tài khoản người dùng để truy cập
-B. Tấn công trực tiếp vào thiết bị Camera
+*B. Tấn công trực tiếp vào thiết bị Camera
 C. Phá hủy Camera
-*D. Dò mật khẩu
+D. Dò mật khẩu
 
 151.
 Deep web có nghĩa là gì?
