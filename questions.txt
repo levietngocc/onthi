@@ -1000,10 +1000,10 @@ D. Cả 3 phương án
 
 144.
 Không gian mạng là gì?
-A. Là mạng lưới kết nối của cơ sở hạ tầng CNTT, bao gồm mạng máy tính.
+*A. Là mạng lưới kết nối của cơ sở hạ tầng CNTT, bao gồm mạng máy tính.
 B. Là mạng lưới kết nối của cơ sở hạ tầng CNTT, bao gồm mạng viễn thông.
 C. Là mạng lưới kết nối của cơ sở hạ tầng CNTT, bao gồm mạng Internet.
-*D. Cả 3 không gian trên
+D. Cả 3 không gian trên
 
 145.
 An ninh mạng là gì?
