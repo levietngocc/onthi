@@ -3,96 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Viewer - Software Testing</title>
+    <title>Tài Liệu Ôn Tập - PDF View</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #525659; }
-        .pdf-page {
-            background: white;
-            width: 100%;
-            max-width: 850px;
-            min-height: 1100px;
+        body { background-color: #525659; font-family: 'Merriweather', serif; }
+        
+        /* Giao diện trang giấy A4 */
+        .page-container {
+            width: 210mm; /* Khổ A4 chuẩn */
+            min-height: 297mm;
             margin: 30px auto;
-            padding: 60px 80px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            background: white;
+            padding: 20mm 20mm; /* Căn lề chuẩn in ấn */
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            position: relative;
         }
-        .pdf-toolbar {
-            background: #323639;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+
+        /* Khi in sẽ ẩn các nút bấm */
         @media print {
-            .no-print { display: none; }
-            body { background: white; }
-            .pdf-page { margin: 0; box-shadow: none; width: 100%; max-width: none; }
+            body { background: white; margin: 0; }
+            .no-print { display: none !important; }
+            .page-container { 
+                margin: 0; 
+                box-shadow: none; 
+                width: 100%;
+                padding: 10mm; 
+            }
+        }
+
+        /* Style cho nội dung */
+        .q-block { margin-bottom: 1.5rem; page-break-inside: avoid; } /* Tránh bị ngắt đôi câu khi in */
+        .q-title { font-weight: 700; color: #1a202c; margin-bottom: 0.5rem; line-height: 1.5; }
+        .q-opt { margin-left: 1.5rem; color: #4a5568; line-height: 1.4; display: block; padding: 2px 0; }
+        
+        /* Đáp án đúng (xử lý dấu *) */
+        .correct-answer { 
+            color: #dc2626; /* Màu đỏ */
+            font-weight: 700;
+            background-color: #fef2f2;
+            display: inline-block;
+            padding: 0 4px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-    <div class="pdf-toolbar no-print">
+    <div class="fixed top-0 left-0 w-full bg-slate-800 text-white p-3 flex justify-between items-center z-50 shadow-md no-print">
         <div class="flex items-center gap-4">
-            <a href="index.html" class="hover:bg-white/10 p-2 rounded-full transition-colors">
-                <i class="ph ph-arrow-left text-xl"></i>
+            <a href="index.html" class="flex items-center gap-2 text-slate-300 hover:text-white transition">
+                <i class="ph ph-arrow-left text-xl"></i> Quay lại
             </a>
-            <span class="text-sm font-medium">questions.txt</span>
+            <span class="border-l border-slate-600 pl-4 font-sans text-sm">questions.txt Viewer</span>
         </div>
-        <div class="flex items-center gap-4">
-            <button onclick="window.print()" class="hover:bg-white/10 p-2 rounded transition-colors">
-                <i class="ph ph-printer text-xl"></i>
+        <div class="flex gap-3">
+            <button onclick="toggleAnswers()" class="px-3 py-1 bg-sky-600 rounded hover:bg-sky-500 font-sans text-sm flex items-center gap-2">
+                <i class="ph ph-eye"></i> <span id="btn-text">Ẩn/Hiện Đáp Án</span>
+            </button>
+            <button onclick="window.print()" class="px-3 py-1 bg-emerald-600 rounded hover:bg-emerald-500 font-sans text-sm flex items-center gap-2">
+                <i class="ph ph-printer"></i> In Tài Liệu
             </button>
         </div>
     </div>
 
-    <div id="pdf-content">
-        <div class="pdf-page">
-            <div class="text-center mb-10 border-b-2 border-black pb-6">
-                <h1 class="text-2xl font-bold uppercase">Tài Liệu Ôn Tập Software Testing</h1>
-                <p class="text-gray-500 mt-2 italic">Dữ liệu được trích xuất từ questions.txt</p>
+    <div class="pt-16 pb-10">
+        <div class="page-container" id="document-content">
+            <div class="text-center border-b-2 border-black pb-4 mb-8">
+                <h1 class="text-2xl font-bold uppercase">Câu Hỏi Trắc Nghiệm</h1>
+            </div>
+
+            <div id="content-body">
+                <p class="text-center text-gray-400">Đang phân tích file question.txt...</p>
             </div>
             
-            <div id="output" class="text-justify leading-relaxed text-gray-800 space-y-4">
-                <p class="text-center py-10">Đang tải nội dung...</p>
+            <div class="absolute bottom-5 left-0 w-full text-center text-xs text-gray-300 italic">
+                Sai sót liên hệ zalo : 0325591025
             </div>
         </div>
     </div>
 
     <script>
-        async function loadData() {
-            const output = document.getElementById('output');
+        let showAnswers = true;
+
+        async function loadAndParse() {
             try {
-                // ĐÃ SỬA: questions.txt (có chữ s)
+                // Đảm bảo tên file đúng là questions.txt (có chữ s) như hình bạn gửi
                 const response = await fetch('questions.txt');
+                if (!response.ok) throw new Error("Không đọc được file!");
                 
-                if (!response.ok) throw new Error("Không tìm thấy file questions.txt");
-
                 const text = await response.text();
-                
-                // Tách nội dung theo dòng
-                const lines = text.split('\n').filter(l => l.trim() !== "");
-                
-                output.innerHTML = ""; // Xóa dòng chữ đang tải
+                const container = document.getElementById('content-body');
+                container.innerHTML = '';
 
-                lines.forEach((line, index) => {
-                    const p = document.createElement('div');
-                    p.className = "mb-4 pb-2 border-b border-gray-100";
-                    p.innerHTML = `<b class="text-sky-700">Câu ${index + 1}:</b> ${line}`;
-                    output.appendChild(p);
-                });
+                // Tách file thành từng dòng
+                const lines = text.split('\n');
+                let html = '';
+                
+                let currentQuestion = null;
+                
+                // Regex nhận diện:
+                // 1. Dòng chỉ có số và dấu chấm (VD: "1.") hoặc "Câu 1:"
+                const questionNumRegex = /^(\d+)\.?\s*$/; 
+                // 2. Dòng bắt đầu bằng A. B. C. D. hoặc *A. *B.
+                const optionRegex = /^(\*)?([A-D])\./; 
 
-            } catch (err) {
-                output.innerHTML = `<div class="text-red-500 font-bold text-center">Lỗi: ${err.message}</div>`;
+                // Biến tạm để ghép câu hỏi nếu câu hỏi bị ngắt dòng
+                let bufferText = []; 
+                let isCollectingOptions = false;
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i].trim();
+                    if (!line) continue;
+
+                    // Kiểm tra xem có phải bắt đầu câu mới (Số thứ tự)
+                    let numMatch = line.match(questionNumRegex);
+
+                    if (numMatch) {
+                        // Nếu đang có câu cũ chưa đóng, in ra
+                        if (currentQuestion) {
+                            html += renderQuestion(currentQuestion);
+                        }
+                        
+                        // Khởi tạo câu mới
+                        currentQuestion = {
+                            number: numMatch[1],
+                            content: "",
+                            options: []
+                        };
+                        isCollectingOptions = false;
+                        continue; // Bỏ qua dòng số thứ tự, nhảy sang dòng tiếp theo để lấy nội dung
+                    }
+
+                    // Nếu là dòng đáp án (A. B. C. D. hoặc *A.)
+                    let optMatch = line.match(optionRegex);
+                    if (optMatch) {
+                        isCollectingOptions = true;
+                        if (currentQuestion) {
+                            currentQuestion.options.push({
+                                isCorrect: !!optMatch[1], // Nếu có dấu * thì là true
+                                text: line.replace('*', '') // Xóa dấu * để hiển thị đẹp
+                            });
+                        }
+                    } else {
+                        // Nếu không phải số, không phải đáp án -> Là nội dung câu hỏi
+                        if (currentQuestion && !isCollectingOptions) {
+                            // Cộng dồn vào nội dung câu hỏi
+                            currentQuestion.content += (currentQuestion.content ? " " : "") + line;
+                        } else if (currentQuestion && isCollectingOptions) {
+                            // Trường hợp đáp án bị xuống dòng (hiếm nhưng có thể)
+                            // Gắn vào đáp án cuối cùng
+                            let lastOpt = currentQuestion.options[currentQuestion.options.length - 1];
+                            if (lastOpt) lastOpt.text += " " + line;
+                        }
+                    }
+                }
+
+                // In câu cuối cùng
+                if (currentQuestion) {
+                    html += renderQuestion(currentQuestion);
+                }
+
+                container.innerHTML = html;
+
+            } catch (e) {
+                document.getElementById('content-body').innerHTML = 
+                    `<p class="text-red-500 font-bold text-center">Lỗi: ${e.message}<br>Hãy chắc chắn file questions.txt nằm cùng thư mục.</p>`;
             }
         }
 
-        window.onload = loadData;
+        function renderQuestion(q) {
+            let optionsHtml = q.options.map(opt => {
+                // Class cho đáp án đúng
+                const correctClass = opt.isCorrect ? 'correct-answer' : '';
+                return `<span class="q-opt ${correctClass}">${opt.text}</span>`;
+            }).join('');
+
+            return `
+                <div class="q-block">
+                    <div class="q-title">Câu ${q.number}: ${q.content}</div>
+                    <div class="pl-2 answer-container">
+                        ${optionsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Chức năng bật tắt đáp án để tự test
+        function toggleAnswers() {
+            showAnswers = !showAnswers;
+            const answers = document.querySelectorAll('.correct-answer');
+            const btnText = document.getElementById('btn-text');
+            
+            answers.forEach(el => {
+                if (showAnswers) {
+                    el.style.color = "#dc2626";
+                    el.style.backgroundColor = "#fef2f2";
+                } else {
+                    el.style.color = "inherit";
+                    el.style.backgroundColor = "transparent";
+                    el.style.fontWeight = "normal";
+                }
+            });
+            
+            btnText.innerText = showAnswers ? "Ẩn Đáp Án" : "Hiện Đáp Án";
+        }
+
+        window.onload = loadAndParse;
     </script>
 </body>
 </html>
