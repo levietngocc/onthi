@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pdf Viewer Pro - Compact</title>
+    <title>Tài Liệu Ôn Tập</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -33,7 +33,7 @@
             min-height: 297mm;
             margin: 40px auto;
             background: white;
-            padding: 20mm 15mm; /* Giảm lề trái phải xuống 15mm cho rộng hơn */
+            padding: 20mm 15mm; 
             position: relative;
             transform-origin: top center;
             transition: transform 0.2s ease-out;
@@ -46,15 +46,13 @@
         ::-webkit-scrollbar-track { background: #2d3032; }
         ::-webkit-scrollbar-thumb { background: #5f6368; border-radius: 4px; }
 
-        /* Đáp án đúng nhỏ gọn hơn */
+        /* Style Đáp án đúng - Gạch chân đỏ */
         .correct-answer { 
             color: #b91c1c; 
             font-weight: 700;
-            background-color: transparent; /* Bỏ nền màu để giống in ấn hơn */
-            text-decoration: underline; /* Gạch chân thay vì tô nền */
+            text-decoration: underline; 
             text-underline-offset: 2px;
             text-decoration-color: #ef4444;
-            transition: all 0.2s ease;
         }
 
         @media print {
@@ -106,8 +104,8 @@
         <div class="page-container shadow-page rounded-sm" id="main-page">
             
             <div class="text-center border-b border-slate-800 pb-4 mb-6">
-                <h1 class="text-xl font-bold uppercase tracking-tight text-slate-900 font-sans">Ngân Hàng Câu Hỏi Trắc Nghiệm</h1>
-                <p class="text-[11px] text-slate-500 italic font-sans mt-1">Môn: Software Testing • Mã học phần: ST2026</p>
+                <h1 class="text-xl font-bold uppercase tracking-tight text-slate-900 font-sans">Câu Hỏi Trắc Nghiệm</h1>
+                <p class="text-[11px] text-slate-500 italic font-sans mt-1">Sai sót liên hệ Zalo : 0325591025</p>
             </div>
 
             <div id="content-body" class="space-y-4 text-justify">
@@ -222,18 +220,6 @@
         }
 
         function renderQuestion(q) {
-            let optionsHtml = q.options.map(opt => {
-                const correctClass = opt.isCorrect ? 'correct-answer' : 'text-slate-700';
-                // Chuyển dấu tích thành chữ đậm hoặc gạch chân cho giống văn bản giấy
-                return `
-                    <span class="inline-block mr-4 mb-1 ${correctClass} text-[13px]">
-                        ${opt.text}
-                    </span>
-                `;
-            }).join(''); // Bỏ xuống dòng giữa các đáp án để tiết kiệm không gian nếu muốn (hoặc giữ nguyên)
-            
-            // Nếu muốn mỗi đáp án 1 dòng: dùng div thay vì span và xóa inline-block
-            // Ở đây tôi để mỗi đáp án 1 dòng nhưng khoảng cách hẹp
             let optionsBlock = q.options.map(opt => {
                 const correctClass = opt.isCorrect ? 'correct-answer' : 'text-slate-700';
                 return `<div class="${correctClass} text-[13px] leading-snug pl-1 mb-0.5">${opt.text}</div>`;
@@ -241,8 +227,8 @@
 
             return `
                 <div class="mb-4 pb-2 border-b border-slate-100 last:border-0 page-break-avoid">
-                    <div class="flex items-baseline gap-2 mb-1">
-                        <span class="text-[14px] font-bold text-slate-900 font-sans">Câu ${q.number}:</span>
+                    <div class="flex items-start gap-2 mb-1">
+                        <span class="text-[14px] font-bold text-slate-900 font-sans whitespace-nowrap flex-shrink-0">Câu ${q.number}:</span>
                         <span class="text-[14px] font-semibold text-slate-800 leading-snug font-serif">${q.content}</span>
                     </div>
                     <div class="pl-0 mt-1 font-serif ml-4">
