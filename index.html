@@ -22,6 +22,7 @@
                         blob: "blob 10s infinite",
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'bounce-slight': 'bounce-slight 2s infinite',
+                        'zoom-in': 'zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                     },
                     keyframes: {
                         float: {
@@ -37,6 +38,10 @@
                         'bounce-slight': {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-5px)' },
+                        },
+                        zoomIn: {
+                            '0%': { opacity: 0, transform: 'scale(0.9)' },
+                            '100%': { opacity: 1, transform: 'scale(1)' },
                         }
                     },
                 },
@@ -68,22 +73,6 @@
             border-color: rgba(14, 165, 233, 0.3);
         }
         
-        /* Donate Widget Animations */
-        #donate-qr-container {
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: bottom right;
-        }
-        .donate-hidden {
-            opacity: 0;
-            transform: scale(0.8) translateY(20px);
-            pointer-events: none;
-        }
-        .donate-visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            pointer-events: auto;
-        }
-        
         body { overflow-x: hidden; }
     </style>
 </head>
@@ -95,7 +84,7 @@
         <div class="absolute -bottom-20 left-1/3 w-64 h-64 sm:w-96 sm:h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-[60px] sm:blur-[80px] opacity-40 animate-blob animation-delay-4000"></div>
     </div>
 
-    <div class="glass-panel w-full max-w-md rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 animate-float">
+    <div class="glass-panel w-full max-w-md rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 animate-float relative z-10">
         <div class="text-center mb-8 sm:mb-10">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-sky-100 shadow-sm mb-4 sm:mb-5">
                 <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
@@ -187,63 +176,83 @@
                     <i class="ph-fill ph-chat-circle-text text-lg"></i>
                 </div>
             </a>
+
             <div class="flex items-center gap-3 sm:gap-4 opacity-40 hover:opacity-80 transition-opacity duration-500 cursor-default mt-2">
                 <div class="h-px w-4 sm:w-6 bg-slate-400"></div>
                 <span class="font-mono text-[10px] sm:text-[12px] text-slate-500 tracking-[0.2em]">created by vietngoc</span>
                 <div class="h-px w-4 sm:w-6 bg-slate-400"></div>
             </div>
+
+            <button onclick="toggleModal()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 mt-2 bg-gradient-to-r from-sky-50 to-indigo-50 hover:from-sky-100 hover:to-indigo-100 text-sky-600 rounded-lg transition-all duration-300 group">
+                <i class="ph-fill ph-gift text-lg group-hover:scale-110 transition-transform text-rose-500"></i>
+                <span class="text-xs font-bold uppercase tracking-wide">Donate mua PS5</span>
+            </button>
+
         </div>
     </div>
 
-    <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3">
-        
-        <div id="donate-qr-container" class="donate-hidden glass-panel p-4 rounded-2xl bg-white/90 shadow-2xl border border-sky-100 flex flex-col items-center gap-3 w-[200px] sm:w-[220px]">
-            <div class="w-full aspect-square bg-white p-2 rounded-xl shadow-inner border border-slate-100">
-                <img src="qr.jpg" alt="QR Code Donate" class="w-full h-full object-contain mix-blend-multiply">
-            </div>
-            <div class="text-center">
-                <h4 class="text-sky-600 font-extrabold text-sm uppercase tracking-wide">Donate</h4>
-                <p class="text-slate-600 font-bold text-xs sm:text-sm mt-0.5">Chung tay mua PS5 🎮</p>
-            </div>
-            <button onclick="toggleDonate()" class="sm:hidden text-xs text-slate-400 hover:text-slate-600 underline">Đóng</button>
-        </div>
-
-        <button onclick="toggleDonate()" class="group relative flex items-center gap-3 px-3 py-3 sm:px-5 sm:py-3 bg-white hover:bg-sky-50 text-slate-700 rounded-full shadow-lg shadow-sky-200/50 border border-white hover:border-sky-200 transition-all duration-300 hover:-translate-y-1 active:scale-95">
+    <div class="sm:hidden fixed bottom-6 right-6 z-40">
+        <button onclick="toggleModal()" class="flex items-center justify-center w-14 h-14 bg-white text-sky-600 rounded-full shadow-lg hover:bg-sky-50 border border-sky-100 active:scale-95 transition-all">
             <div class="relative">
-                <i class="ph-fill ph-gift text-2xl text-sky-500 group-hover:animate-bounce-slight"></i>
+                <i class="ph-fill ph-gift text-2xl text-sky-500"></i>
                 <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white animate-pulse"></span>
-            </div>
-            
-            <div class="hidden sm:flex flex-col items-start text-left leading-none">
-                <span class="text-[10px] font-semibold text-slate-400 uppercase">Support Me</span>
-                <span class="text-sm font-bold text-sky-600">Chung tay mua PS5</span>
             </div>
         </button>
     </div>
 
+    <div id="donate-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="toggleModal()"></div>
+        
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 text-center transform transition-all animate-zoom-in">
+            <button onclick="toggleModal()" class="absolute top-4 right-4 p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
+                <i class="ph-bold ph-x text-xl"></i>
+            </button>
+
+            <div class="flex flex-col items-center mb-6">
+                <div class="w-12 h-12 bg-sky-50 rounded-full flex items-center justify-center mb-3 text-sky-500">
+                    <i class="ph-fill ph-gift text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">Donate cho Viet Ngoc</h3>
+                <p class="text-slate-500 text-sm mt-1">Góp gạch xây giấc mơ PS5 🎮</p>
+            </div>
+
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 mb-4 inline-block shadow-inner">
+                <img src="qr.jpg" alt="Mã QR Donate" class="w-48 h-48 object-contain mix-blend-multiply rounded-lg">
+            </div>
+
+            <p class="text-xs text-slate-400 font-mono">Cảm ơn bạn rất nhiều! ❤️</p>
+            
+            <button onclick="toggleModal()" class="mt-6 w-full py-3 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-colors sm:hidden">
+                Đóng
+            </button>
+        </div>
+    </div>
+
     <script>
-        function toggleDonate() {
-            const container = document.getElementById('donate-qr-container');
-            const isHidden = container.classList.contains('donate-hidden');
+        function toggleModal() {
+            const modal = document.getElementById('donate-modal');
+            const isHidden = modal.classList.contains('hidden');
             
             if (isHidden) {
-                container.classList.remove('donate-hidden');
-                container.classList.add('donate-visible');
+                // Hiện modal
+                modal.classList.remove('hidden');
+                // Khóa cuộn trang khi mở modal
+                document.body.style.overflow = 'hidden'; 
             } else {
-                container.classList.add('donate-hidden');
-                container.classList.remove('donate-visible');
+                // Ẩn modal
+                modal.classList.add('hidden');
+                // Mở lại cuộn trang
+                document.body.style.overflow = '';
             }
         }
 
-        // Tự động đóng khi click ra ngoài
-        document.addEventListener('click', function(event) {
-            const widget = document.getElementById('donate-qr-container');
-            const button = document.querySelector('button[onclick="toggleDonate()"]');
-            
-            if (!widget.classList.contains('donate-hidden') && 
-                !widget.contains(event.target) && 
-                !button.contains(event.target)) {
-                toggleDonate();
+        // Đóng modal khi nhấn phím ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('donate-modal');
+                if (!modal.classList.contains('hidden')) {
+                    toggleModal();
+                }
             }
         });
     </script>
