@@ -3,139 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Viewer - Software Testing Questions</title>
+    <title>PDF Viewer - Software Testing</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #525659; font-family: 'Inter', sans-serif; }
-        
-        /* Tạo hiệu ứng trang giấy A4 */
+        body { background-color: #525659; }
         .pdf-page {
             background: white;
             width: 100%;
-            max-width: 800px;
-            min-height: 1122px; /* Tỉ lệ chuẩn A4 */
-            margin: 20px auto;
-            padding: 50px 70px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            position: relative;
+            max-width: 850px;
+            min-height: 1100px;
+            margin: 30px auto;
+            padding: 60px 80px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
         }
-
-        /* Thanh Toolbar giống trình xem PDF */
         .pdf-toolbar {
             background: #323639;
             color: white;
             position: sticky;
             top: 0;
             z-index: 100;
+            padding: 10px 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 8px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            align-items: center;
         }
-
-        .question-item { margin-bottom: 20px; line-height: 1.6; }
-        .question-text { font-weight: 600; color: #1a1a1a; }
-        
         @media print {
+            .no-print { display: none; }
             body { background: white; }
-            .pdf-toolbar, .no-print { display: none; }
             .pdf-page { margin: 0; box-shadow: none; width: 100%; max-width: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="pdf-toolbar">
+    <div class="pdf-toolbar no-print">
         <div class="flex items-center gap-4">
             <a href="index.html" class="hover:bg-white/10 p-2 rounded-full transition-colors">
                 <i class="ph ph-arrow-left text-xl"></i>
             </a>
-            <span class="text-sm font-medium border-l border-white/20 pl-4">question.txt</span>
+            <span class="text-sm font-medium">questions.txt</span>
         </div>
-        
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2 bg-black/20 px-3 py-1 rounded">
-                <button onclick="zoomOut()"><i class="ph ph-minus text-sm"></i></button>
-                <span id="zoom-level" class="text-xs w-8 text-center">100%</span>
-                <button onclick="zoomIn()"><i class="ph ph-plus text-sm"></i></button>
-            </div>
-            <button onclick="window.print()" class="hover:bg-white/10 p-2 rounded transition-colors" title="In tài liệu">
+        <div class="flex items-center gap-4">
+            <button onclick="window.print()" class="hover:bg-white/10 p-2 rounded transition-colors">
                 <i class="ph ph-printer text-xl"></i>
-            </button>
-            <button onclick="downloadText()" class="hover:bg-white/10 p-2 rounded transition-colors" title="Tải về máy">
-                <i class="ph ph-download-simple text-xl"></i>
             </button>
         </div>
     </div>
 
-    <div id="pdf-container" class="p-4">
-        <div class="pdf-page" id="main-content">
-            <div class="text-center mb-10 border-b-2 border-slate-900 pb-4">
-                <h1 class="text-2xl font-bold uppercase tracking-widest">Ngân hàng câu hỏi ôn tập</h1>
-                <p class="text-sm text-slate-500 mt-2">Môn: Software Testing | Năm học: 2024 - 2025</p>
+    <div id="pdf-content">
+        <div class="pdf-page">
+            <div class="text-center mb-10 border-b-2 border-black pb-6">
+                <h1 class="text-2xl font-bold uppercase">Tài Liệu Ôn Tập Software Testing</h1>
+                <p class="text-gray-500 mt-2 italic">Dữ liệu được trích xuất từ questions.txt</p>
             </div>
             
-            <div id="questions-list" class="space-y-6 text-[14px]">
-                <p class="text-slate-400 italic">Đang tải nội dung...</p>
-            </div>
-
-            <div class="absolute bottom-8 left-0 w-full text-center text-xs text-slate-400">
-                Trang 1 / 1
+            <div id="output" class="text-justify leading-relaxed text-gray-800 space-y-4">
+                <p class="text-center py-10">Đang tải nội dung...</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Hàm đọc file question.txt
-        async function loadQuestions() {
+        async function loadData() {
+            const output = document.getElementById('output');
             try {
-                const response = await fetch('question.txt');
-                const data = await response.text();
-                const lines = data.split('\n').filter(line => line.trim() !== '');
+                // ĐÃ SỬA: questions.txt (có chữ s)
+                const response = await fetch('questions.txt');
                 
-                const listContainer = document.getElementById('questions-list');
-                listContainer.innerHTML = ''; // Xóa nội dung cũ
+                if (!response.ok) throw new Error("Không tìm thấy file questions.txt");
+
+                const text = await response.text();
+                
+                // Tách nội dung theo dòng
+                const lines = text.split('\n').filter(l => l.trim() !== "");
+                
+                output.innerHTML = ""; // Xóa dòng chữ đang tải
 
                 lines.forEach((line, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'question-item';
-                    div.innerHTML = `
-                        <span class="question-text">Câu ${index + 1}:</span>
-                        <span class="text-slate-800">${line}</span>
-                    `;
-                    listContainer.appendChild(div);
+                    const p = document.createElement('div');
+                    p.className = "mb-4 pb-2 border-b border-gray-100";
+                    p.innerHTML = `<b class="text-sky-700">Câu ${index + 1}:</b> ${line}`;
+                    output.appendChild(p);
                 });
-            } catch (error) {
-                console.error("Lỗi đọc file:", error);
-                document.getElementById('questions-list').innerHTML = `<p class="text-red-500 text-center">Không tìm thấy file question.txt hoặc lỗi định dạng.</p>`;
+
+            } catch (err) {
+                output.innerHTML = `<div class="text-red-500 font-bold text-center">Lỗi: ${err.message}</div>`;
             }
         }
 
-        // Các chức năng PDF
-        let currentZoom = 100;
-        function zoomIn() {
-            currentZoom += 10;
-            updateZoom();
-        }
-        function zoomOut() {
-            if(currentZoom > 50) currentZoom -= 10;
-            updateZoom();
-        }
-        function updateZoom() {
-            document.getElementById('main-content').style.transform = `scale(${currentZoom/100})`;
-            document.getElementById('main-content').style.transformOrigin = 'top center';
-            document.getElementById('zoom-level').innerText = currentZoom + '%';
-        }
-
-        function downloadText() {
-            window.open('questions.txt', '_blank');
-        }
-
-        // Chạy hàm load khi trang web mở
-        window.onload = loadQuestions;
+        window.onload = loadData;
     </script>
 </body>
 </html>
